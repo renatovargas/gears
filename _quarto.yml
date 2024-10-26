@@ -5,6 +5,9 @@ project:
 
 website:
   title: "gears"
+  repo-url: https://github.com/renatovargas/gears/
+  repo-actions: [source]
+  repo-branch: master
   navbar:
     left:
       - href: index.qmd
@@ -13,7 +16,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: yeti
     css: styles.css
     toc: true
 
