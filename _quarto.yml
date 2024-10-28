@@ -9,6 +9,7 @@ website:
   repo-actions: [source]
   repo-branch: master
   navbar:
+    pinned: true
     left:
       - href: index.qmd
         text: Home
@@ -16,7 +17,9 @@ website:
 
 format:
   html:
-    theme: yeti
+    theme:
+      - cosmo
+      - custom.scss
     css: styles.css
     toc: true
 
