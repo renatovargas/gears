@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: website
   execute-dir: project
 
 website:
@@ -11,10 +11,29 @@ website:
   navbar:
     pinned: true
     left:
-      - href: index.qmd
-        text: Home
+      - text: "Home"
+        href: index.qmd
+      - text: "Download"
+        href: download.qmd
+      - text: "Documentation"
+        href: documentation/index.qmd
       - about.qmd
-
+      
+  sidebar:
+    - title: "Documentation"
+      style: "docked"
+      contents:
+        - text: "Documentation"
+          href: documentation/index.qmd
+        - section: "Guides"
+          contents:
+            - text: "GEARS User Guide"
+              href: documentation/guides/gears-user-guide.qmd
+        - section: "Methods"
+          contents:
+            - text: "Overview"
+              href: documentation/methods/overview.qmd
+          
 format:
   html:
     theme:

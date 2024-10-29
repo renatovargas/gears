@@ -1,0 +1,6 @@
+---
+title: "GEARS User Guide"
+author: "Renato Vargas"
+---
+
+In this guide we show you how to extract data from the database.

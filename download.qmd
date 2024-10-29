@@ -1,0 +1,5 @@
+---
+title: "Download"
+---
+
+Here you can download the entire GEARS database or a custom aggregation for a specific country. Please refer to the [GEARS guide](documentation/guides/gears-user-guide.qmd) for details.
