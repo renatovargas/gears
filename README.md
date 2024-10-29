@@ -1,0 +1,5 @@
+# Global Emissions Analysis for Resilient Systems (GEARS)
+
+The Global Emissions Analsyis for Resilient Systems (GEARS) initiative is an effort of the Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme of the Agrifood Economics and Policy Division (ESA) of the Food and Agriculture Organization of the United Nations (FAO), which aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models. Its main output is the GEARS Database of anthropogenic emissions of greenhouse gases and air pollution by economic activity.
+
+In addition to the database, GEARS also provides scripting facilities for the integration of different data sources, at different tiers of data availability by country and thorough documentation to abide by the principles of replicability, openness, and transparency.
