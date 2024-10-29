@@ -7,10 +7,29 @@
     "text": "The Global Emissions Analsyis for Resilient Systems (GEARS) initiative is an effort of the Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme of the Agrifood Economics and Policy Division (ESA) of the Food and Agriculture Organization of the United Nations (FAO), which aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models. Its main output is the GEARS Database of anthropogenic emissions of greenhouse gases and air pollution by economic activity.\nIn addition to the database, GEARS also provides scripting facilities for the integration of different data sources, at different tiers of data availability by country and thorough documentation to abide by the principles of replicability, openness, and transparency."
   },
   {
+    "objectID": "documentation/guides/gears-user-guide.html",
+    "href": "documentation/guides/gears-user-guide.html",
+    "title": "GEARS User Guide",
+    "section": "",
+    "text": "In this guide we show you how to extract data from the database.",
+    "crumbs": [
+      "Documentation",
+      "Guides",
+      "GEARS User Guide"
+    ]
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "The Agrifood Economics and Policy Division (ESA) conducts economic research and policy analysis to support the transformation to more efficient, inclusive, resilient and sustainable agrifood systems for better production, better nutrition, a better environment, and a better life, leaving no one behind. ESA provides evidence-based support to national, regional and global policy processes and initiatives related to monitoring and analysing food and agricultural policies, agribusiness and value chain development, rural transformation and poverty, food security and nutrition information and analysis, resilience, bioeconomy, and climate-smart agriculture. The division also leads the production of two FAO flagship publications: The State of Food and Agriculture (SOFA) and The State of Food Security and Nutrition in the World (SOFI).\nWithin ESA, the Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme seeks to establish country owned and sustainable systems to monitor, analyse, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks in 8 developing and emerging economies. MAFAP works with government institutions, research organizations and other partners to create sustainable policy monitoring systems and carry out a consistent set of policy and public expenditure analyses across a wide range of agricultural value chains. MAFAP analyses are used to inform targeted food and agricultural policy reforms that will result in a more conducive environment for agricultural investment and productivity growth, especially for smallholder farmers. As such, MAFAP supports most of FAO strategic objectives, and in particular those of enabling inclusive and efficient agricultural and food systems and helping eliminate hunger, food insecurity and malnutrition.\nA policy optimization modelling tool (that combines a recursive-dynamic computable general equilibrium model and multi-criteria decision-making techniques) is being used by the MAFAP programme team to develop and analyse scenarios where the public budget for the food and agriculture sector can be optimally re-allocated across different support measures (input subsidies, extension services, investments in different types of rural infrastructures, R&D, and so forth) and subsectors/commodities, aiming at improving on one or a combination of inclusive agricultural transformation (IAT) objectives such as: maximizing agrifood GDP, maximizing the number of off- farm jobs created in rural areas (vis-à-vis the number of on-farm jobs), and minimizing rural poverty. Most recently, the objective of minimizing the cost of the least-cost healthy diet was added to the tool. Next extensions to the tool comprise adding other objectives, notably the minimization of greenhouse gas (GHGs) emissions that are generated as a result of public expenditures in food and agriculture."
+  },
+  {
+    "objectID": "download.html",
+    "href": "download.html",
+    "title": "Download",
+    "section": "",
+    "text": "Here you can download the entire GEARS database or a custom aggregation for a specific country. Please refer to the GEARS guide for details."
   }
 ]
