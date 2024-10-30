@@ -4,3 +4,5 @@
 .Ruserdata
 
 /.quarto/
+gears_db/data/afrec/
+gears_db/data/afrec/*
