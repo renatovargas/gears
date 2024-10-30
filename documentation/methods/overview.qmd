@@ -1,5 +1,117 @@
 ---
 title: "Overview"
-author: "Renato Vargas"
+subtitle: "Databases and approaches"
+author:
+  - name: "Renato Vargas"
+    id: rv
+    email: hugo.vargasaldana@fao.org
+    affiliation: 
+      - name: Food and Agriculture Organization (FAO)
+  - name: "Martin Cicowiez"
+    id: mc
+    email: martin.cicowiez@fao.org
+    affiliation: 
+      - name: Food and Agriculture Organization (FAO)
+editor_options: 
+  chunk_output_type: console
+bibliography: references.bib
 ---
+
+# Introduction
+
+## Grenhouse Gas Inventories
+
+Gases to be reported:
+
+-   Carbon dioxide ($CO_2$).
+-   Nitrous oxide ($N_2O$)
+-   Methane ($CH_4$).
+-   Hidrofluorcarbons ($HFC$).
+-   Perflourcarbons ($PFC$).
+-   Sulfur hexafluor ($SF_6$).
+-   Since 2015, $NF_3$, used in the production of liquid cristal displays.
+
+Only as memorandum items:
+
+-   Nitrogen oxides ($NOx$).
+-   Carbon monoxide ($CO$).
+-   Volatile compounds distinct from methane ($COVDM$).
+-   Sulfur dioxide ($SO_2$).
+
+Greenhouse gas emissions are divided into four main groups:
+
+-   Energy.
+-   Industrial processes.
+-   Agriculture, forestry, land use.
+-   Waste.
+
+Using Global Warming Potential (GWP), GHGs are aggregated to $CO_2 equivalent$ or simply $CO_2e$).
+
+CRF - Common Reporting Format.
+
+## Air emissions accounts (SEEA-CF)
+
+Explain the generic structure of an emissions account.
+
+![Air Emissions Account (SEEA CF)](){fig-air-emissions-account}
+
+## Harmonization
+
+The Organisation for Economic Co-operation and Development (OECD) and the Statistical Office of the European Communities, Eurostat, developed a methodology for estimating Air Emissions Accounts under the SEEA-CF, based on the National Greenhouse Gas Inventories (NGGI) submitted to the UNFCCC [@eurostat2015; @flachenecker2018]. Our approach was informed by a recent exercise conducted at the country level in Argentina [@gutman2024].
+
+The OECD-Eurostat methodology uses emission data from the National Greenhouse Gas Inventories (NGGI) as a starting point and assigns these emissions to households and industries according to ISIC Revision 4, using the same concepts and classifications as the System of National Accounts (SNA). To this end, publicly available correspondence tables in Excel format were developed, linking CRF categories with NACE Revision 2 at the two-digit level. "NACE" stands for the "Statistical Classification of Economic Activities in the European Community," the European statistical classification of economic activities. The codes in NACE Rev. 2 are nearly identical to those in ISIC Rev. 4.
+
+## Global Databases
+
+This version focuses on:
+
+| Group           | ISO3 | Name                                 |
+| --------------- | ---- | ------------------------------------ |
+| Eastern_Africa  | BDI  | Burundi                              |
+|                 | COM  | Comoros                              |
+|                 | DJI  | Djibouti                             |
+|                 | ERI  | Eritrea                              |
+|                 | ETH  | Ethiopia                             |
+|                 | KEN  | Kenya                                |
+|                 | MDG  | Madagascar                           |
+|                 | MUS  | Mauritius                            |
+|                 | MYT  | Mayotte                              |
+|                 | REU  | Reunion                              |
+|                 | RWA  | Rwanda                               |
+|                 | SDN  | Sudan                                |
+|                 | SOM  | Somalia                              |
+|                 | SYC  | Seychelles                           |
+|                 | UGA  | Uganda                               |
+| Northern_Africa | MAR  | Morocco                              |
+|                 | DZA  | Algeria                              |
+|                 | EGY  | Egypt                                |
+|                 | ESH  | Western Sahara                       |
+|                 | LBY  | Libyan Arab Jamahiriya               |
+|                 | TUN  | Tunisia                              |
+| Western_Africa  | BEN  | Benin                                |
+|                 | BFA  | Burkina Faso                         |
+|                 | CAF  | Central African Republic             |
+|                 | CIV  | Cote d'Ivoire                        |
+|                 | CMR  | Cameroon                             |
+|                 | COD  | Congo_the Democratic Republic of the |
+|                 | COG  | Congo                                |
+|                 | CPV  | Cape Verde                           |
+|                 | GAB  | Gabon                                |
+|                 | GHA  | Ghana                                |
+|                 | GIN  | Guinea                               |
+|                 | GMB  | Gambia                               |
+|                 | GNB  | Guinea-Bissau                        |
+|                 | GNQ  | Equatorial Guinea                    |
+|                 | LBR  | Liberia                              |
+|                 | MLI  | Mali                                 |
+|                 | MRT  | Mauritania                           |
+|                 | NER  | Niger                                |
+|                 | NGA  | Nigeria                              |
+|                 | SEN  | Senegal                              |
+|                 | SHN  | Saint Helena                         |
+|                 | SLE  | Sierra Leone                         |
+|                 | STP  | Sao Tome and Principe                |
+|                 | TCD  | Chad                                 |
+|                 | TGO  | Togo                                 |
+
 
