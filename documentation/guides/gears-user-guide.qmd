@@ -3,4 +3,4 @@ title: "GEARS User Guide"
 author: "Renato Vargas"
 ---
 
-In this guide we show you how to extract data from the database.
+This document explains the different elements of the GEARS database and how to best use this resource.

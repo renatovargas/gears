@@ -11,7 +11,7 @@
     "href": "documentation/guides/gears-user-guide.html",
     "title": "GEARS User Guide",
     "section": "",
-    "text": "In this guide we show you how to extract data from the database.",
+    "text": "This document explains the different elements of the GEARS database and how to best use this resource.",
     "crumbs": [
       "Documentation",
       "Guides",
@@ -44,6 +44,6 @@
     "href": "download.html",
     "title": "Download",
     "section": "",
-    "text": "Here you can download the entire GEARS database or a custom aggregation for a specific country. Please refer to the GEARS guide for details."
+    "text": "Here you can download different versions and aggregations of the GEARS database for selected countries. Please refer to the GEARS guide for details."
   }
 ]
