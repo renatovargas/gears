@@ -1,5 +1,15 @@
 ---
 title: "Overview"
 author: "Renato Vargas"
+draft: true
 ---
 
+# Introduction
+
+GEARS aims to be compatible with internationally agreed standards and best practices to integrate emissions data with economic activity disaggregations.
+
+An important starting point is the System of Environmental and Economic Accounts (SEEA).
+
+
+
+![Air emissions account example (SEEA)](images/clipboard-1399297127.png){#fig-air-emissions-account}
