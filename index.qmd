@@ -6,4 +6,4 @@ The Global Emissions Analsyis for Resilient Systems (GEARS) initiative is an eff
 
 In addition to the database, GEARS also provides scripting facilities for the integration of different data sources, at different tiers of data availability by country and thorough documentation to abide by the principles of replicability, openness, and transparency.
 
-_**Disclaimer: While GEARS has been made possible with the support from Food and Agriculture Organization of the United Nations (FAO), this is a work in progress, which has not undergone FAO's rigorous review process and the methodological choices made here do not represent an institutional position of FAO, ESA or any other of its instances.**_
+**Disclaimer: While GEARS has been made possible with the support from the Food and Agriculture Organization of the United Nations (FAO), this is a work in progress, which has not undergone FAO's rigorous review process and the methodological choices made here do not represent an institutional position of FAO, the Agrifood Economics and Policy Division (ESA), or any other of its instances. For more disclaimers, [see the about page](about.qmd).**
