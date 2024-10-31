@@ -11,6 +11,11 @@ author:
     # email: 
     affiliation: 
       - name: Food and Agriculture Organization (FAO)
+  - name: "Marco Sánchez"
+    id: ms
+    # email: 
+    affiliation: 
+      - name: Food and Agriculture Organization (FAO)
 ---
 
 
