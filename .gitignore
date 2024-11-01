@@ -4,3 +4,7 @@
 .Ruserdata
 
 /.quarto/
+gears_db/data/afrec/all_data.csv
+gears_db/data/afrec/series.csv
+gears_db/data/afrec/units.csv
+gears_db/data/afrec/zones.csv

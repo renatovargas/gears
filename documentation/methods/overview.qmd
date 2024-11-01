@@ -19,6 +19,16 @@ bibliography: references.bib
 
 # Introduction
 
+The Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme seeks to establish country owned and sustainable systems to monitor, analyse, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries---the agricultural public sector, in particular---optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.
+
+In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives as well. The **Global Emissions Analsyis for Resilient Systems (GEARS)** series of modules within MAFAP tools aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models.
+
+Here we describe the GEARS approach to constructing an anthropogenic emissions accounting satellite framework on demand, based on country-specific socioeconomic information by economic activity, and globally available datasets. We follow the internationally agreed principles of the System of Environmental and Economic Accounts (SEEA) statistical standard [@europeancommission2013] to organize information, aiming to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured [@europeancommission2009]. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA and pilot implementations [@eurostat2015; @flachenecker2018; @gutman2024]. Where needed, deviations from international standards follow
+
+The main source for emissions from agriculture comes from FAOSTAT [@fao2024]. Emissions from fossil fuel combustion are estimated at the economic activity level, using the Tier 1 method of the Intergovernmental Panel on Climate Change---IPCC---[@ipcc1996; @ipcc2006] and national level energy balances. Emissions from Industrial Processes and Waste come from EDGAR [@crippa2023] and are mapped to economic activities following a broadly tested global approach that facilitate use with CGE frameworks [i.e. that of the Global Trade Analysis Project---GTAP---, @chepeliev2024a; @chepeliev2024b; @chepeliev2024c].
+
+While the outputs of GEARS are databases that rely on the datasets covered above, its innovation lies in the standardization procedures that allow to create such datasets at different levels of aggregation on demand.
+
 ## Grenhouse Gas Inventories
 
 Gases to be reported:
@@ -26,10 +36,7 @@ Gases to be reported:
 -   Carbon dioxide ($CO_2$).
 -   Nitrous oxide ($N_2O$)
 -   Methane ($CH_4$).
--   Hidrofluorcarbons ($HFC$).
--   Perflourcarbons ($PFC$).
--   Sulfur hexafluor ($SF_6$).
--   Since 2015, $NF_3$, used in the production of liquid cristal displays.
+-   Fluorinated gases.
 
 Only as memorandum items:
 
@@ -66,7 +73,7 @@ The OECD-Eurostat methodology uses emission data from the National Greenhouse Ga
 This version focuses on:
 
 | Group           | ISO3 | Name                                 |
-| --------------- | ---- | ------------------------------------ |
+|-----------------|------|--------------------------------------|
 | Eastern_Africa  | BDI  | Burundi                              |
 |                 | COM  | Comoros                              |
 |                 | DJI  | Djibouti                             |
@@ -113,5 +120,3 @@ This version focuses on:
 |                 | STP  | Sao Tome and Principe                |
 |                 | TCD  | Chad                                 |
 |                 | TGO  | Togo                                 |
-
-

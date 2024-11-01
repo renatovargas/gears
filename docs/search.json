@@ -31,5 +31,65 @@
     "title": "Download",
     "section": "",
     "text": "Here you can download the entire GEARS database or a custom aggregation for a specific country. Please refer to the GEARS guide for details."
+  },
+  {
+    "objectID": "documentation/methods/overview.html",
+    "href": "documentation/methods/overview.html",
+    "title": "Overview",
+    "section": "",
+    "text": "The Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme seeks to establish country owned and sustainable systems to monitor, analyse, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.\nIn the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives as well. The Global Emissions Analsyis for Resilient Systems (GEARS) series of modules within MAFAP tools aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models.\nHere we describe the GEARS approach to constructing an anthropogenic emissions accounting satellite framework on demand, based on country-specific socioeconomic information by economic activity, and globally available datasets. We follow the internationally agreed principles of the System of Environmental and Economic Accounts (SEEA) statistical standard (European Commission et al. 2013) to organize information, aiming to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured (European Commission et al. 2009). Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA and pilot implementations (Eurostat 2015; Flachenecker, Guidetti, and Pionnier 2018; Gutman et al. 2024). Where needed, deviations from international standards follow\nThe main source for emissions from agriculture comes from FAOSTAT (FAO 2024). Emissions from fossil fuel combustion are estimated at the economic activity level, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—(IPCC 1996, 2006) and national level energy balances. Emissions from Industrial Processes and Waste come from EDGAR (Crippa et al. 2023) and are mapped to economic activities following a broadly tested global approach that facilitate use with CGE frameworks (i.e. that of the Global Trade Analysis Project—GTAP—, Chepeliev 2024a, 2024b, 2024c).\nWhile the outputs of GEARS are databases that rely on the datasets covered above, its innovation lies in the standardization procedures that allow to create such datasets at different levels of aggregation on demand.\n\n\nGases to be reported:\n\nCarbon dioxide (\\(CO_2\\)).\nNitrous oxide (\\(N_2O\\))\nMethane (\\(CH_4\\)).\nFluorinated gases.\n\nOnly as memorandum items:\n\nNitrogen oxides (\\(NOx\\)).\nCarbon monoxide (\\(CO\\)).\nVolatile compounds distinct from methane (\\(COVDM\\)).\nSulfur dioxide (\\(SO_2\\)).\n\nGreenhouse gas emissions are divided into four main groups:\n\nEnergy.\nIndustrial processes.\nAgriculture, forestry, land use.\nWaste.\n\nUsing Global Warming Potential (GWP), GHGs are aggregated to \\(CO_2 equivalent\\) or simply \\(CO_2e\\)).\nCRF - Common Reporting Format.\n\n\n\nExplain the generic structure of an emissions account.\n{fig-air-emissions-account}\n\n\n\nThe Organisation for Economic Co-operation and Development (OECD) and the Statistical Office of the European Communities, Eurostat, developed a methodology for estimating Air Emissions Accounts under the SEEA-CF, based on the National Greenhouse Gas Inventories (NGGI) submitted to the UNFCCC (Eurostat 2015; Flachenecker, Guidetti, and Pionnier 2018). Our approach was informed by a recent exercise conducted at the country level in Argentina (Gutman et al. 2024).\nThe OECD-Eurostat methodology uses emission data from the National Greenhouse Gas Inventories (NGGI) as a starting point and assigns these emissions to households and industries according to ISIC Revision 4, using the same concepts and classifications as the System of National Accounts (SNA). To this end, publicly available correspondence tables in Excel format were developed, linking CRF categories with NACE Revision 2 at the two-digit level. “NACE” stands for the “Statistical Classification of Economic Activities in the European Community,” the European statistical classification of economic activities. The codes in NACE Rev. 2 are nearly identical to those in ISIC Rev. 4.\n\n\n\nThis version focuses on:\n\n\n\nGroup\nISO3\nName\n\n\n\n\nEastern_Africa\nBDI\nBurundi\n\n\n\nCOM\nComoros\n\n\n\nDJI\nDjibouti\n\n\n\nERI\nEritrea\n\n\n\nETH\nEthiopia\n\n\n\nKEN\nKenya\n\n\n\nMDG\nMadagascar\n\n\n\nMUS\nMauritius\n\n\n\nMYT\nMayotte\n\n\n\nREU\nReunion\n\n\n\nRWA\nRwanda\n\n\n\nSDN\nSudan\n\n\n\nSOM\nSomalia\n\n\n\nSYC\nSeychelles\n\n\n\nUGA\nUganda\n\n\nNorthern_Africa\nMAR\nMorocco\n\n\n\nDZA\nAlgeria\n\n\n\nEGY\nEgypt\n\n\n\nESH\nWestern Sahara\n\n\n\nLBY\nLibyan Arab Jamahiriya\n\n\n\nTUN\nTunisia\n\n\nWestern_Africa\nBEN\nBenin\n\n\n\nBFA\nBurkina Faso\n\n\n\nCAF\nCentral African Republic\n\n\n\nCIV\nCote d’Ivoire\n\n\n\nCMR\nCameroon\n\n\n\nCOD\nCongo_the Democratic Republic of the\n\n\n\nCOG\nCongo\n\n\n\nCPV\nCape Verde\n\n\n\nGAB\nGabon\n\n\n\nGHA\nGhana\n\n\n\nGIN\nGuinea\n\n\n\nGMB\nGambia\n\n\n\nGNB\nGuinea-Bissau\n\n\n\nGNQ\nEquatorial Guinea\n\n\n\nLBR\nLiberia\n\n\n\nMLI\nMali\n\n\n\nMRT\nMauritania\n\n\n\nNER\nNiger\n\n\n\nNGA\nNigeria\n\n\n\nSEN\nSenegal\n\n\n\nSHN\nSaint Helena\n\n\n\nSLE\nSierra Leone\n\n\n\nSTP\nSao Tome and Principe\n\n\n\nTCD\nChad\n\n\n\nTGO\nTogo",
+    "crumbs": [
+      "Documentation",
+      "Methods",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/overview.html#grenhouse-gas-inventories",
+    "href": "documentation/methods/overview.html#grenhouse-gas-inventories",
+    "title": "Overview",
+    "section": "",
+    "text": "Gases to be reported:\n\nCarbon dioxide (\\(CO_2\\)).\nNitrous oxide (\\(N_2O\\))\nMethane (\\(CH_4\\)).\nFluorinated gases.\n\nOnly as memorandum items:\n\nNitrogen oxides (\\(NOx\\)).\nCarbon monoxide (\\(CO\\)).\nVolatile compounds distinct from methane (\\(COVDM\\)).\nSulfur dioxide (\\(SO_2\\)).\n\nGreenhouse gas emissions are divided into four main groups:\n\nEnergy.\nIndustrial processes.\nAgriculture, forestry, land use.\nWaste.\n\nUsing Global Warming Potential (GWP), GHGs are aggregated to \\(CO_2 equivalent\\) or simply \\(CO_2e\\)).\nCRF - Common Reporting Format.",
+    "crumbs": [
+      "Documentation",
+      "Methods",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/overview.html#air-emissions-accounts-seea-cf",
+    "href": "documentation/methods/overview.html#air-emissions-accounts-seea-cf",
+    "title": "Overview",
+    "section": "",
+    "text": "Explain the generic structure of an emissions account.\n{fig-air-emissions-account}",
+    "crumbs": [
+      "Documentation",
+      "Methods",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/overview.html#harmonization",
+    "href": "documentation/methods/overview.html#harmonization",
+    "title": "Overview",
+    "section": "",
+    "text": "The Organisation for Economic Co-operation and Development (OECD) and the Statistical Office of the European Communities, Eurostat, developed a methodology for estimating Air Emissions Accounts under the SEEA-CF, based on the National Greenhouse Gas Inventories (NGGI) submitted to the UNFCCC (Eurostat 2015; Flachenecker, Guidetti, and Pionnier 2018). Our approach was informed by a recent exercise conducted at the country level in Argentina (Gutman et al. 2024).\nThe OECD-Eurostat methodology uses emission data from the National Greenhouse Gas Inventories (NGGI) as a starting point and assigns these emissions to households and industries according to ISIC Revision 4, using the same concepts and classifications as the System of National Accounts (SNA). To this end, publicly available correspondence tables in Excel format were developed, linking CRF categories with NACE Revision 2 at the two-digit level. “NACE” stands for the “Statistical Classification of Economic Activities in the European Community,” the European statistical classification of economic activities. The codes in NACE Rev. 2 are nearly identical to those in ISIC Rev. 4.",
+    "crumbs": [
+      "Documentation",
+      "Methods",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/overview.html#global-databases",
+    "href": "documentation/methods/overview.html#global-databases",
+    "title": "Overview",
+    "section": "",
+    "text": "This version focuses on:\n\n\n\nGroup\nISO3\nName\n\n\n\n\nEastern_Africa\nBDI\nBurundi\n\n\n\nCOM\nComoros\n\n\n\nDJI\nDjibouti\n\n\n\nERI\nEritrea\n\n\n\nETH\nEthiopia\n\n\n\nKEN\nKenya\n\n\n\nMDG\nMadagascar\n\n\n\nMUS\nMauritius\n\n\n\nMYT\nMayotte\n\n\n\nREU\nReunion\n\n\n\nRWA\nRwanda\n\n\n\nSDN\nSudan\n\n\n\nSOM\nSomalia\n\n\n\nSYC\nSeychelles\n\n\n\nUGA\nUganda\n\n\nNorthern_Africa\nMAR\nMorocco\n\n\n\nDZA\nAlgeria\n\n\n\nEGY\nEgypt\n\n\n\nESH\nWestern Sahara\n\n\n\nLBY\nLibyan Arab Jamahiriya\n\n\n\nTUN\nTunisia\n\n\nWestern_Africa\nBEN\nBenin\n\n\n\nBFA\nBurkina Faso\n\n\n\nCAF\nCentral African Republic\n\n\n\nCIV\nCote d’Ivoire\n\n\n\nCMR\nCameroon\n\n\n\nCOD\nCongo_the Democratic Republic of the\n\n\n\nCOG\nCongo\n\n\n\nCPV\nCape Verde\n\n\n\nGAB\nGabon\n\n\n\nGHA\nGhana\n\n\n\nGIN\nGuinea\n\n\n\nGMB\nGambia\n\n\n\nGNB\nGuinea-Bissau\n\n\n\nGNQ\nEquatorial Guinea\n\n\n\nLBR\nLiberia\n\n\n\nMLI\nMali\n\n\n\nMRT\nMauritania\n\n\n\nNER\nNiger\n\n\n\nNGA\nNigeria\n\n\n\nSEN\nSenegal\n\n\n\nSHN\nSaint Helena\n\n\n\nSLE\nSierra Leone\n\n\n\nSTP\nSao Tome and Principe\n\n\n\nTCD\nChad\n\n\n\nTGO\nTogo",
+    "crumbs": [
+      "Documentation",
+      "Methods",
+      "Overview"
+    ]
   }
 ]
