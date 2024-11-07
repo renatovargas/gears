@@ -6,3 +6,6 @@
 /.quarto/
 gears_db/data/afrec/
 gears_db/data/afrec/*
+gears_db/data/classifications/~$classifications.xlsx
+gears_db/data/classifications/~$test_balance.xlsx
+gears_db/data/classifications/test_balance.xlsx
