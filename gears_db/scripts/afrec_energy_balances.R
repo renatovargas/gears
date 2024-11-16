@@ -125,8 +125,48 @@ e_flows_cats <- nigeria |>
   #   names_sort = T
   # )
 
+balance_to_seea <- read_xlsx(
+  "gears_db/data/classifications/classifications.xlsx",
+  sheet = "balance_to_seea")
+
+e_flows_cats2 <- e_flows_cats |> 
+  left_join(
+    balance_to_seea[,c(2:9)],
+    join_by(Flow.name.en)) |> 
+  mutate(
+    value_seea = if_else(
+      !is.na(Value) & Flow.code %in% c("exp","bua", "bum","sto","tfs"), Value * (-1), Value
+    ),
+    transaction.code = if_else(
+      Flow.category.code == "tr" & !is.na(Value) & Value > 0, "P1", transaction.code
+    ),
+    transaction = if_else(
+      Flow.category.code == "tr" & !is.na(Value) & Value > 0, "Output", transaction
+    ),
+    sut.code = if_else(
+      Flow.category.code == "tr" & !is.na(Value) & Value > 0, 1, sut.code
+    ),
+    sut = if_else(
+      Flow.category.code == "tr" & !is.na(Value) & Value > 0, "Supply", sut
+    )
+  ) |> 
+  mutate(
+    value_seea = if_else(
+      Flow.category.code == "tr" & !is.na(Value) & Value <= 0, value_seea * (-1), value_seea
+    )
+  )
+  
+
+
+
 write.xlsx(
   e_flows_cats, 
   "gears_db/data/classifications/test_balance.xlsx",
+  overwrite = T,
+  rowNames = F)
+
+write.xlsx(
+  e_flows_cats2, 
+  "gears_db/data/classifications/test_balance2.xlsx",
   overwrite = T,
   rowNames = F)
