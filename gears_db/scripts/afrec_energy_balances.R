@@ -74,7 +74,7 @@ balances <- all_data |>
       c("Aggregate", 
         "Oil and oil products", 
         "Total"),
-    ! Product.code %in% c("btc"),
+    ! Product.code %in% c("btc", "woc"),
     ! Flow.code %in% 
       c("dom", 
         "trf", 
@@ -157,7 +157,7 @@ e_flows_cats2 <- e_flows_cats |>
   )
   
 
-
+saveRDS(e_flows_cats2, file="gears_db/data/afrec/nga_2018.RDS") 
 
 write.xlsx(
   e_flows_cats, 
