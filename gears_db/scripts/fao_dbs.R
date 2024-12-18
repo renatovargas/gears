@@ -44,8 +44,8 @@ rm(list = ls())
 # save.image("gears_db/data/faostat/faostat.RData" )
 
 load("gears_db/data/faostat/faostat.RData")
-elements <- unique(emissions$Element)
-items <- unique(emissions$Item)
+elements <- unique(total_emissions$Element)
+items <- unique(total_emissions$Item)
 
 nigeria_production <- production |> 
   filter(
