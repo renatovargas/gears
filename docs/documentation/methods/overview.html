@@ -8,8 +8,6 @@
 
 <meta name="author" content="Renato Vargas">
 <meta name="author" content="Martin Cicowiez">
-<meta name="author" content="Marco Sánchez">
-<meta name="author" content="Onil Banerjee">
 
 <title>GEARS - Overview</title>
 <style>
@@ -24,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -70,6 +88,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -176,7 +223,19 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#grenhouse-gas-inventories" id="toc-grenhouse-gas-inventories" class="nav-link" data-scroll-target="#grenhouse-gas-inventories">Grenhouse Gas Inventories</a></li>
+  <li><a href="#air-emissions-accounts-seea-cf" id="toc-air-emissions-accounts-seea-cf" class="nav-link" data-scroll-target="#air-emissions-accounts-seea-cf">Air emissions accounts (SEEA-CF)</a></li>
+  <li><a href="#harmonization" id="toc-harmonization" class="nav-link" data-scroll-target="#harmonization">Harmonization</a></li>
+  <li><a href="#global-databases" id="toc-global-databases" class="nav-link" data-scroll-target="#global-databases">Global Databases</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/overview.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -184,23 +243,16 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../documentation/methods/overview.html">Methods</a></li><li class="breadcrumb-item"><a href="../../documentation/methods/overview.html">Overview</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Overview</h1>
+<p class="subtitle lead">Databases and approaches</p>
 </div>
 
 
 <div class="quarto-title-meta-author">
   <div class="quarto-title-meta-heading">Authors</div>
-  <div class="quarto-title-meta-heading">Affiliations</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Renato Vargas </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            Consultant for the Food and Agriculture Organization (FAO)
-          </p>
-      </div>
-    <div class="quarto-title-meta-contents">
-    <p class="author">Martin Cicowiez </p>
+    <p class="author">Renato Vargas <a href="mailto:hugo.vargasaldana@fao.org" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -208,19 +260,11 @@ ul.task-list li input[type="checkbox"] {
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">Marco Sánchez </p>
+    <p class="author">Martin Cicowiez <a href="mailto:martin.cicowiez@fao.org" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Food and Agriculture Organization (FAO)
-          </p>
-      </div>
-    <div class="quarto-title-meta-contents">
-    <p class="author">Onil Banerjee </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            Consultant for the Food and Agriculture Organization (FAO)
           </p>
       </div>
   </div>
@@ -237,10 +281,337 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme seeks to establish country owned and sustainable systems to monitor, analyse, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.</p>
+<p>In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g.&nbsp;the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives as well. The <strong>Global Emissions Analsyis for Resilient Systems (GEARS)</strong> series of modules within MAFAP tools aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models.</p>
+<p>Here we describe the GEARS approach to constructing an anthropogenic emissions accounting satellite framework on demand, based on country-specific socioeconomic information by economic activity, and globally available datasets. We follow the internationally agreed principles of the System of Environmental and Economic Accounts (SEEA) statistical standard <span class="citation" data-cites="europeancommission2013">(<a href="#ref-europeancommission2013" role="doc-biblioref">European Commission et al. 2013</a>)</span> to organize information, aiming to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured <span class="citation" data-cites="europeancommission2009">(<a href="#ref-europeancommission2009" role="doc-biblioref">European Commission et al. 2009</a>)</span>. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA and pilot implementations <span class="citation" data-cites="eurostat2015 flachenecker2018 gutman2024">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>; <a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>. Where needed, deviations from international standards follow</p>
+<p>The main source for emissions from agriculture comes from FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>. Emissions from fossil fuel combustion are estimated at the economic activity level, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—<span class="citation" data-cites="ipcc1996 ipcc2006">(<a href="#ref-ipcc1996" role="doc-biblioref">IPCC 1996</a>, <a href="#ref-ipcc2006" role="doc-biblioref">2006</a>)</span> and national level energy balances. Emissions from Industrial Processes and Waste come from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span> and are mapped to economic activities following a broadly tested global approach that facilitate use with CGE frameworks <span class="citation" data-cites="chepeliev2024a chepeliev2024b chepeliev2024c">(i.e.&nbsp;that of the Global Trade Analysis Project—GTAP—, <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024a</a>, <a href="#ref-chepeliev2024b" role="doc-biblioref">2024b</a>, <a href="#ref-chepeliev2024c" role="doc-biblioref">2024c</a>)</span>.</p>
+<p>While the outputs of GEARS are databases that rely on the datasets covered above, its innovation lies in the standardization procedures that allow to create such datasets at different levels of aggregation on demand.</p>
+<section id="grenhouse-gas-inventories" class="level2">
+<h2 class="anchored" data-anchor-id="grenhouse-gas-inventories">Grenhouse Gas Inventories</h2>
+<p>Gases to be reported:</p>
+<ul>
+<li>Carbon dioxide (<span class="math inline">\(CO_2\)</span>).</li>
+<li>Nitrous oxide (<span class="math inline">\(N_2O\)</span>)</li>
+<li>Methane (<span class="math inline">\(CH_4\)</span>).</li>
+<li>Fluorinated gases.</li>
+</ul>
+<p>Only as memorandum items:</p>
+<ul>
+<li>Nitrogen oxides (<span class="math inline">\(NOx\)</span>).</li>
+<li>Carbon monoxide (<span class="math inline">\(CO\)</span>).</li>
+<li>Volatile compounds distinct from methane (<span class="math inline">\(COVDM\)</span>).</li>
+<li>Sulfur dioxide (<span class="math inline">\(SO_2\)</span>).</li>
+</ul>
+<p>Greenhouse gas emissions are divided into four main groups:</p>
+<ul>
+<li>Energy.</li>
+<li>Industrial processes.</li>
+<li>Agriculture, forestry, land use.</li>
+<li>Waste.</li>
+</ul>
+<p>Using Global Warming Potential (GWP), GHGs are aggregated to <span class="math inline">\(CO_2 equivalent\)</span> or simply <span class="math inline">\(CO_2e\)</span>).</p>
+<p>CRF - Common Reporting Format.</p>
+</section>
+<section id="air-emissions-accounts-seea-cf" class="level2">
+<h2 class="anchored" data-anchor-id="air-emissions-accounts-seea-cf">Air emissions accounts (SEEA-CF)</h2>
+<p>Explain the generic structure of an emissions account.</p>
+<p><img src=".png" class="img-fluid" alt="Air Emissions Account (SEEA CF)">{fig-air-emissions-account}</p>
+</section>
+<section id="harmonization" class="level2">
+<h2 class="anchored" data-anchor-id="harmonization">Harmonization</h2>
+<p>The Organisation for Economic Co-operation and Development (OECD) and the Statistical Office of the European Communities, Eurostat, developed a methodology for estimating Air Emissions Accounts under the SEEA-CF, based on the National Greenhouse Gas Inventories (NGGI) submitted to the UNFCCC <span class="citation" data-cites="eurostat2015 flachenecker2018">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>)</span>. Our approach was informed by a recent exercise conducted at the country level in Argentina <span class="citation" data-cites="gutman2024">(<a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>.</p>
+<p>The OECD-Eurostat methodology uses emission data from the National Greenhouse Gas Inventories (NGGI) as a starting point and assigns these emissions to households and industries according to ISIC Revision 4, using the same concepts and classifications as the System of National Accounts (SNA). To this end, publicly available correspondence tables in Excel format were developed, linking CRF categories with NACE Revision 2 at the two-digit level. “NACE” stands for the “Statistical Classification of Economic Activities in the European Community,” the European statistical classification of economic activities. The codes in NACE Rev.&nbsp;2 are nearly identical to those in ISIC Rev.&nbsp;4.</p>
+</section>
+<section id="global-databases" class="level2">
+<h2 class="anchored" data-anchor-id="global-databases">Global Databases</h2>
+<p>This version focuses on:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Group</th>
+<th>ISO3</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Eastern_Africa</td>
+<td>BDI</td>
+<td>Burundi</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>COM</td>
+<td>Comoros</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>DJI</td>
+<td>Djibouti</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>ERI</td>
+<td>Eritrea</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>ETH</td>
+<td>Ethiopia</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>KEN</td>
+<td>Kenya</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>MDG</td>
+<td>Madagascar</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>MUS</td>
+<td>Mauritius</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>MYT</td>
+<td>Mayotte</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>REU</td>
+<td>Reunion</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>RWA</td>
+<td>Rwanda</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>SDN</td>
+<td>Sudan</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>SOM</td>
+<td>Somalia</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>SYC</td>
+<td>Seychelles</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>UGA</td>
+<td>Uganda</td>
+</tr>
+<tr class="even">
+<td>Northern_Africa</td>
+<td>MAR</td>
+<td>Morocco</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>DZA</td>
+<td>Algeria</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>EGY</td>
+<td>Egypt</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>ESH</td>
+<td>Western Sahara</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>LBY</td>
+<td>Libyan Arab Jamahiriya</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>TUN</td>
+<td>Tunisia</td>
+</tr>
+<tr class="even">
+<td>Western_Africa</td>
+<td>BEN</td>
+<td>Benin</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>BFA</td>
+<td>Burkina Faso</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>CAF</td>
+<td>Central African Republic</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>CIV</td>
+<td>Cote d’Ivoire</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>CMR</td>
+<td>Cameroon</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>COD</td>
+<td>Congo_the Democratic Republic of the</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>COG</td>
+<td>Congo</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>CPV</td>
+<td>Cape Verde</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>GAB</td>
+<td>Gabon</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>GHA</td>
+<td>Ghana</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>GIN</td>
+<td>Guinea</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>GMB</td>
+<td>Gambia</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>GNB</td>
+<td>Guinea-Bissau</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>GNQ</td>
+<td>Equatorial Guinea</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>LBR</td>
+<td>Liberia</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>MLI</td>
+<td>Mali</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>MRT</td>
+<td>Mauritania</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>NER</td>
+<td>Niger</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>NGA</td>
+<td>Nigeria</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>SEN</td>
+<td>Senegal</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>SHN</td>
+<td>Saint Helena</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>SLE</td>
+<td>Sierra Leone</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>STP</td>
+<td>Sao Tome and Principe</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>TCD</td>
+<td>Chad</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>TGO</td>
+<td>Togo</td>
+</tr>
+</tbody>
+</table>
 
 
 
-</main> <!-- /main -->
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-chepeliev2024a" class="csl-entry" role="listitem">
+Chepeliev, Maksym. 2024a. <span>“Chapter 13A: CO2 Emissions from Fossil Fuels Combustion.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130</a>.
+</div>
+<div id="ref-chepeliev2024b" class="csl-entry" role="listitem">
+———. 2024b. <span>“Chapter 13B: Complementary Greenhouse Gas Emissions Database.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7131">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7131</a>.
+</div>
+<div id="ref-chepeliev2024c" class="csl-entry" role="listitem">
+———. 2024c. <span>“Chapter 13C: Air Pollutant Emissions Database.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7132">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7132</a>.
+</div>
+<div id="ref-crippa2023" class="csl-entry" role="listitem">
+Crippa, Monica, Diego Guizzardi, Federico Pagani, Manjola Banja, Marilena Muntean, Edwin Schaaf, William Edward Becker, et al. 2023. <span>“GHG Emissions of All World Countries.”</span> Luxembourg. <a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC134504">https://publications.jrc.ec.europa.eu/repository/handle/JRC134504</a>.
+</div>
+<div id="ref-europeancommission2013" class="csl-entry" role="listitem">
+European Commission, Organisation for Economic Cooperation, Development, United Nations, and World Bank. 2013. <span>“System of Environmental-Economic Accounting 2012.”</span> New York.
+</div>
+<div id="ref-europeancommission2009" class="csl-entry" role="listitem">
+European Commission, International Monetary Fund, Organisation for Economic Co-operation, Development, United Nations, and World Bank. 2009. <span>“System of National Accounts 2008.”</span> <a href="https://unstats.un.org/unsd/nationalaccount/sna2008.asp">https://unstats.un.org/unsd/nationalaccount/sna2008.asp</a>.
+</div>
+<div id="ref-eurostat2015" class="csl-entry" role="listitem">
+Eurostat. 2015. <span>“Manual for Air Emissions Accounts.”</span> Luxembourg. <a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-009">https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-009</a>.
+</div>
+<div id="ref-fao2024" class="csl-entry" role="listitem">
+FAO. 2024. <span>“FAOSTAT Domain Emissions Totals.”</span> Rome. <a href="https://www.fao.org/faostat/en/#data/GT">https://www.fao.org/faostat/en/#data/GT</a>.
+</div>
+<div id="ref-flachenecker2018" class="csl-entry" role="listitem">
+Flachenecker, Florian, Emmanuelle Guidetti, and Pierre-Alain Pionnier. 2018. <span>“Towards Global SEEA Air Emission Accounts: Description and Evaluation of the OECD Methodology to Estimate SEEA Air Emission Accounts for CO2, CH4 and N2O in Annex-I Countries to the UNFCCC.”</span> Paris. <a href="https://doi.org/10.1787/7d88dfdd-en">https://doi.org/10.1787/7d88dfdd-en</a>.
+</div>
+<div id="ref-gutman2024" class="csl-entry" role="listitem">
+Gutman, Verónica, María Priscila Ramos, Carlos Adrián Romero, Martina Chidiak, Gustavo Adolfo Ferro, María Laura Ojeda, Exequiel Romero Gómez, Juan Ignacio Mercatante, María Paula Covelli, and Verónica Fernández. 2024. <span>“Integración de Información Climática y Económica En Los Sistemas Estadísticos Nacionales: Armonizando Los Inventarios Nacionales de Gases de Efecto Invernadero (INGEI) Con El Sistema de Contabilidad Ambiental y Económica (SCAE).”</span> Buenos Aires. <a href="https://ojs.econ.uba.ar/index.php/DT-IIEP/issue/view/500">https://ojs.econ.uba.ar/index.php/DT-IIEP/issue/view/500</a>.
+</div>
+<div id="ref-ipcc1996" class="csl-entry" role="listitem">
+IPCC. 1996. <span>“Revised 1996 IPCC Guidelines for National Greenhouse Gas Inventories.”</span> London. <a href="https://www.ipcc-nggip.iges.or.jp/public/gl/invs4.html">https://www.ipcc-nggip.iges.or.jp/public/gl/invs4.html</a>.
+</div>
+<div id="ref-ipcc2006" class="csl-entry" role="listitem">
+———. 2006. <span>“2006 IPCC Guidelines for National Greenhouse Gas Inventories.”</span> Geneva. <a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_02_Ch2_Generic.pdf">https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_02_Ch2_Generic.pdf</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -633,4 +1004,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/overview.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/overview.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>
