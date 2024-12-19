@@ -1,0 +1,311 @@
+---
+title: "GEARS database preparation"
+author:
+  - name: "Renato Vargas"
+    id: rv
+    # email: renovargas@gmail.com
+    affiliation: 
+      - name: "Consultant for FAO"
+bibliography: references.bib
+---
+
+# Introduction
+
+In this session, we prepare a harmonized emissions dataset with inputs from FAOSTAT [@fao2024] and EDGAR [@crippa2023]. The objective is to have a single data lake from which we can extract data and make it compatible with any structure of economic activities. 
+
+## Preliminaries
+
+```{r}
+#| warning: false
+#| message: false
+#| label: libraries
+
+# Clean workspace
+rm(list = ls())
+
+# Load libraries
+library(tidyverse)
+library(haven)
+library(readxl)
+library(openxlsx)
+library(gt)
+# library(sf)
+# library(tmap)
+# library(raster)
+
+# Custom functions
+source("gears_db/scripts/custom_functions.R")
+```
+
+## Datasets
+
+Note that some datasets have been converted to R rds files in a previous step for space considerations.
+
+### EDGAR
+
+```{r}
+#| warning: false
+#| message: false
+#| label: datasets-edgar
+
+# EDGAR
+edgar <- read_xlsx(
+  "gears_db/data/edgar/EDGAR_AR5_GHG_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_co2 <- read_xlsx(
+  "gears_db/data/edgar/IEA_EDGAR_CO2_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_co2bio  <- read_xlsx(
+  "gears_db/data/edgar/EDGAR_CO2bio_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_ch4 <- read_xlsx(
+  "gears_db/data/edgar/EDGAR_CH4_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_n2o <- read_xlsx(
+  "gears_db/data/edgar/EDGAR_N2O_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_f_gases <- read_xlsx(
+  "gears_db/data/edgar/EDGAR_AR5g_F-gases_1990_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+```
+
+### FAOSTAT
+
+```{r}
+#| warning: false
+#| message: false
+#| label: datasets-faostat
+
+# FAOSTAT
+faostat_total_emissions <- 
+  readRDS(
+    "gears_db/data/faostat/total_emissions.rds")
+faostat_crops <- 
+  readRDS(
+    "gears_db/data/faostat/crops.rds")
+faostat_drained_organic_soils <- 
+  readRDS(
+    "gears_db/data/faostat/drained_organic_soils.rds")
+faostat_flags <- 
+  readRDS(
+    "gears_db/data/faostat/flags.rds")
+faostat_livestock <- 
+  readRDS("gears_db/data/faostat/livestock.rds")
+faostat_production <- 
+  readRDS(
+    "gears_db/data/faostat/production.rds")
+faostat_area_codes <- 
+  readRDS(
+    "gears_db/data/faostat/area_codes.rds")
+```
+
+### Equivalence tables
+
+
+# Initial processing
+
+## EDGAR databases
+
+The first thing that we do with EDGAR is see which domains from IPCC it covers.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: edgar-ipcc-domains
+
+edgar_ipcc_names <- 
+  data.frame(
+    code      = unique(
+      edgar$ipcc_code_2006_for_standard_report),
+    ipcc_name = unique(
+      edgar$ipcc_code_2006_for_standard_report_name)) |> 
+  arrange(code)
+
+edgar_ipcc_names |> 
+  gt()
+```
+
+The first thing that we see is that LULUCF is not included. We take note of this as we remove the domains that are covered in more detail in FAOSTAT (section 3). Originally, we estimated our own emissions for the energy part (section 1) from converting Energy Balances to the SEEA energy accounts format. However, this requires a National Accounts distribute uses and applying TIER 1 coefficients, so in this first version, we will take it as is from EDGAR. 
+
+Our concern is that EDGAR takes s use outside energy transformer industries from energy balance (i.e. other industrial, residential, transportation) at face value and we believe that this distribution can be improved if National Accounts is used to distribute intermediate and final consumption of energy outside .
+
+We could use total CO2 equivalent emissions aggregated from our `edgar` dataset, but full disaggregation by gas has been requested, so we perform our cleaning of the dataset for all of these and apply Tier 1 Global Warming Potential (GWP AR5) coefficients to individual datasets.
+
+But first we use custom function `transform_edgar_datasets` to extract the relevant IPCC items and normalize the years structure.
+
+### Individual datasets
+
+```{r}
+#| warning: false
+#| message: false
+#| label: edgar-domain-filtering
+
+# Usage
+datasets <- list(
+  edgar_co2,
+  edgar_ch4,
+  edgar_n2o,
+  edgar_f_gases
+)
+dataset_names <- c("co2", "ch4", "n2o", "edgar_f_gases")
+
+transform_edgar_datasets(datasets, dataset_names)
+rm(datasets)
+```
+### Dataset binding and GWP calculation
+
+With the datasets transformed, we bind them together and transform to GWP.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: edgar-datasets-binding
+
+# Usage
+gwp_edgar_total <- rbind(
+  transformed_co2,
+  transformed_ch4,
+  transformed_n2o,
+  transformed_edgar_f_gases) |> 
+  mutate(
+    Value = case_when(
+      Substance == "CH4" ~ Value * 28 , # GWP AR5 100-year horizon
+      Substance == "N2O" ~ Value * 265, # GWP AR5 100-year horizon
+      .default = Value
+    ),
+    Substance = case_when(
+      Substance == "CH4" ~ "GWP_100_AR5_CH4",
+      Substance == "N2O" ~ "GWP_100_AR5_N2O",
+      .default = Substance
+    )
+  ) |> 
+  mutate(across(where(is.character), as.factor))
+# Remove all EDGAR inputs
+rm(list = 
+  ls()[startsWith(ls(), "transformed_") |
+         startsWith(ls(), "edgar")])
+
+# And save to RDS
+saveRDS(gwp_edgar_total, "gears_db/data/outputs/gwp_edgar_total.rds")
+```
+
+##FAOSTAT databases
+
+### Total emissions
+
+Now we turn our attention to FAOSTAT. First we clean the totals dataset `faostat_total_emissions`.
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("elements", as.matrix(
+    unique(faostat_total_emissions$`Element Code`)
+  ), as.matrix(
+    unique(faostat_total_emissions$Element)
+  )),
+  cbind("items", as.matrix(
+    unique(faostat_total_emissions$`Item Code`)
+  ), as.matrix(unique(
+    faostat_total_emissions$`Item`
+  )))
+)) |>
+  gt()
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-total-emissions
+
+# Filter elements of interest
+transformed_faostat_total <- faostat_total_emissions |>
+  filter(
+    `Item Code` %in% c(
+      5064,  5060, 5066, 
+      5058,  5059, 5063, 
+      5062,  5061, 67292, 
+      67291, 6751, 6750, 
+      6795,  6993, 6992
+    ), 
+    `Element Code` %in% c(
+      724313, 724413,
+      7273, 717815)
+    )
+```
+
+Then we move to the detailed datasets.
+
+### Crops
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("elements", as.matrix(
+    unique(faostat_crops$`Element Code`)
+  ), as.matrix(
+    unique(faostat_crops$Element)
+  )),
+  cbind("items", as.matrix(
+    unique(faostat_crops$`Item Code`)
+  ), as.matrix(unique(
+    faostat_crops$`Item`
+  )))
+)) |>
+  gt()
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-crops
+
+# Filter elements of interest
+transformed_faostat_crops <- faostat_crops |> 
+  filter(
+    ! `Element Code` %in% c(
+      5162, 516201, 516202,
+      7245, 72430, 72440,
+      72342, 72362,
+      723631, 723632, 72392
+    ))
+```
+
+### Livestock
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-livestock
+
+# Filter elements of interest
+transformed_faostat_livestock <- faostat_livestock |> 
+  filter(
+    ! `Element Code` %in% c(
+      72380,  72381, 72386, 
+      723601, 723602, 723611, 
+      723612, 723801, 723802, 
+      723811, 723812, 72340, 
+      72341, 72346, 72360, 
+      72361, 72366, 72431,
+      72441
+    ),
+    ! `Item Code` %in% c(
+      1757, 1759, 1760,
+      1054, 2029, 1749,
+      1048, 1755
+    ))
+```
+

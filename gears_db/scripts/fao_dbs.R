@@ -41,9 +41,31 @@ rm(list = ls())
 #   "D:/downloads/Production_Crops_Livestock_E_All_Data_(Normalized)/Production_Crops_Livestock_E_All_Data_(Normalized).csv",
 #   locale = locale(encoding = "latin1")) |>
 #   mutate_if(is.character, factor)
+# saveRDS(total_emissions,"gears_db/data/faostat/total_emissions.rds")
+# saveRDS(crops,"gears_db/data/faostat/crops.rds")
+# saveRDS(drained_organic_soils,"gears_db/data/faostat/drained_organic_soils.rds")
+# saveRDS(flags,"gears_db/data/faostat/flags.rds")
+# saveRDS(livestock,"gears_db/data/faostat/livestock.rds")
+# saveRDS(production,"gears_db/data/faostat/production.rds")
+# saveRDS(area_codes,"gears_db/data/faostat/area_codes.rds")
 # save.image("gears_db/data/faostat/faostat.RData" )
+# load("gears_db/data/faostat/faostat.RData")
 
-load("gears_db/data/faostat/faostat.RData")
+total_emissions <- readRDS("gears_db/data/faostat/total_emissions.rds") |> 
+  mutate(across(where(is.character), as.factor))
+crops <- readRDS("gears_db/data/faostat/crops.rds") |> 
+  mutate(across(where(is.character), as.factor))
+drained_organic_soils <- readRDS("gears_db/data/faostat/drained_organic_soils.rds") |> 
+  mutate(across(where(is.character), as.factor))
+flags <- readRDS("gears_db/data/faostat/flags.rds") |> 
+  mutate(across(where(is.character), as.factor))
+livestock <- readRDS("gears_db/data/faostat/livestock.rds") |> 
+  mutate(across(where(is.character), as.factor))
+production <- readRDS("gears_db/data/faostat/production.rds") |> 
+  mutate(across(where(is.character), as.factor))
+area_codes <- readRDS("gears_db/data/faostat/area_codes.rds") |> 
+  mutate(across(where(is.character), as.factor))
+
 elements <- unique(total_emissions$Element)
 items <- unique(total_emissions$Item)
 
@@ -64,7 +86,7 @@ nigeria <- total_emissions |>
            5062,  5061, 67292, 
            67291, 6751, 6750, 
            6795,  6993, 6992
-           # 1711,1707 # Totales IPCC Agriculture, LULUCF
+           # 1711,1707 # Totals IPCC Agriculture, LULUCF
          ),
          Element %in% c(elements[c(4,7,8,9)]),
          # Element == elements[5],
@@ -267,8 +289,6 @@ nigeria_organic_soils <- drained_organic_soils |>
     Year == 2018,
     Area == "Nigeria"
   )
-
-
 
 write.table(nigeria, "clipboard", sep = "\t", row.names = F)
 write.table(nigeria_crops, "clipboard", sep = "\t", row.names = F)
