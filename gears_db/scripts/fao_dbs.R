@@ -20,16 +20,16 @@ rm(list = ls())
 #   "gears_db/data/faostat/faostat_em_totals.csv",
 #   locale = locale(encoding = "latin1"))
 # crops <- read_csv(
-#   "D:/downloads/Emissions_crops_E_All_Data_(Normalized)/Emissions_crops_E_All_Data_(Normalized).csv",
-#   locale = locale(encoding = "latin1")) |>
+#   "D:/OneDrive/_WORK/2024-03-FAO/materials/FAOSTAT/Emissions_crops_E_All_Data_(Normalized)/Emissions_crops_E_All_Data_(Normalized).csv",
+#   locale = locale(encoding = "utf8")) |>
 #   mutate_if(is.character, factor)
 # livestock <- read_csv(
-#   "D:/downloads/Emissions_livestock_E_All_Data_(Normalized)/Emissions_livestock_E_All_Data_(Normalized).csv",
-#   locale = locale(encoding = "latin1")) |>
+#   "D:/OneDrive/_WORK/2024-03-FAO/materials/FAOSTAT/Emissions_livestock_E_All_Data_(Normalized)/Emissions_livestock_E_All_Data_(Normalized).csv",
+#   locale = locale(encoding = "utf8")) |>
 #   mutate_if(is.character, factor)
 # drained_organic_soils <- read_csv(
-#     "D:/downloads/Emissions_Drained_Organic_Soils_E_All_Data_(Normalized)/Emissions_Drained_Organic_Soils_E_All_Data_(Normalized).csv",
-#     locale = locale(encoding = "latin1")) |>
+#     "D:/OneDrive/_WORK/2024-03-FAO/materials/FAOSTAT/Emissions_Drained_Organic_Soils_E_All_Data_(Normalized)/Emissions_Drained_Organic_Soils_E_All_Data_(Normalized).csv",
+#     locale = locale(encoding = "utf8")) |>
 #     mutate_if(is.character, factor)
 # area_codes <- read_csv(
 #   "gears_db/data/faostat/faostat_area_codes.csv",
@@ -38,8 +38,8 @@ rm(list = ls())
 #   "gears_db/data/faostat/faostat_flags.csv",
 #   locale = locale(encoding = "latin1"))
 # production <- read_csv(
-#   "D:/downloads/Production_Crops_Livestock_E_All_Data_(Normalized)/Production_Crops_Livestock_E_All_Data_(Normalized).csv",
-#   locale = locale(encoding = "latin1")) |>
+#   "D:/OneDrive/_WORK/2024-03-FAO/materials/FAOSTAT/Production_Crops_Livestock_E_All_Data_(Normalized)/Production_Crops_Livestock_E_All_Data_(Normalized).csv",
+#   locale = locale(encoding = "utf8")) |>
 #   mutate_if(is.character, factor)
 # saveRDS(total_emissions,"gears_db/data/faostat/total_emissions.rds")
 # saveRDS(crops,"gears_db/data/faostat/crops.rds")
@@ -65,7 +65,6 @@ production <- readRDS("gears_db/data/faostat/production.rds") |>
   mutate(across(where(is.character), as.factor))
 area_codes <- readRDS("gears_db/data/faostat/area_codes.rds") |> 
   mutate(across(where(is.character), as.factor))
-
 elements <- unique(total_emissions$Element)
 items <- unique(total_emissions$Item)
 

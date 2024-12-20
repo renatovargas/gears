@@ -112,6 +112,16 @@ faostat_area_codes <-
 
 ### Equivalence tables
 
+```{r}
+fao_countries <- read_xlsx(
+  "gears_db/data/classifications/equivalence.xlsx",
+  sheet = "FAOSTAT COUNTRIES")
+fao_ipcc <- read_xlsx(
+  "gears_db/data/classifications/equivalence.xlsx",
+  sheet = "FAOSTAT IPCC")
+```
+
+
 
 # Initial processing
 
@@ -180,17 +190,40 @@ gwp_edgar_total <- rbind(
   transformed_edgar_f_gases) |> 
   mutate(
     Value = case_when(
-      Substance == "CH4" ~ Value * 28 , # GWP AR5 100-year horizon
-      Substance == "N2O" ~ Value * 265, # GWP AR5 100-year horizon
+      Substance == "CH4" ~ Value * 28 , # GWP CH4 AR5 100-year horizon
+      Substance == "N2O" ~ Value * 265, # GWP N2O AR5 100-year horizon
       .default = Value
     ),
     Substance = case_when(
-      Substance == "CH4" ~ "GWP_100_AR5_CH4",
-      Substance == "N2O" ~ "GWP_100_AR5_N2O",
+      Substance == "CO2" ~ "Emissions (CO2)",
+      Substance == "CH4" ~ "Emissions (CO2eq) from CH4 (AR5)",
+      Substance == "N2O" ~ "Emissions (CO2eq) from N2O (AR5)",
       .default = Substance
-    )
+    ),
+    `Element Code` = case_when(
+      Substance == "Emissions (CO2)" ~ 7273,
+      Substance == "Emissions (CO2eq) from CH4 (AR5)" ~ 724413,
+      Substance == "Emissions (CO2eq) from N2O (AR5)" ~ 724313,
+      .default = NA
+    ),
+    Unit = "kt"
   ) |> 
-  mutate(across(where(is.character), as.factor))
+  mutate(across(where(is.character), as.factor)) |> 
+  rename(
+    Element = Substance,
+    ISO3 = Country_code_A3,
+    `IPCC Code` = ipcc_code_2006_for_standard_report,
+    IPCC = ipcc_code_2006_for_standard_report_name) |> 
+  select(
+    ISO3,
+    `Element Code`,
+    Element,
+    `IPCC Code`, 
+    IPCC,
+    Year,
+    Unit,
+    Value )
+
 # Remove all EDGAR inputs
 rm(list = 
   ls()[startsWith(ls(), "transformed_") |
@@ -233,16 +266,63 @@ as.data.frame(rbind(
 transformed_faostat_total <- faostat_total_emissions |>
   filter(
     `Item Code` %in% c(
-      5064,  5060, 5066, 
-      5058,  5059, 5063, 
-      5062,  5061, 67292, 
+      5061, 67292, 
       67291, 6751, 6750, 
       6795,  6993, 6992
-    ), 
+    ),
+    # `Item Code` %in% c(
+    #   5064,  5060, 5066, 
+    #   5058,  5059, 5063, 
+    #   5062,  5061, 67292, 
+    #   67291, 6751, 6750, 
+    #   6795,  6993, 6992
+    # ), 
     `Element Code` %in% c(
       724313, 724413,
       7273, 717815)
-    )
+    ) |> 
+  rename(
+    `Driver Code` = `Item Code`,
+    Driver = Item
+  ) |> 
+  mutate(
+    `Sector Code` = 9999,
+    Sector = "Undetermined"
+  ) |> 
+  # Finally select in order to 
+  # bind to livestock and crops
+  select(
+    `Area Code`,
+    Area,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    Year,
+    Unit,
+    Value
+  )
+```
+
+Then the resulting items:
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("elements", as.matrix(
+    unique(transformed_faostat_total$`Element Code`)
+  ), as.matrix(
+    unique(transformed_faostat_total$Element)
+  )),
+  cbind("Drivers", as.matrix(
+    unique(transformed_faostat_total$`Driver Code`)
+  ), as.matrix(unique(
+    transformed_faostat_total$`Driver`
+  )))
+)) |>
+  gt()
 ```
 
 Then we move to the detailed datasets.
@@ -266,7 +346,6 @@ as.data.frame(rbind(
   gt()
 ```
 
-
 ```{r}
 #| warning: false
 #| message: false
@@ -276,12 +355,112 @@ as.data.frame(rbind(
 transformed_faostat_crops <- faostat_crops |> 
   filter(
     ! `Element Code` %in% c(
-      5162, 516201, 516202,
-      7245, 72430, 72440,
-      72342, 72362,
+      5312, 5162, 516201, 516202,
+      7245, 72303, 72430, 72440, 
+      72342, 72343, 72362,
       723631, 723632, 72392
-    ))
+    ),
+    `Item Code` != 1712
+    # ! `Element Code` %in% c(
+    #   5162, 516201, 516202,
+    #   7245, 72430, 72440,
+    #   72342, 72362,
+    #   723631, 723632, 72392
+    # )
+    ) |> 
+  # Global Warming Potential
+  mutate(
+    Value = case_when(
+      `Element Code` %in% c(
+        72255, 72257
+      ) ~ Value * 28, # GWP CH4 AR5 100-year horizon
+      `Element Code` %in% c(
+        72302,72307
+      ) ~ Value * 265 # GWP N2O AR5 100-year horizon
+    )
+  ) |> 
+  mutate(
+    temp_code = case_when(
+      `Element Code` %in% c(
+        72255, 72257
+      ) ~ 724413,
+      `Element Code` %in% c(
+        72307, 72302
+      ) ~ 724313,
+      .default = NA
+    ),
+    temp = case_when(
+      `Element Code` %in% c(
+        72255, 72257
+      ) ~ "Emissions (CO2eq) from CH4 (AR5)",
+      `Element Code` %in% c(
+        72307, 72302
+      ) ~ "Emissions (CO2eq) from N2O (AR5)",
+      .default = NA
+    )
+  ) |> 
+  rename(
+    `Sector Code` = `Item Code`,
+    `Sector` = Item,
+    `Driver Code` = `Element Code`,
+    Driver = Element,
+    `Element Code`= temp_code,
+    Element = temp
+  )|> 
+  # Finally select in order to 
+  # bind to livestock and crops
+  select(
+    `Area Code`,
+    Area,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    Year,
+    Unit,
+    Value
+  )
 ```
+
+The resulting items
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("Sectors", as.matrix(
+    unique(transformed_faostat_crops$`Sector Code`)
+  ), as.matrix(
+    unique(transformed_faostat_crops$Sector)
+  )),
+  cbind("Drivers", as.matrix(
+    unique(transformed_faostat_crops$`Driver Code`)
+  ), as.matrix(unique(
+    transformed_faostat_crops$`Driver`
+  )))
+)) |>
+  arrange(V1,V2) |> 
+  gt()
+```
+```{r}
+transformed_faostat_crops |> 
+  filter(
+    Year == 2018,
+    Area == "Nigeria"
+  ) |> 
+  group_by(
+    Driver,
+    Sector,
+    Unit
+  ) |> 
+  summarize(
+    Total = sum(Value, na.rm = T)
+  ) |> 
+  ungroup() |> 
+  gt()
+```
+
 
 ### Livestock
 
@@ -306,6 +485,147 @@ transformed_faostat_livestock <- faostat_livestock |>
       1757, 1759, 1760,
       1054, 2029, 1749,
       1048, 1755
-    ))
+    )) |>
+  mutate(
+    Value = case_when(
+      `Element Code` %in% c(
+        72254, 72256
+      ) ~ Value * 28, # GWP CH4 AR5 100-year horizon
+      `Element Code` %in% c(
+        72300, 72301, 72306
+      ) ~ Value * 265 # GWP N2O AR5 100-year horizon
+    )
+  ) |> 
+  mutate(
+    temp_code = case_when(
+      `Element Code` %in% c(
+        72254, 72256
+      ) ~ 724413,
+      `Element Code` %in% c(
+        72300, 72301, 72306
+      ) ~ 724313,
+       `Element Code` == 5111 ~ 5111,
+      .default = NA
+    ),
+    temp = case_when(
+      `Element Code` %in% c(
+        72254, 72256
+      ) ~ "Emissions (CO2eq) from CH4 (AR5)",
+      `Element Code` %in% c(
+        72300, 72301, 72306
+      ) ~ "Emissions (CO2eq) from N2O (AR5)",
+      `Element Code` == 5111 ~ "Number of animals",
+      .default = NA
+    )
+  ) |> 
+  rename(
+    `Driver Code` = `Element Code`,
+    Driver = Element,
+    `Sector Code` = `Item Code`,
+    Sector = Item,
+    `Element Code`= temp_code,
+    Element = temp
+  )|> 
+  # Finally select in order to 
+  # bind to livestock and crops
+  select(
+    `Area Code`,
+    Area,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    Year,
+    Unit,
+    Value
+  )
 ```
+
+The resulting items
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("Drivers", as.matrix(
+    unique(transformed_faostat_livestock$`Driver Code`)
+  ), as.matrix(
+    unique(transformed_faostat_livestock$Driver)
+  )),
+  cbind("Sectors", as.matrix(
+    unique(transformed_faostat_livestock$`Sector Code`)
+  ), as.matrix(unique(
+    transformed_faostat_livestock$`Sector`
+  )))
+)) |>
+  arrange(V1,V2) |> 
+  gt()
+```
+
+
+### Dataset binding
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-datasets-binding
+
+gwp_faostat_total <- rbind(
+  transformed_faostat_total,
+  transformed_faostat_crops,
+  transformed_faostat_livestock) |>
+  left_join(fao_countries[,c(1,3)], join_by(`Area Code`)) |>
+  left_join(fao_ipcc, join_by(Driver)) |> 
+  filter(! is.na(ISO3))
+  
+
+# And save to RDS
+saveRDS(gwp_faostat_total, "gears_db/data/outputs/gwp_faostat_total.rds")
+
+objects <- c(
+  "faostat_total_emissions", 
+  "faostat_crops", 
+  "faostat_livestock")
+
+# Remove only variables if they exist
+rm(list = objects[objects %in% ls()])
+```
+
+
+# Equivalence tables
+
+```{r}
+# # FAO
+# fao_countries <- as.data.frame(
+#   cbind(as.matrix(
+#     unique(gwp_faostat_total$`Area Code`)
+#   ), as.matrix(
+#     unique(gwp_faostat_total$`Area`)
+#   ))) |>
+#   arrange(V1,V2)
+# 
+# write.table(fao_countries, "clipboard", sep = "\t", row.names = F)
+```
+
+
+```{r}
+# EDGAR
+# edgar_countries <- as.data.frame(
+#   cbind(as.matrix(
+#     unique(gwp_edgar_total$Name)
+#   ), as.matrix(
+#     unique(gwp_edgar_total$Country_code_A3)
+#   ))) |>
+#   arrange(V1,V2)
+# 
+# write.table(edgar_countries, "clipboard", sep = "\t", row.names = F)
+```
+
+# End
+
+```{r}
+
+```
+
 
