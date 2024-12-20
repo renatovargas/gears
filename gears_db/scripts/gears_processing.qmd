@@ -119,6 +119,9 @@ fao_countries <- read_xlsx(
 fao_ipcc <- read_xlsx(
   "gears_db/data/classifications/equivalence.xlsx",
   sheet = "FAOSTAT IPCC")
+isic <- read_xlsx(
+  "gears_db/data/classifications/equivalence.xlsx",
+  sheet = "GWP ISIC")
 ```
 
 
@@ -206,7 +209,13 @@ gwp_edgar_total <- rbind(
       Substance == "Emissions (CO2eq) from N2O (AR5)" ~ 724313,
       .default = NA
     ),
-    Unit = "kt"
+    Unit = "kt",
+    `Driver Code` =
+      ipcc_code_2006_for_standard_report,
+    Driver = 
+      ipcc_code_2006_for_standard_report_name,
+    `Sector Code` = 9999,
+    Sector = "EDGAR TBD"
   ) |> 
   mutate(across(where(is.character), as.factor)) |> 
   rename(
@@ -214,8 +223,18 @@ gwp_edgar_total <- rbind(
     ISO3 = Country_code_A3,
     `IPCC Code` = ipcc_code_2006_for_standard_report,
     IPCC = ipcc_code_2006_for_standard_report_name) |> 
+  left_join(
+    fao_countries,
+    join_by(ISO3)
+  ) |> 
   select(
+    `Area Code`,
+    Area,
     ISO3,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
     `Element Code`,
     Element,
     `IPCC Code`, 
@@ -577,7 +596,9 @@ gwp_faostat_total <- rbind(
   transformed_faostat_livestock) |>
   left_join(fao_countries[,c(1,3)], join_by(`Area Code`)) |>
   left_join(fao_ipcc, join_by(Driver)) |> 
-  filter(! is.na(ISO3))
+  filter(! is.na(ISO3)) |> 
+  relocate(`IPCC Code`, `IPCC`, .before = Year) |> 
+  relocate(ISO3, .before = `Driver Code`)
   
 
 # And save to RDS
@@ -593,7 +614,26 @@ rm(list = objects[objects %in% ls()])
 ```
 
 
-# Equivalence tables
+# Bind Final Datasets
+
+```{r}
+gwp_total_emissions <- rbind(
+  gwp_faostat_total,
+  gwp_edgar_total
+) |> 
+  left_join(
+    isic[,c(1,3,4)],
+    join_by(
+      `Driver Code`
+    )
+  ) |> 
+  relocate(`ISIC Code`, `ISIC`, .before = Year)
+
+# And save to RDS
+saveRDS(gwp_total_emissions, "gears_db/data/outputs/gwp_total_emissions.rds")
+```
+
+
 
 ```{r}
 # # FAO
@@ -620,6 +660,27 @@ rm(list = objects[objects %in% ls()])
 #   arrange(V1,V2)
 # 
 # write.table(edgar_countries, "clipboard", sep = "\t", row.names = F)
+
+# Drivers
+
+# drivers <- gwp_total_emissions |> 
+#   group_by(
+#     `Driver Code`,
+#     Driver,
+#     `Sector Code`,
+#     Sector
+#   ) |> 
+#   summarize(Total = sum(Value, na.rm = T))
+# 
+# write.table(drivers, "clipboard", sep = "\t", row.names = F)
+
+# test <- gwp_total_emissions |> 
+#   filter(Year %in% c(2018:2020))
+# write.xlsx(
+#   test,
+#   file = "gears_db/data/outputs/gwp_total_emissions_test.xlsx")
+
+
 ```
 
 # End
