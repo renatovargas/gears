@@ -201,12 +201,24 @@ gwp_edgar_total <- rbind(
       Substance == "CO2" ~ "Emissions (CO2)",
       Substance == "CH4" ~ "Emissions (CO2eq) from CH4 (AR5)",
       Substance == "N2O" ~ "Emissions (CO2eq) from N2O (AR5)",
+      Substance == "GWP_100_AR5_PFC" ~
+        "Emissions (CO2eq) from PFC (AR5)",
+      Substance == "GWP_100_AR5_HFC" ~
+        "Emissions (CO2eq) from HFC (AR5)",
+      Substance == "GWP_100_AR5_HCFC" ~
+        "Emissions (CO2eq) from HCFC (AR5)",
+      Substance == "GWP_100_AR5_SF6" ~
+        "Emissions (CO2eq) from SF6 (AR5)",
       .default = Substance
     ),
     `Element Code` = case_when(
       Substance == "Emissions (CO2)" ~ 7273,
-      Substance == "Emissions (CO2eq) from CH4 (AR5)" ~ 724413,
-      Substance == "Emissions (CO2eq) from N2O (AR5)" ~ 724313,
+      Substance == "Emissions (CO2eq) from CH4 (AR5)"  ~ 724413,
+      Substance == "Emissions (CO2eq) from N2O (AR5)"  ~ 724313,
+      Substance == "Emissions (CO2eq) from PFC (AR5)"  ~ 724996,
+      Substance == "Emissions (CO2eq) from HFC (AR5)"  ~ 724997,
+      Substance == "Emissions (CO2eq) from HCFC (AR5)" ~ 724998,
+      Substance == "Emissions (CO2eq) from SF6 (AR5)"  ~ 724999,
       .default = NA
     ),
     Unit = "kt",
@@ -512,7 +524,8 @@ transformed_faostat_livestock <- faostat_livestock |>
       ) ~ Value * 28, # GWP CH4 AR5 100-year horizon
       `Element Code` %in% c(
         72300, 72301, 72306
-      ) ~ Value * 265 # GWP N2O AR5 100-year horizon
+      ) ~ Value * 265, # GWP N2O AR5 100-year horizon
+      .default = Value
     )
   ) |> 
   mutate(
@@ -627,7 +640,10 @@ gwp_total_emissions <- rbind(
       `Driver Code`
     )
   ) |> 
-  relocate(`ISIC Code`, `ISIC`, .before = Year)
+  relocate(`ISIC Code`, `ISIC`, .before = Year) |> 
+  filter(
+    ! is.na(Area)
+  )
 
 # And save to RDS
 saveRDS(gwp_total_emissions, "gears_db/data/outputs/gwp_total_emissions.rds")
@@ -674,11 +690,11 @@ saveRDS(gwp_total_emissions, "gears_db/data/outputs/gwp_total_emissions.rds")
 # 
 # write.table(drivers, "clipboard", sep = "\t", row.names = F)
 
-# test <- gwp_total_emissions |> 
-#   filter(Year %in% c(2018:2020))
-# write.xlsx(
-#   test,
-#   file = "gears_db/data/outputs/gwp_total_emissions_test.xlsx")
+test <- gwp_total_emissions |>
+  filter(Year %in% c(2018:2020))
+write.xlsx(
+  test,
+  file = "gears_db/data/outputs/gwp_total_emissions_test.xlsx")
 
 
 ```
