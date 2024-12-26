@@ -33,6 +33,8 @@ website:
           contents:
             - text: "Overview"
               href: documentation/methods/overview.qmd
+            - text: "GEARS database peparation"
+              href: documentation/methods/overview.qmd
           
 format:
   html:
