@@ -715,9 +715,9 @@ gwp_total_emissions <- rbind(
 saveRDS(
   gwp_total_emissions, 
   "gears_db/data/outputs/gwp_total_emissions.rds")
-write.csv(
-  gwp_total_emissions,
-  "gears_db/data/outputs/gwp_total_emissions.csv")
+# write.csv(
+#   gwp_total_emissions,
+#   "gears_db/data/outputs/gwp_total_emissions.csv")
 ```
 
 
