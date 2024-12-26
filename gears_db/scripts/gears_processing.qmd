@@ -164,14 +164,14 @@ But first we use custom function `transform_edgar_datasets` to extract the relev
 #| message: false
 #| label: edgar-domain-filtering
 
-# Usage
 datasets <- list(
   edgar_co2,
+  edgar_co2bio,
   edgar_ch4,
   edgar_n2o,
   edgar_f_gases
 )
-dataset_names <- c("co2", "ch4", "n2o", "edgar_f_gases")
+dataset_names <- c("co2", "co2bio", "ch4", "n2o", "edgar_f_gases")
 
 transform_edgar_datasets(datasets, dataset_names)
 rm(datasets)
@@ -188,6 +188,7 @@ With the datasets transformed, we bind them together and transform to GWP.
 # Usage
 gwp_edgar_total <- rbind(
   transformed_co2,
+  transformed_co2bio,
   transformed_ch4,
   transformed_n2o,
   transformed_edgar_f_gases) |> 
@@ -199,6 +200,7 @@ gwp_edgar_total <- rbind(
     ),
     Substance = case_when(
       Substance == "CO2" ~ "Emissions (CO2)",
+      Substance == "CO2bio" ~ "Emissions (CO2bio)",
       Substance == "CH4" ~ "Emissions (CO2eq) from CH4 (AR5)",
       Substance == "N2O" ~ "Emissions (CO2eq) from N2O (AR5)",
       Substance == "GWP_100_AR5_PFC" ~
@@ -209,16 +211,20 @@ gwp_edgar_total <- rbind(
         "Emissions (CO2eq) from HCFC (AR5)",
       Substance == "GWP_100_AR5_SF6" ~
         "Emissions (CO2eq) from SF6 (AR5)",
+      Substance == "GWP_100_AR5_NF3" ~
+        "Emissions (CO2eq) from NF3 (AR5)",
       .default = Substance
     ),
     `Element Code` = case_when(
       Substance == "Emissions (CO2)" ~ 7273,
+      Substance == "Emissions (CO2bio)" ~ 7279,
       Substance == "Emissions (CO2eq) from CH4 (AR5)"  ~ 724413,
       Substance == "Emissions (CO2eq) from N2O (AR5)"  ~ 724313,
-      Substance == "Emissions (CO2eq) from PFC (AR5)"  ~ 724996,
-      Substance == "Emissions (CO2eq) from HFC (AR5)"  ~ 724997,
-      Substance == "Emissions (CO2eq) from HCFC (AR5)" ~ 724998,
-      Substance == "Emissions (CO2eq) from SF6 (AR5)"  ~ 724999,
+      Substance == "Emissions (CO2eq) from PFC (AR5)"  ~ 724995,
+      Substance == "Emissions (CO2eq) from HFC (AR5)"  ~ 724996,
+      Substance == "Emissions (CO2eq) from HCFC (AR5)" ~ 724997,
+      Substance == "Emissions (CO2eq) from SF6 (AR5)"  ~ 724998,
+      Substance == "Emissions (CO2eq) from NF3 (AR5)"  ~ 724999,
       .default = NA
     ),
     Unit = "kt",
@@ -226,8 +232,8 @@ gwp_edgar_total <- rbind(
       ipcc_code_2006_for_standard_report,
     Driver = 
       ipcc_code_2006_for_standard_report_name,
-    `Sector Code` = 9999,
-    Sector = "EDGAR TBD"
+    `Sector Code` = ipcc_code_2006_for_standard_report,
+    Sector = ipcc_code_2006_for_standard_report_name
   ) |> 
   mutate(across(where(is.character), as.factor)) |> 
   rename(
@@ -643,60 +649,85 @@ gwp_total_emissions <- rbind(
   relocate(`ISIC Code`, `ISIC`, .before = Year) |> 
   filter(
     ! is.na(Area)
+  ) |> 
+  # Add ISIC codes to animals and crops
+  mutate(
+    `ISIC Code` = case_when(
+      `Sector Code` %in% c(
+        946, 960, 961
+      ) ~ "0141", # Raising of cattle and buffaloes
+      `Sector Code` %in% c(
+        976, 1016
+      ) ~ "0144", # Raising of sheep and goats
+      `Sector Code` %in% c(
+        1049, 1051
+      ) ~ "0145", # Raising of swine/pigs
+      `Sector Code` %in% c(
+        1096, 1107, 1110
+      ) ~ "0142", # Raising of horses and other equines
+      `Sector Code` %in% c(
+        1126, 1177
+      ) ~ "0143", # Raising of camels and camelids
+      `Sector Code` %in% c(
+        1052, 1053, 1068, 1079
+      ) ~ "0146", # Raising of poultry
+      `Sector Code` == 27 ~ "0112", # Growing of rice
+      `Sector Code` %in% c(
+        15, 44, 71, 75, 56, 79, 83, 176, 236
+        ) ~ "0111", # Growing of cereals (except rice), leguminous crops and oil seeds
+      `Sector Code` == 116 ~ "0113", # Growing of vegetables and melons, roots and tubers
+      `Sector Code` == 156 ~ "0114", # Growing of sugar cane
+      .default = `ISIC Code`
+    ),
+    `ISIC` = case_when(
+      `Sector Code` %in% c(
+        946, 960, 961
+      ) ~ "Raising of cattle and buffaloes",
+      `Sector Code` %in% c(
+        976, 1016
+      ) ~ "Raising of sheep and goats",
+      `Sector Code` %in% c(
+        1049, 1051
+      ) ~ "Raising of swine/pigs",
+      `Sector Code` %in% c(
+        1096, 1107, 1110
+      ) ~ "Raising of horses and other equines",
+      `Sector Code` %in% c(
+        1126, 1177
+      ) ~ "Raising of camels and camelids",
+      `Sector Code` %in% c(
+        1052, 1053, 1068, 1079
+      ) ~ "Raising of poultry",
+      `Sector Code` == 27 ~ "Growing of rice",
+      `Sector Code` %in% c(
+        15, 44, 71, 75, 56, 79, 83, 176, 236
+        ) ~ "Growing of cereals (except rice), leguminous crops and oil seeds",
+      `Sector Code` == 116 ~ "Growing of vegetables and melons, roots and tubers", # 
+      `Sector Code` == 156 ~ "Growing of sugar cane",
+      .default = `ISIC`
+    )
   )
+```
 
+
+```{r}
 # And save to RDS
-saveRDS(gwp_total_emissions, "gears_db/data/outputs/gwp_total_emissions.rds")
+saveRDS(
+  gwp_total_emissions, 
+  "gears_db/data/outputs/gwp_total_emissions.rds")
+write.csv(
+  gwp_total_emissions,
+  "gears_db/data/outputs/gwp_total_emissions.csv")
 ```
 
 
 
 ```{r}
-# # FAO
-# fao_countries <- as.data.frame(
-#   cbind(as.matrix(
-#     unique(gwp_faostat_total$`Area Code`)
-#   ), as.matrix(
-#     unique(gwp_faostat_total$`Area`)
-#   ))) |>
-#   arrange(V1,V2)
-# 
-# write.table(fao_countries, "clipboard", sep = "\t", row.names = F)
-```
-
-
-```{r}
-# EDGAR
-# edgar_countries <- as.data.frame(
-#   cbind(as.matrix(
-#     unique(gwp_edgar_total$Name)
-#   ), as.matrix(
-#     unique(gwp_edgar_total$Country_code_A3)
-#   ))) |>
-#   arrange(V1,V2)
-# 
-# write.table(edgar_countries, "clipboard", sep = "\t", row.names = F)
-
-# Drivers
-
-# drivers <- gwp_total_emissions |> 
-#   group_by(
-#     `Driver Code`,
-#     Driver,
-#     `Sector Code`,
-#     Sector
-#   ) |> 
-#   summarize(Total = sum(Value, na.rm = T))
-# 
-# write.table(drivers, "clipboard", sep = "\t", row.names = F)
-
 test <- gwp_total_emissions |>
   filter(Year %in% c(2018:2020))
 write.xlsx(
   test,
   file = "gears_db/data/outputs/gwp_total_emissions_test.xlsx")
-
-
 ```
 
 # End
