@@ -233,7 +233,11 @@ gwp_edgar_total <- rbind(
     Driver = 
       ipcc_code_2006_for_standard_report_name,
     `Sector Code` = ipcc_code_2006_for_standard_report,
-    Sector = ipcc_code_2006_for_standard_report_name
+    Sector = ipcc_code_2006_for_standard_report_name,
+    Sector = if_else(
+      `Sector Code`== "1.A.5", 
+      "Non-Specified from IPCC Energy Volume",
+      Sector)
   ) |> 
   mutate(across(where(is.character), as.factor)) |> 
   rename(
@@ -324,8 +328,24 @@ transformed_faostat_total <- faostat_total_emissions |>
   ) |> 
   mutate(
     `Sector Code` = 9999,
-    Sector = "Undetermined"
-  ) |> 
+    Sector = "Undetermined",
+    Sector = case_when(
+      `Driver Code`== 5061 ~
+      "Manufacture of fertilizers and nitrogen compounds",
+      `Driver Code` %in% c(67291, 6795) ~
+        "Undetermined from Agriculture",
+      `Driver Code` %in% c(67292, 6750, 6751, 6992, 6993) ~
+        "Undetermined from LULUCF",
+      .default = Sector),
+    `Sector Code` = case_when(
+      `Driver Code`== 5061 ~
+      2012,
+      `Driver Code` %in% c(67291, 6795) ~
+        9999,
+      `Driver Code` %in% c(67292, 6750, 6751, 6992, 6993) ~
+        9998,
+      .default = `Sector Code`)
+  ) |>
   # Finally select in order to 
   # bind to livestock and crops
   select(
@@ -444,6 +464,9 @@ transformed_faostat_crops <- faostat_crops |>
     `Element Code`= temp_code,
     Element = temp
   )|> 
+  mutate(
+    `Sector Code` = sprintf("%04d", `Sector Code`)
+  ) |> 
   # Finally select in order to 
   # bind to livestock and crops
   select(
@@ -563,7 +586,10 @@ transformed_faostat_livestock <- faostat_livestock |>
     Sector = Item,
     `Element Code`= temp_code,
     Element = temp
-  )|> 
+  )|>
+  mutate(
+    `Sector Code` = sprintf("%04d", `Sector Code`)
+  ) |> 
   # Finally select in order to 
   # bind to livestock and crops
   select(
@@ -654,60 +680,106 @@ gwp_total_emissions <- rbind(
   mutate(
     `ISIC Code` = case_when(
       `Sector Code` %in% c(
-        946, 960, 961
+        "0946", "0960", "0961"
       ) ~ "0141", # Raising of cattle and buffaloes
       `Sector Code` %in% c(
-        976, 1016
+        "0976", "1016"
       ) ~ "0144", # Raising of sheep and goats
       `Sector Code` %in% c(
-        1049, 1051
+        "1049", "1051"
       ) ~ "0145", # Raising of swine/pigs
       `Sector Code` %in% c(
-        1096, 1107, 1110
+        "1096", "1107", "1110"
       ) ~ "0142", # Raising of horses and other equines
       `Sector Code` %in% c(
-        1126, 1177
+        "1126", "1177"
       ) ~ "0143", # Raising of camels and camelids
       `Sector Code` %in% c(
-        1052, 1053, 1068, 1079
+        "1052", "1053", "1068", "1079"
       ) ~ "0146", # Raising of poultry
-      `Sector Code` == 27 ~ "0112", # Growing of rice
+      `Sector Code` == "0027" ~ "0112", # Growing of rice
       `Sector Code` %in% c(
-        15, 44, 71, 75, 56, 79, 83, 176, 236
+        "0015", "0044", "0071", 
+        "0075", "0056", "0079", 
+        "0083", "0176", "0236"
         ) ~ "0111", # Growing of cereals (except rice), leguminous crops and oil seeds
-      `Sector Code` == 116 ~ "0113", # Growing of vegetables and melons, roots and tubers
-      `Sector Code` == 156 ~ "0114", # Growing of sugar cane
+      `Sector Code` == "0116" ~ "0113", # Growing of vegetables and melons, roots and tubers
+      `Sector Code` == "0156" ~ "0114", # Growing of sugar cane
       .default = `ISIC Code`
     ),
     `ISIC` = case_when(
       `Sector Code` %in% c(
-        946, 960, 961
+        "0946", "0960", "0961"
       ) ~ "Raising of cattle and buffaloes",
       `Sector Code` %in% c(
-        976, 1016
+        "0976", "1016"
       ) ~ "Raising of sheep and goats",
       `Sector Code` %in% c(
-        1049, 1051
+        "1049", "1051"
       ) ~ "Raising of swine/pigs",
       `Sector Code` %in% c(
-        1096, 1107, 1110
+        "1096", "1107", "1110"
       ) ~ "Raising of horses and other equines",
       `Sector Code` %in% c(
-        1126, 1177
+        "1126", "1177"
       ) ~ "Raising of camels and camelids",
       `Sector Code` %in% c(
-        1052, 1053, 1068, 1079
+        "1052", "1053", "1068", "1079"
       ) ~ "Raising of poultry",
-      `Sector Code` == 27 ~ "Growing of rice",
+      `Sector Code` == "0027" ~ "Growing of rice",
       `Sector Code` %in% c(
-        15, 44, 71, 75, 56, 79, 83, 176, 236
+        "0015", "0044", "0071", 
+        "0075", "0056", "0079", 
+        "0083", "0176", "0236"
         ) ~ "Growing of cereals (except rice), leguminous crops and oil seeds",
-      `Sector Code` == 116 ~ "Growing of vegetables and melons, roots and tubers", # 
-      `Sector Code` == 156 ~ "Growing of sugar cane",
+      `Sector Code` == "0116" ~ "Growing of vegetables and melons, roots and tubers", # 
+      `Sector Code` == "0156" ~ "Growing of sugar cane",
       .default = `ISIC`
     )
+  ) |> 
+  arrange(
+    ISO3,
+    Year,
+    `IPCC Code`,
+    `ISIC Code`,
+    `Sector Code`
   )
 ```
+
+### Final Pivot
+
+```{r}
+test <- 
+gwp_total_emissions |> 
+  filter(
+    # Year == 2020,
+    Unit == "kt",
+    # Area == "Nigeria"
+  ) |> 
+  pivot_wider(
+    names_from = c(
+      `ISIC Code`,
+      ISIC,
+      `Sector Code`,
+      Sector),
+    values_from = Value,
+    id_cols = c(
+      # `Area Code`,
+      Area,
+      ISO3,
+      Year,
+      `IPCC Code`,
+      IPCC,
+      # `Element Code`,
+      Element
+    ),
+    values_fn = sum,
+    names_sort = T) |> 
+  mutate(
+  Total = rowSums(across(where(is.numeric) & -3), na.rm = TRUE)
+)
+```
+
 
 
 ```{r}
@@ -723,11 +795,11 @@ saveRDS(
 
 
 ```{r}
-test <- gwp_total_emissions |>
+test <- test |>
   filter(Year %in% c(2018:2020))
 write.xlsx(
   test,
-  file = "gears_db/data/outputs/gwp_total_emissions_test.xlsx")
+  file = "gears_db/data/outputs/gwp_total_emissions_test_pivot.xlsx")
 ```
 
 # End

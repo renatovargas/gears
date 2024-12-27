@@ -15,3 +15,6 @@ gears_db/data/faostat/faostat_em_totals.csv
 gears_db/data/faostat/faostat_flags.csv
 gears_db/data/outputs/gwp_total_emissions.csv
 gears_db/data/outputs/~$*
+gears_db/data/outputs/gwp_total_emissions_test2.xlsx
+gears_db/data/outputs/gwp_total_emissions_test_pivot.xlsx
+gears_db/data/outputs/gwp_total_emissions_test2.xlsx
