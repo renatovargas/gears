@@ -1,0 +1,135 @@
+---
+title: "Querying the Database"
+author:
+  - name: "Renato Vargas"
+    id: rv
+    # email: renovargas@gmail.com
+    affiliation: 
+      - name: "Consultant for FAO"
+bibliography: references.bib
+---
+
+# Introduction
+
+In this session, we query the database and tailor it to a particular SAM structure for Nigeria.
+
+## Libraries
+
+```{r}
+#| warning: false
+#| message: false
+#| label: libraries
+
+# Clean workspace
+rm(list = ls())
+
+# Load libraries
+library(tidyverse)
+library(readxl)
+library(openxlsx)
+```
+
+
+## Datasets
+
+```{r}
+#| warning: false
+#| message: false
+#| label: datasets
+
+# Emissions long data
+total_emissions <- readRDS("gears_db/data/outputs/gwp_total_emissions_long.rds")
+
+# SAM Equivalence table
+sam_equivalence <- read_xlsx(
+  "gears_db/data/sam/nga/SAM-Nigeria-2021-Equivalence.xlsx",
+  sheet = "sam-equivalence")
+
+# SAM elements
+sam_names <- as.vector(t(read_xlsx(
+  "gears_db/data/sam/nga/SAM-Nigeria-2021.xlsx",
+  range = "B9:B224",
+  sheet = "SAM-names",
+  col_names = F)))
+
+colnames(sam_names) <- "SAM Name"
+
+# Add Undetermined to SAM elements
+undetermined_list <- sam_equivalence[startsWith(sam_equivalence$`ISIC Detail`, "9999"), 1]
+colnames(undetermined_list) <- "SAM Name"
+sam_names <- rbind(sam_names, undetermined_list)
+```
+
+## Matching to SAM Structure
+
+We ask for an equivalence structure `sam_equivalence` in this case, between the `ISIC Detail` and the SAM. Through the use of R factors, we can make sure that the joined structure of the SAM is in the final product.
+
+```{r}
+nigeria_sam_emissions_2021 <- total_emissions |> 
+  filter(
+    ISO3 == "NGA",
+    Year == 2021,
+    #Unit == "kt"
+  ) |> 
+  left_join(
+    sam_equivalence,
+    join_by(`ISIC Detail`)
+  ) |> 
+  mutate(
+    `SAM Name` = if_else(
+      is.na(`SAM Name`), 
+      `ISIC Detail`,
+      `SAM Name`
+    )
+  ) |>
+  mutate(
+    `SAM Name` = factor(
+      `SAM Name`,
+      levels = sam_names$`SAM Name`
+    )
+  ) |> 
+  pivot_wider(
+    id_cols = c(
+      Area,
+      ISO3,
+      Year,
+      `IPCC Code`,
+      IPCC,
+      Element,
+      Unit
+    ),
+    names_from = c(`SAM Name`),
+    values_from = Value,
+    values_fn = sum,
+    names_expand = T
+  ) |> 
+  arrange(Unit) |> 
+  mutate(
+    Total = rowSums(across(where(is.numeric) & -3), na.rm = TRUE)
+  )
+
+# and save to file
+
+write.xlsx(
+  nigeria_sam_emissions_2021,
+  file = "gears_db/data/outputs/emissions_nigeria_2021.xlsx")
+```
+
+
+### End
+
+```{r}
+pivot <- readRDS("gears_db/data/outputs/gwp_total_emissions_pivot.rds") |> 
+  filter(Area=="Nigeria",
+         Year==2021)
+long <- readRDS("gears_db/data/outputs/gwp_total_emissions_long.rds") |> 
+  filter(Area=="Nigeria",
+         Year==2021)
+write.xlsx(
+  pivot,
+  file = "gears_db/data/outputs/nigeria_emissions_2021_pivot.xlsx")
+write.xlsx(
+  long,
+  file = "gears_db/data/outputs/nigeria_emissions_2021_long.xlsx")
+```
+

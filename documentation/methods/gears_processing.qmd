@@ -32,9 +32,6 @@ library(gt)
 # library(sf)
 # library(tmap)
 # library(raster)
-
-# Custom functions
-source("gears_db/scripts/custom_functions.R")
 ```
 
 ## Datasets
@@ -156,6 +153,44 @@ Our concern is that EDGAR takes s use outside energy transformer industries from
 We could use total CO2 equivalent emissions aggregated from our `edgar` dataset, but full disaggregation by gas has been requested, so we perform our cleaning of the dataset for all of these and apply Tier 1 Global Warming Potential (GWP AR5) coefficients to individual datasets.
 
 But first we use custom function `transform_edgar_datasets` to extract the relevant IPCC items and normalize the years structure.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: custom-edgar-processing-functions
+
+# Requires library(tidyverse)
+# Recursive function with direct naming of outputs
+transform_edgar_datasets <- function(datasets, dataset_names) {
+  if (length(datasets) == 0) {
+    return(invisible(NULL)) # End recursion
+  }
+  if(length(datasets)== 1){
+    print("The transformed datasets have the prefix 'transformed_'")
+  }
+  # Process the first dataset
+  dataset <- datasets[[1]]
+  name <- dataset_names[[1]]
+  
+  # Apply the transformation
+  transformed <- dataset |> 
+    filter(grepl("^(1|2|4|5)", ipcc_code_2006_for_standard_report)) |> 
+    pivot_longer(
+      cols = starts_with("Y_"),
+      names_to = "Year",
+      values_to= "Value"
+    ) |> 
+    mutate(
+      Year = as.numeric(sub("^Y_", "", Year))
+    )
+  
+  # Assign the transformed dataset to the global environment
+  assign(paste0("transformed_", name), transformed, envir = .GlobalEnv)
+  
+  # Recur with the rest of the datasets
+  transform_edgar_datasets(datasets[-1], dataset_names[-1])
+}
+```
 
 ### Individual datasets
 
@@ -738,24 +773,38 @@ gwp_total_emissions <- rbind(
     )
   ) |> 
   arrange(
+    Unit,
     ISO3,
     Year,
     `IPCC Code`,
     `ISIC Code`,
     `Sector Code`
+  ) |> 
+  select(
+    Area,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    IPCC,
+    Element,
+    `ISIC Code`,
+    ISIC,
+    `Sector Code`,
+    Sector,
+    Unit,
+    Value
   )
 ```
 
 ### Final Pivot
 
 ```{r}
-test <- 
-gwp_total_emissions |> 
-  filter(
-    # Year == 2020,
-    Unit == "kt",
-    # Area == "Nigeria"
-  ) |> 
+#| warning: false
+#| message: false
+#| label: isic-long-and-pivot-dbs
+
+isic_pivot <- 
+  gwp_total_emissions |>
   pivot_wider(
     names_from = c(
       `ISIC Code`,
@@ -764,39 +813,65 @@ gwp_total_emissions |>
       Sector),
     values_from = Value,
     id_cols = c(
-      # `Area Code`,
       Area,
       ISO3,
       Year,
       `IPCC Code`,
       IPCC,
-      # `Element Code`,
-      Element
+      Element,
+      Unit
     ),
     values_fn = sum,
     names_sort = T) |> 
   mutate(
   Total = rowSums(across(where(is.numeric) & -3), na.rm = TRUE)
 )
+
+isic_long <- gwp_total_emissions |> 
+  mutate(
+    `ISIC Detail` = paste(
+      `ISIC Code`, ISIC, 
+      `Sector Code`, Sector, 
+      sep = "_")
+  ) |> 
+  select(
+    Area,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    IPCC,
+    Element,
+    `ISIC Detail`,
+    Unit,
+    Value
+  )
 ```
 
-
+### Saving to RDS
 
 ```{r}
 # And save to RDS
 saveRDS(
   gwp_total_emissions, 
   "gears_db/data/outputs/gwp_total_emissions.rds")
+saveRDS(
+  isic_long, 
+  "gears_db/data/outputs/gwp_total_emissions_long.rds")
+saveRDS(
+  isic_pivot, 
+  "gears_db/data/outputs/gwp_total_emissions_pivot.rds")
 # write.csv(
 #   gwp_total_emissions,
 #   "gears_db/data/outputs/gwp_total_emissions.csv")
 ```
 
-
+### Smaller size tests for discussion.
 
 ```{r}
-test <- test |>
-  filter(Year %in% c(2018:2020))
+test <- isic_pivot |>
+  filter(
+    Unit == "kt",
+    Year %in% c(2018:2020))
 write.xlsx(
   test,
   file = "gears_db/data/outputs/gwp_total_emissions_test_pivot.xlsx")
