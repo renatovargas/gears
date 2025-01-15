@@ -46,11 +46,11 @@ sam_equivalence <- read_xlsx(
   sheet = "sam-equivalence")
 
 # SAM elements
-sam_names <- as.vector(t(read_xlsx(
+sam_names <- read_xlsx(
   "gears_db/data/sam/nga/SAM-Nigeria-2021.xlsx",
   range = "B9:B224",
   sheet = "SAM-names",
-  col_names = F)))
+  col_names = F)
 
 colnames(sam_names) <- "SAM Name"
 
