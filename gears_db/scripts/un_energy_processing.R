@@ -1,20 +1,7 @@
----
-title: "UN_Energy_dataset_construction"
-format: html
-author:
-  - name: "Renato Vargas"
-    id: rv
-    # email: renovargas@gmail.com
-    affiliation: 
-      - name: "Consultant for FAO"
-bibliography: references.bib
----
+library(tidyverse)
 
-# Introduction
+rm(list = ls())
 
-In this session, we combine the various UN_datasets into a single data frame.
-
-```{r}
 # Set the working directory to the folder containing the CSV files
 path <- "D:/_work/UN_ENERGY"
 
@@ -53,5 +40,7 @@ combined_data$Transaction <- trimws(combined_data$Transaction)
 # View the first few rows of the combined data frame
 head(combined_data)
 
-```
+# combined_data <- combined_data |> 
+#   mutate(across(where(is.character), as.factor))
 
+saveRDS(combined_data,"gears_db/data/un_energy/un_energy.rds")
