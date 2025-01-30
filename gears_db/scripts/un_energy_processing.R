@@ -33,14 +33,39 @@ row.names(combined_data) <- NULL
 
 # Make all observations lowercase to avoid duplicates
 combined_data$Transaction <- tolower(combined_data$Transaction)
+combined_data$Commodity <- tolower(combined_data$Commodity)
 
 # Remove leading and trailing spaces from the Transaction column
 combined_data$Transaction <- trimws(combined_data$Transaction)
+combined_data$Commodity <- trimws(combined_data$Commodity)
 
-# View the first few rows of the combined data frame
-head(combined_data)
 
-# combined_data <- combined_data |> 
-#   mutate(across(where(is.character), as.factor))
+#Fix transaction duplicates
+write.table(
+  sort(unique(un_energy$Commodity)),
+  "clipboard",
+  sep = "\t",
+  row.names = F)
 
+fixed_transactions <- read_xlsx(
+  "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
+  sheet = "Transaction")
+fixed_commodities <- read_xlsx(
+  "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
+  sheet = "Commodity")
+
+combined_data <- combined_data |> 
+  left_join(fixed_transactions, join_by(Transaction)) |>
+  left_join(fixed_commodities, join_by(Commodity)) |> 
+  select(-c(Commodity...Transaction,
+            Quantity.Footnotes,
+            Transaction,
+            Commodity)) |> 
+  rename(Transaction = `Fixed Transaction`,
+         Commodity = `Fixed Commodity`) |> 
+  mutate(Transaction = str_to_sentence(Transaction),
+         Commodity = str_to_sentence(Commodity)) |> 
+  mutate(across(where(is.character), as.factor))
+
+# Save to RDS to save space
 saveRDS(combined_data,"gears_db/data/un_energy/un_energy.rds")

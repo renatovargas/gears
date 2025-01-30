@@ -107,6 +107,15 @@ faostat_area_codes <-
     "gears_db/data/faostat/area_codes.rds")
 ```
 
+### UN Energy Data
+
+```{r}
+un_energy <- readRDS(
+  "gears_db/data/un_energy/un_energy.rds"
+)
+```
+
+
 ### Equivalence tables
 
 ```{r}
@@ -119,8 +128,21 @@ fao_ipcc <- read_xlsx(
 isic <- read_xlsx(
   "gears_db/data/classifications/equivalence.xlsx",
   sheet = "GWP ISIC")
+un_energy_ipcc_coef <- read_xlsx(
+  "gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx"
+)
 ```
 
+```{r}
+# Test to see units of measurement for each commodity
+# Fortunately no duplicates.
+# Use https://unstats.un.org/unsd/publication/SeriesF/SeriesF_44E.pdf
+# for conversions to TJ.
+# test <- un_energy |> 
+#   group_by(Commodity, Unit) |> 
+#   summarize(Total = sum(Quantity, na.rm = T)) |> 
+#   ungroup()
+```
 
 
 # Initial processing
@@ -691,6 +713,16 @@ objects <- c(
 
 # Remove only variables if they exist
 rm(list = objects[objects %in% ls()])
+```
+
+## UN Energy Data
+
+```{r}
+
+un_energy <- un_energy |> 
+  filter(Driver == 1,
+         OfInterest == 1)
+
 ```
 
 
