@@ -129,7 +129,8 @@ isic <- read_xlsx(
   "gears_db/data/classifications/equivalence.xlsx",
   sheet = "GWP ISIC")
 un_energy_ipcc_coef <- read_xlsx(
-  "gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx"
+  "gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx",
+  sheet = "un_energy_coefficients"
 )
 ```
 
@@ -138,10 +139,11 @@ un_energy_ipcc_coef <- read_xlsx(
 # Fortunately no duplicates.
 # Use https://unstats.un.org/unsd/publication/SeriesF/SeriesF_44E.pdf
 # for conversions to TJ.
-# test <- un_energy |> 
-#   group_by(Commodity, Unit) |> 
-#   summarize(Total = sum(Quantity, na.rm = T)) |> 
-#   ungroup()
+test <- un_energy |>
+  group_by(Commodity, Unit) |>
+  summarize(Total = sum(Quantity, na.rm = T)) |>
+  ungroup()
+write.table(test, "clipboard", sep = "\t", row.names = F)
 ```
 
 
@@ -719,10 +721,71 @@ rm(list = objects[objects %in% ls()])
 
 ```{r}
 
-un_energy <- un_energy |> 
+energy_total <- un_energy |> 
   filter(Driver == 1,
-         OfInterest == 1)
+         OfInterest == 1) |> 
+  left_join(un_energy_ipcc_coef, join_by(Commodity)) |>
+  # Estimate emissions using IPCC 2006 Coefficients
+  mutate(
+    # Includes transformation from Kg to thousand metric tons
+    "Emissions (CO2)" = 
+      Quantity * to_TJ * CO2 * 10^(-6),
+    # GWP CH4 AR5 100-year horizon (* 28)
+    "Emissions (CO2eq) from CH4 (AR5)" = 
+      Quantity * to_TJ * CH4 * 10^(-6) * 28,
+    # GWP N2O AR5 100-year horizon (* 265)
+    "Emissions (CO2eq) from N2O (AR5)" = 
+      Quantity * to_TJ * N2O * 10^(-6) * 265
+  ) |> 
+  select(
+    Country.or.Area,
+    Year,
+    Transaction,
+    Commodity,
+    `Emissions (CO2)`,
+    `Emissions (CO2eq) from CH4 (AR5)`,
+    `Emissions (CO2eq) from N2O (AR5)`
+  ) |> 
+  pivot_longer(
+    cols = c(
+      `Emissions (CO2)`,
+      `Emissions (CO2eq) from CH4 (AR5)`,
+      `Emissions (CO2eq) from N2O (AR5)`
+    ),
+    names_to = "Element",
+    values_to = "Value"
+  ) |> 
+  rename(
+    Area = Country.or.Area,
+    Sector = Transaction,
+    Driver = Commodity
+  ) |> 
+  arrange(
+    Area,
+    Year,
+    Sector,
+    Driver
+  )
 
+```
+
+Test for UN Energy elements
+
+```{r}
+# table <- combined_data |> 
+#   filter(Year== 2020,
+#          OfInterest == 1,
+#          Driver == 1) |> 
+#   group_by(Transaction, Commodity) |> 
+#   summarize(Total = sum(Quantity, na.rm = T)) |> 
+#   pivot_wider(names_from = Commodity, values_from = Total)
+# 
+# write.table(
+#   table,
+#   "clipboard",
+#   sep = "\t",
+#   na = "",
+#   row.names = F)
 ```
 
 
@@ -900,13 +963,12 @@ saveRDS(
 ### Smaller size tests for discussion.
 
 ```{r}
-test <- isic_pivot |>
+test <- energy_total |>
   filter(
-    Unit == "kt",
-    Year %in% c(2018:2020))
+    Year %in% c(2020:2022))
 write.xlsx(
   test,
-  file = "gears_db/data/outputs/gwp_total_emissions_test_pivot.xlsx")
+  file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
 ```
 
 # End

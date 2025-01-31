@@ -40,12 +40,12 @@ combined_data$Transaction <- trimws(combined_data$Transaction)
 combined_data$Commodity <- trimws(combined_data$Commodity)
 
 
-#Fix transaction duplicates
-write.table(
-  sort(unique(un_energy$Commodity)),
-  "clipboard",
-  sep = "\t",
-  row.names = F)
+# #Fix transaction duplicates
+# write.table(
+#   sort(unique(un_energy$Commodity)),
+#   "clipboard",
+#   sep = "\t",
+#   row.names = F)
 
 fixed_transactions <- read_xlsx(
   "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
