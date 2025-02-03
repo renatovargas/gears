@@ -172,7 +172,7 @@ edgar_ipcc_names |>
 
 The first thing that we see is that LULUCF is not included. We take note of this as we remove the domains that are covered in more detail in FAOSTAT (section 3). Originally, we estimated our own emissions for the energy part (section 1) from converting Energy Balances to the SEEA energy accounts format. However, this requires a Supply and Use table to distribute uses and applying TIER 1 coefficients. In this first version, we will take it as is from EDGAR. 
 
-Our concern is that EDGAR takes s use outside energy transformer industries from energy balance (i.e. other industrial, residential, transportation) at face value and we believe that this distribution can be improved if National Accounts is used to distribute intermediate and final consumption of energy outside the energy transformation sectors.
+Our concern is that EDGAR takes use outside energy transformer industries from energy balance (i.e. other industrial, residential, transportation) at face value and we believe that this distribution can be improved if National Accounts is used to distribute intermediate and final consumption of energy outside the energy transformation sectors.
 
 We could use total CO2 equivalent emissions aggregated from our `edgar` dataset, but full disaggregation by gas has been requested, so we perform our cleaning of the dataset for all of these and apply Tier 1 Global Warming Potential (GWP AR5) coefficients to individual datasets.
 
@@ -963,12 +963,12 @@ saveRDS(
 ### Smaller size tests for discussion.
 
 ```{r}
-test <- energy_total |>
-  filter(
-    Year %in% c(2020:2022))
-write.xlsx(
-  test,
-  file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
+# test <- energy_total |>
+#   filter(
+#     Year %in% c(2020:2022))
+# write.xlsx(
+#   test,
+#   file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
 ```
 
 # End
