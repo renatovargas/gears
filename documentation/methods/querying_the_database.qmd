@@ -110,26 +110,26 @@ nigeria_sam_emissions_2021 <- total_emissions |>
 
 # and save to file
 
-write.xlsx(
-  nigeria_sam_emissions_2021,
-  file = "gears_db/data/outputs/emissions_nigeria_2021.xlsx")
+# write.xlsx(
+#   nigeria_sam_emissions_2021,
+#   file = "gears_db/data/outputs/emissions_nigeria_2021.xlsx")
 ```
 
 
 ### End
 
 ```{r}
-pivot <- readRDS("gears_db/data/outputs/gwp_total_emissions_pivot.rds") |> 
-  filter(Area=="Nigeria",
-         Year==2021)
-long <- readRDS("gears_db/data/outputs/gwp_total_emissions_long.rds") |> 
-  filter(Area=="Nigeria",
-         Year==2021)
-write.xlsx(
-  pivot,
-  file = "gears_db/data/outputs/nigeria_emissions_2021_pivot.xlsx")
-write.xlsx(
-  long,
-  file = "gears_db/data/outputs/nigeria_emissions_2021_long.xlsx")
+# pivot <- readRDS("gears_db/data/outputs/gwp_total_emissions_pivot.rds") |> 
+#   filter(Area=="Nigeria",
+#          Year==2021)
+# long <- readRDS("gears_db/data/outputs/gwp_total_emissions_long.rds") |> 
+#   filter(Area=="Nigeria",
+#          Year==2021)
+# write.xlsx(
+#   pivot,
+#   file = "gears_db/data/outputs/nigeria_emissions_2021_pivot.xlsx")
+# write.xlsx(
+#   long,
+#   file = "gears_db/data/outputs/nigeria_emissions_2021_long.xlsx")
 ```
 

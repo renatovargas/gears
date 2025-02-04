@@ -29,6 +29,12 @@ Emissions from combustion are estimated at the economic activity level and drive
 
 # Methodology
 
+## Overview
+
+As our goal is to leverage valuable data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate it to conform to a single file structure, using the R programming language [@rcore2024][^1]. 
+
+[^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
+
 ## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
 
 A choice was made to estimate emissions from combustion again, although other global datasets already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database (UNSD, 2023).
