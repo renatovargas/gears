@@ -10,7 +10,6 @@
 
 library(dplyr)
 library(tidyr)
-library(duckdb)
 library(readr)
 library(forcats)
 
