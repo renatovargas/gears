@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Renato Vargas">
 <meta name="author" content="Martin Cicowiez">
 
-<title>GEARS - Overview</title>
+<title>MAFAP Emissions Database Construction – GEARS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -56,10 +56,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3a9f60a25e4038f23fd793b4e1310a31.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -88,7 +88,7 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -133,7 +133,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -156,17 +156,17 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../documentation/methods/overview.html">Methods</a></li><li class="breadcrumb-item"><a href="../../documentation/methods/overview.html">Overview</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -185,9 +185,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Guides</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -202,9 +202,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Methods</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -213,6 +213,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../documentation/methods/overview.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../documentation/methods/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GEARS database peparation</span></a>
   </div>
 </li>
       </ul>
@@ -227,12 +233,12 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
-  <li><a href="#grenhouse-gas-inventories" id="toc-grenhouse-gas-inventories" class="nav-link" data-scroll-target="#grenhouse-gas-inventories">Grenhouse Gas Inventories</a></li>
-  <li><a href="#air-emissions-accounts-seea-cf" id="toc-air-emissions-accounts-seea-cf" class="nav-link" data-scroll-target="#air-emissions-accounts-seea-cf">Air emissions accounts (SEEA-CF)</a></li>
-  <li><a href="#harmonization" id="toc-harmonization" class="nav-link" data-scroll-target="#harmonization">Harmonization</a></li>
-  <li><a href="#global-databases" id="toc-global-databases" class="nav-link" data-scroll-target="#global-databases">Global Databases</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" id="toc-greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="nav-link" data-scroll-target="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</a></li>
+  <li><a href="#emissions-from-industrial-processes-and-waste" id="toc-emissions-from-industrial-processes-and-waste" class="nav-link" data-scroll-target="#emissions-from-industrial-processes-and-waste">Emissions from industrial processes and waste</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/overview.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -242,8 +248,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../documentation/methods/overview.html">Methods</a></li><li class="breadcrumb-item"><a href="../../documentation/methods/overview.html">Overview</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Overview</h1>
-<p class="subtitle lead">Databases and approaches</p>
+<h1 class="title">MAFAP Emissions Database Construction</h1>
+<p class="subtitle lead">Datasets and approaches</p>
 </div>
 
 
@@ -283,288 +289,483 @@ window.Quarto = {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme seeks to establish country owned and sustainable systems to monitor, analyse, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.</p>
-<p>In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g.&nbsp;the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives as well. The <strong>Global Emissions Analsyis for Resilient Systems (GEARS)</strong> series of modules within MAFAP tools aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models.</p>
-<p>Here we describe the GEARS approach to constructing an anthropogenic emissions accounting satellite framework on demand, based on country-specific socioeconomic information by economic activity, and globally available datasets. We follow the internationally agreed principles of the System of Environmental and Economic Accounts (SEEA) statistical standard <span class="citation" data-cites="europeancommission2013">(<a href="#ref-europeancommission2013" role="doc-biblioref">European Commission et al. 2013</a>)</span> to organize information, aiming to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured <span class="citation" data-cites="europeancommission2009">(<a href="#ref-europeancommission2009" role="doc-biblioref">European Commission et al. 2009</a>)</span>. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA and pilot implementations <span class="citation" data-cites="eurostat2015 flachenecker2018 gutman2024">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>; <a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>. Where needed, deviations from international standards follow</p>
-<p>The main source for emissions from agriculture comes from FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>. Emissions from fossil fuel combustion are estimated at the economic activity level, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—<span class="citation" data-cites="ipcc1996 ipcc2006">(<a href="#ref-ipcc1996" role="doc-biblioref">IPCC 1996</a>, <a href="#ref-ipcc2006" role="doc-biblioref">2006</a>)</span> and national level energy balances. Emissions from Industrial Processes and Waste come from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span> and are mapped to economic activities following a broadly tested global approach that facilitate use with CGE frameworks <span class="citation" data-cites="chepeliev2024a chepeliev2024b chepeliev2024c">(i.e.&nbsp;that of the Global Trade Analysis Project—GTAP—, <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024a</a>, <a href="#ref-chepeliev2024b" role="doc-biblioref">2024b</a>, <a href="#ref-chepeliev2024c" role="doc-biblioref">2024c</a>)</span>.</p>
-<p>While the outputs of GEARS are databases that rely on the datasets covered above, its innovation lies in the standardization procedures that allow to create such datasets at different levels of aggregation on demand.</p>
-<section id="grenhouse-gas-inventories" class="level2">
-<h2 class="anchored" data-anchor-id="grenhouse-gas-inventories">Grenhouse Gas Inventories</h2>
-<p>Gases to be reported:</p>
-<ul>
-<li>Carbon dioxide (<span class="math inline">\(CO_2\)</span>).</li>
-<li>Nitrous oxide (<span class="math inline">\(N_2O\)</span>)</li>
-<li>Methane (<span class="math inline">\(CH_4\)</span>).</li>
-<li>Fluorinated gases.</li>
-</ul>
-<p>Only as memorandum items:</p>
-<ul>
-<li>Nitrogen oxides (<span class="math inline">\(NOx\)</span>).</li>
-<li>Carbon monoxide (<span class="math inline">\(CO\)</span>).</li>
-<li>Volatile compounds distinct from methane (<span class="math inline">\(COVDM\)</span>).</li>
-<li>Sulfur dioxide (<span class="math inline">\(SO_2\)</span>).</li>
-</ul>
-<p>Greenhouse gas emissions are divided into four main groups:</p>
-<ul>
-<li>Energy.</li>
-<li>Industrial processes.</li>
-<li>Agriculture, forestry, land use.</li>
-<li>Waste.</li>
-</ul>
-<p>Using Global Warming Potential (GWP), GHGs are aggregated to <span class="math inline">\(CO_2 equivalent\)</span> or simply <span class="math inline">\(CO_2e\)</span>).</p>
-<p>CRF - Common Reporting Format.</p>
+<p>The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.</p>
+<p>In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g.&nbsp;the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. Part of MAFAP Tools, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.</p>
+<p>Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured <span class="citation" data-cites="europeancommission2009">(<a href="#ref-europeancommission2009" role="doc-biblioref">European Commission et al. 2009</a>)</span>. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations <span class="citation" data-cites="eurostat2015 flachenecker2018 gutman2024">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>; <a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>.</p>
+<p>Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—<span class="citation" data-cites="ipcc1996 ipcc2006">(<a href="#ref-ipcc1996" role="doc-biblioref">IPCC 1996</a>, <a href="#ref-ipcc2006" role="doc-biblioref">2006</a>)</span> and energy use information from the Energy Statistics Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span>. Emissions from Industrial Processes and Waste come from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span> and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e.&nbsp;that of the Global Trade Analysis Project—GTAP—<span class="citation" data-cites="aguiar2019 chepeliev2024a">(<a href="#ref-aguiar2019" role="doc-biblioref">Aguiar et al. 2019</a>; <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024</a>)</span>.</p>
 </section>
-<section id="air-emissions-accounts-seea-cf" class="level2">
-<h2 class="anchored" data-anchor-id="air-emissions-accounts-seea-cf">Air emissions accounts (SEEA-CF)</h2>
-<p>Explain the generic structure of an emissions account.</p>
-<p><img src=".png" class="img-fluid" alt="Air Emissions Account (SEEA CF)">{fig-air-emissions-account}</p>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language <span class="citation" data-cites="Rcore2024">(<a href="#ref-Rcore2024" role="doc-biblioref">R Core Team 2024</a>)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The flow of data follows the diagram in <a href="#fig-dataflow" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div id="fig-dataflow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dataflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>MAFAP Complementary Emissions Database Construction Process</p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dataflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
 </section>
-<section id="harmonization" class="level2">
-<h2 class="anchored" data-anchor-id="harmonization">Harmonization</h2>
-<p>The Organisation for Economic Co-operation and Development (OECD) and the Statistical Office of the European Communities, Eurostat, developed a methodology for estimating Air Emissions Accounts under the SEEA-CF, based on the National Greenhouse Gas Inventories (NGGI) submitted to the UNFCCC <span class="citation" data-cites="eurostat2015 flachenecker2018">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>)</span>. Our approach was informed by a recent exercise conducted at the country level in Argentina <span class="citation" data-cites="gutman2024">(<a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>.</p>
-<p>The OECD-Eurostat methodology uses emission data from the National Greenhouse Gas Inventories (NGGI) as a starting point and assigns these emissions to households and industries according to ISIC Revision 4, using the same concepts and classifications as the System of National Accounts (SNA). To this end, publicly available correspondence tables in Excel format were developed, linking CRF categories with NACE Revision 2 at the two-digit level. “NACE” stands for the “Statistical Classification of Economic Activities in the European Community,” the European statistical classification of economic activities. The codes in NACE Rev.&nbsp;2 are nearly identical to those in ISIC Rev.&nbsp;4.</p>
+<section id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="level2">
+<h2 class="anchored" data-anchor-id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</h2>
+<p>A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> using <a href="#eq-emission-factors" class="quarto-xref">Equation&nbsp;1</a>.</p>
+<p><span id="eq-emission-factors"><span class="math display">\[
+E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
+\tag{1}\]</span></span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(E_{GHG,fuel}=\)</span> Emissions of a given GHG by type of fuel (kg GHG).</li>
+<li><span class="math inline">\(C_{fuel}=\)</span> Amount of fuel combusted (TJ).</li>
+<li><span class="math inline">\(F_{GHG, fuel}=\)</span> default emission factor of a given GHG by type of fuel (kg gas/TJ).</li>
+</ul>
+<p>The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.</p>
+<div class="cell">
+<div id="tbl-unenergy-commodities" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Energy Commodities
+</figcaption>
+<div aria-describedby="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="dnqvjqbbsh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" data-bgcolor="#FFFFFF">
+<thead style="border-style: none;">
+<tr class="gt_col_headings header" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
+<th id="Commodity" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col" style="text-align: center; border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden;" data-bgcolor="#FFFFFF" data-valign="bottom">Commodity</th>
+</tr>
+</thead>
+<tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Anthracite</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Aviation gasoline</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Bagasse</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Bio jet kerosene</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biodiesel</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biogases</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biogasoline</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Black liquor</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Blast furnace gas</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Brown coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Brown coal briquettes</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Charcoal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coal</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coke-oven coke</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coke oven gas</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coking coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Ethane</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Fuel oil</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Fuelwood</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gas coke</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gas oil/diesel oil</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gasoline-type jet fuel</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gasworks gas</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Hard coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Kerosene-type jet fuel</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite brown coal</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite brown coal- recoverable resources</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Liquefied petroleum gas (lpg)</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Motor gasoline</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Naphtha</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Natural gas</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Natural gas (including lng)</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other bituminous coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other coal products</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other hydrocarbons</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other liquid biofuels</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Peat (for fuel use)</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Petroleum coke</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Refinery gas</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
 </section>
-<section id="global-databases" class="level2">
-<h2 class="anchored" data-anchor-id="global-databases">Global Databases</h2>
-<p>This version focuses on:</p>
-<table class="table">
+<section id="emissions-from-industrial-processes-and-waste" class="level2">
+<h2 class="anchored" data-anchor-id="emissions-from-industrial-processes-and-waste">Emissions from industrial processes and waste</h2>
+<p>The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;2</a>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).</p>
+<div id="tbl-edgar-domains" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: EDGAR greenhouse gas inventory domain coverage
+</figcaption>
+<div aria-describedby="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Group</th>
-<th>ISO3</th>
-<th>Name</th>
+<th><strong>Code</strong></th>
+<th><strong>IPCC Greenhouse Gas Inventory domain</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Eastern_Africa</td>
-<td>BDI</td>
-<td>Burundi</td>
+<td><strong>1.A.1.a</strong></td>
+<td>Main Activity Electricity and Heat Production</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>COM</td>
-<td>Comoros</td>
+<td><strong>1.A.1.bc</strong></td>
+<td>Petroleum Refining - Manufacture of Solid Fuels and Other Energy Industries</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>DJI</td>
-<td>Djibouti</td>
+<td><strong>1.A.2</strong></td>
+<td>Manufacturing Industries and Construction</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>ERI</td>
-<td>Eritrea</td>
+<td><strong>1.A.3.a</strong></td>
+<td>Civil Aviation</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>ETH</td>
-<td>Ethiopia</td>
+<td><strong>1.A.3.b_noRES</strong></td>
+<td>Road Transportation no resuspension</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>KEN</td>
-<td>Kenya</td>
+<td><strong>1.A.3.c</strong></td>
+<td>Railways</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>MDG</td>
-<td>Madagascar</td>
+<td><strong>1.A.3.d</strong></td>
+<td>Water-borne Navigation</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>MUS</td>
-<td>Mauritius</td>
+<td><strong>1.A.3.e</strong></td>
+<td>Other Transportation</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>MYT</td>
-<td>Mayotte</td>
+<td><strong>1.A.4</strong></td>
+<td>Residential and other sectors</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>REU</td>
-<td>Reunion</td>
+<td><strong>1.A.5</strong></td>
+<td>Non-Specified</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>RWA</td>
-<td>Rwanda</td>
+<td><strong>1.B.1</strong></td>
+<td>Solid Fuels</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>SDN</td>
-<td>Sudan</td>
+<td><strong>1.B.2</strong></td>
+<td>Oil and Natural Gas</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>SOM</td>
-<td>Somalia</td>
+<td><strong>2.A.1</strong></td>
+<td>Cement production</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>SYC</td>
-<td>Seychelles</td>
+<td><strong>2.A.2</strong></td>
+<td>Lime production</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>UGA</td>
-<td>Uganda</td>
+<td><strong>2.A.3</strong></td>
+<td>Glass Production</td>
 </tr>
 <tr class="even">
-<td>Northern_Africa</td>
-<td>MAR</td>
-<td>Morocco</td>
+<td><strong>2.A.4</strong></td>
+<td>Other Process Uses of Carbonates</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>DZA</td>
-<td>Algeria</td>
+<td><strong>2.B</strong></td>
+<td>Chemical Industry</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>EGY</td>
-<td>Egypt</td>
+<td><strong>2.C</strong></td>
+<td>Metal Industry</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>ESH</td>
-<td>Western Sahara</td>
+<td><strong>2.D</strong></td>
+<td>Non-Energy Products from Fuels and Solvent Use</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>LBY</td>
-<td>Libyan Arab Jamahiriya</td>
+<td><strong>2.E</strong></td>
+<td>Electronics Industry</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>TUN</td>
-<td>Tunisia</td>
+<td><strong>2.F</strong></td>
+<td>Product Uses as Substitutes for Ozone Depleting Substances</td>
 </tr>
 <tr class="even">
-<td>Western_Africa</td>
-<td>BEN</td>
-<td>Benin</td>
+<td><strong>2.G</strong></td>
+<td>Other Product Manufacture and Use</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>BFA</td>
-<td>Burkina Faso</td>
+<td><strong>3.A.1</strong></td>
+<td>Enteric Fermentation</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>CAF</td>
-<td>Central African Republic</td>
+<td><strong>3.A.2</strong></td>
+<td>Manure Management</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>CIV</td>
-<td>Cote d’Ivoire</td>
+<td><strong>3.C.1</strong></td>
+<td>Emissions from biomass burning</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>CMR</td>
-<td>Cameroon</td>
+<td><strong>3.C.2</strong></td>
+<td>Liming</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>COD</td>
-<td>Congo_the Democratic Republic of the</td>
+<td><strong>3.C.3</strong></td>
+<td>Urea application</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>COG</td>
-<td>Congo</td>
+<td><strong>3.C.4</strong></td>
+<td>Direct N2O Emissions from managed soils</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>CPV</td>
-<td>Cape Verde</td>
+<td><strong>3.C.5</strong></td>
+<td>Indirect N2O Emissions from managed soils</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>GAB</td>
-<td>Gabon</td>
+<td><strong>3.C.6</strong></td>
+<td>Indirect N2O Emissions from manure management</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>GHA</td>
-<td>Ghana</td>
+<td><strong>3.C.7</strong></td>
+<td>Rice cultivations</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>GIN</td>
-<td>Guinea</td>
+<td><strong>4.A</strong></td>
+<td>Solid Waste Disposal</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>GMB</td>
-<td>Gambia</td>
+<td><strong>4.B</strong></td>
+<td>Biological Treatment of Solid Waste</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>GNB</td>
-<td>Guinea-Bissau</td>
+<td><strong>4.C</strong></td>
+<td>Incineration and Open Burning of Waste</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>GNQ</td>
-<td>Equatorial Guinea</td>
+<td><strong>4.D</strong></td>
+<td>Wastewater Treatment and Discharge</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>LBR</td>
-<td>Liberia</td>
+<td><strong>5.A</strong></td>
+<td>Indirect N2O emissions from the atmospheric deposition of nitrogen in NOx and NH3</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>MLI</td>
-<td>Mali</td>
+<td><strong>5.B</strong></td>
+<td>Fossil fuel fires</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Source: authors based on Crippa, et al.&nbsp;(2023).</p>
+<p>It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO2, CO2&nbsp;from&nbsp;biofuels, CH4, N2O, and “F-Gases” PFC, HFC, HCFC, and NF3. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO2eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in table 1, not distinguished from the individual shares of CO2 tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves, except for F-Gases, for which the conversion was made by EDGAR.</p>
+<table class="caption-top table">
+<caption>Conversion coefficients for methane and nitrous oxide</caption>
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gas</th>
+<th>Global Warming Potential Values AR5 100-year horizon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Methane (CH4)</td>
+<td>28 CO<sub>2</sub> tons equivalent / Gigagram</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>MRT</td>
-<td>Mauritania</td>
+<td>Nitrous Oxide (N2O)</td>
+<td>265 CO<sub>2</sub> tons equivalent / Gigagram</td>
+</tr>
+</tbody>
+</table>
+<p>Source: <span class="citation" data-cites="myhre2013">Myhre et al. (<a href="#ref-myhre2013" role="doc-biblioref">2013, 731</a>)</span>.</p>
+<p>While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e.&nbsp;industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see Table 3).</p>
+<table class="caption-top table">
+<caption>Mapping from EDGAR to individual ISIC economic activities{tbl-edgar-isic-map}</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>IPCC Code</th>
+<th>IPCC</th>
+<th>ISIC Code</th>
+<th>ISIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2.A.1</td>
+<td>Cement production</td>
+<td>2394</td>
+<td>Manufacture of cement, lime and plaster</td>
+</tr>
+<tr class="even">
+<td>2.A.2</td>
+<td>Lime production</td>
+<td>2394</td>
+<td>Manufacture of cement, lime and plaster</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>NER</td>
-<td>Niger</td>
+<td>2.A.3</td>
+<td>Glass Production</td>
+<td>2310</td>
+<td>Manufacture of glass and glass products</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>NGA</td>
-<td>Nigeria</td>
+<td>2.A.4</td>
+<td>Other Process Uses of Carbonates</td>
+<td>9999</td>
+<td>Undetermined</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>SEN</td>
-<td>Senegal</td>
+<td>2.B</td>
+<td>Chemical Industry</td>
+<td>2011</td>
+<td>Manufacture of basic chemicals</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>SHN</td>
-<td>Saint Helena</td>
+<td>2.C</td>
+<td>Metal Industry</td>
+<td>2410</td>
+<td>Manufacture of basic iron and steel</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>SLE</td>
-<td>Sierra Leone</td>
+<td>2.D</td>
+<td>Non-Energy Products from Fuels and Solvent Use</td>
+<td>9999</td>
+<td>Undetermined</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>STP</td>
-<td>Sao Tome and Principe</td>
+<td>2.E</td>
+<td>Electronics Industry</td>
+<td>2640</td>
+<td>Manufacture of consumer electronics</td>
 </tr>
 <tr class="odd">
-<td></td>
-<td>TCD</td>
-<td>Chad</td>
+<td>2.F</td>
+<td>Product Uses as Substitutes for Ozone Depleting Substances</td>
+<td>9999</td>
+<td>Undetermined</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>TGO</td>
-<td>Togo</td>
+<td>2.G</td>
+<td>Other Product Manufacture and Use</td>
+<td>9999</td>
+<td>Undetermined</td>
+</tr>
+<tr class="odd">
+<td>4.A</td>
+<td>Solid Waste Disposal</td>
+<td>3821</td>
+<td>Treatment and disposal of non-hazardous waste</td>
+</tr>
+<tr class="even">
+<td>4.B</td>
+<td>Biological Treatment of Solid Waste</td>
+<td>3822</td>
+<td>Treatment and disposal of hazardous waste</td>
+</tr>
+<tr class="odd">
+<td>4.C</td>
+<td>Incineration and Open Burning of Waste</td>
+<td>3822</td>
+<td>Treatment and disposal of hazardous waste</td>
 </tr>
 </tbody>
 </table>
@@ -574,30 +775,22 @@ window.Quarto = {
 </section>
 </section>
 
+
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aguiar2019" class="csl-entry" role="listitem">
+Aguiar, Angel, Maksym Chepeliev, Erwin L. Corong, Robert McDougall, and Dominique van der Mensbrugghe. 2019. <span>“The GTAP Data Base: Version 10.”</span> <em>Journal of Global Economic Analysis</em> 4 (1): 1–27. <a href="https://doi.org/10.21642/JGEA.040101AF">https://doi.org/10.21642/JGEA.040101AF</a>.
+</div>
 <div id="ref-chepeliev2024a" class="csl-entry" role="listitem">
-Chepeliev, Maksym. 2024a. <span>“Chapter 13A: CO2 Emissions from Fossil Fuels Combustion.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130</a>.
-</div>
-<div id="ref-chepeliev2024b" class="csl-entry" role="listitem">
-———. 2024b. <span>“Chapter 13B: Complementary Greenhouse Gas Emissions Database.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7131">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7131</a>.
-</div>
-<div id="ref-chepeliev2024c" class="csl-entry" role="listitem">
-———. 2024c. <span>“Chapter 13C: Air Pollutant Emissions Database.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7132">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7132</a>.
+Chepeliev, Maksym. 2024. <span>“Chapter 13A: CO2 Emissions from Fossil Fuels Combustion.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130</a>.
 </div>
 <div id="ref-crippa2023" class="csl-entry" role="listitem">
 Crippa, Monica, Diego Guizzardi, Federico Pagani, Manjola Banja, Marilena Muntean, Edwin Schaaf, William Edward Becker, et al. 2023. <span>“GHG Emissions of All World Countries.”</span> Luxembourg. <a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC134504">https://publications.jrc.ec.europa.eu/repository/handle/JRC134504</a>.
-</div>
-<div id="ref-europeancommission2013" class="csl-entry" role="listitem">
-European Commission, Organisation for Economic Cooperation, Development, United Nations, and World Bank. 2013. <span>“System of Environmental-Economic Accounting 2012.”</span> New York.
 </div>
 <div id="ref-europeancommission2009" class="csl-entry" role="listitem">
 European Commission, International Monetary Fund, Organisation for Economic Co-operation, Development, United Nations, and World Bank. 2009. <span>“System of National Accounts 2008.”</span> <a href="https://unstats.un.org/unsd/nationalaccount/sna2008.asp">https://unstats.un.org/unsd/nationalaccount/sna2008.asp</a>.
 </div>
 <div id="ref-eurostat2015" class="csl-entry" role="listitem">
 Eurostat. 2015. <span>“Manual for Air Emissions Accounts.”</span> Luxembourg. <a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-009">https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-009</a>.
-</div>
-<div id="ref-fao2024" class="csl-entry" role="listitem">
-FAO. 2024. <span>“FAOSTAT Domain Emissions Totals.”</span> Rome. <a href="https://www.fao.org/faostat/en/#data/GT">https://www.fao.org/faostat/en/#data/GT</a>.
 </div>
 <div id="ref-flachenecker2018" class="csl-entry" role="listitem">
 Flachenecker, Florian, Emmanuelle Guidetti, and Pierre-Alain Pionnier. 2018. <span>“Towards Global SEEA Air Emission Accounts: Description and Evaluation of the OECD Methodology to Estimate SEEA Air Emission Accounts for CO2, CH4 and N2O in Annex-I Countries to the UNFCCC.”</span> Paris. <a href="https://doi.org/10.1787/7d88dfdd-en">https://doi.org/10.1787/7d88dfdd-en</a>.
@@ -611,7 +804,21 @@ IPCC. 1996. <span>“Revised 1996 IPCC Guidelines for National Greenhouse Gas In
 <div id="ref-ipcc2006" class="csl-entry" role="listitem">
 ———. 2006. <span>“2006 IPCC Guidelines for National Greenhouse Gas Inventories.”</span> Geneva. <a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_02_Ch2_Generic.pdf">https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_02_Ch2_Generic.pdf</a>.
 </div>
-</div></section></div></main> <!-- /main -->
+<div id="ref-myhre2013" class="csl-entry" role="listitem">
+Myhre, Gunnar, Drew Shindell, Francois-Marie Bréon, William Collins, Jan Fuglestvedt, Jianping Huang, Dorothy Koch, et al. 2013. <span>“Anthropogenic and Natural Radiative Forcing.”</span> Switzerland. <a href="https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter08_FINAL.pdf">https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter08_FINAL.pdf</a>.
+</div>
+<div id="ref-Rcore2024" class="csl-entry" role="listitem">
+R Core Team. 2024. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-unsd2023" class="csl-entry" role="listitem">
+UNSD. 2023. <span>“Energy Statistics Database 2021: Notes on Sources.”</span> <a href="https://unstats.un.org/unsd/energystats/pubs/yearbook/2021/metadata.pdf">https://unstats.un.org/unsd/energystats/pubs/yearbook/2021/metadata.pdf</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -647,18 +854,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -690,7 +886,45 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -725,7 +959,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -773,7 +1011,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

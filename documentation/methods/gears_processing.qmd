@@ -139,11 +139,16 @@ un_energy_ipcc_coef <- read_xlsx(
 # Fortunately no duplicates.
 # Use https://unstats.un.org/unsd/publication/SeriesF/SeriesF_44E.pdf
 # for conversions to TJ.
-test <- un_energy |>
-  group_by(Commodity, Unit) |>
-  summarize(Total = sum(Quantity, na.rm = T)) |>
-  ungroup()
-write.table(test, "clipboard", sep = "\t", row.names = F)
+# test <- un_energy |>
+#   group_by(Commodity, Unit) |>
+#   summarize(Total = sum(Quantity, na.rm = T)) |>
+#   ungroup()
+# write.table(test, "clipboard", sep = "\t", row.names = F) # Windows
+# write.table(
+#   test, 
+#   pipe("xclip -selection clipboard"),  # Unix 
+#   sep = "\t", 
+#   row.names = F) 
 ```
 
 

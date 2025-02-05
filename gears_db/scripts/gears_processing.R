@@ -19,7 +19,6 @@
 rm(list = ls())
 
 # Call libraries
-library(duckdb)
 library(dplyr)
 
 

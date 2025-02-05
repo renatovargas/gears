@@ -3,7 +3,6 @@ rm(list = ls())
 # Call libraries
 library(tidyr)
 library(dplyr)
-library(duckdb)
 library(readxl)
 library(openxlsx)
 

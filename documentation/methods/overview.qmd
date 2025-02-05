@@ -1,6 +1,6 @@
 ---
-title: "Overview"
-subtitle: "Databases and approaches"
+title: "MAFAP Emissions Database Construction"
+subtitle: "Datasets and approaches"
 author:
   - name: "Renato Vargas"
     id: rv
@@ -17,106 +17,149 @@ editor_options:
 bibliography: references.bib
 ---
 
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| label: libraries
+
+library(tidyverse)
+library(gt)
+un_energy <- readRDS(
+  "gears_db/data/un_energy/un_energy.rds"
+)
+```
+
 # Introduction
 
-The Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme seeks to establish country owned and sustainable systems to monitor, analyse, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries---the agricultural public sector, in particular---optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.
+The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.
 
-In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives as well. The **Global Emissions Analsyis for Resilient Systems (GEARS)** series of modules within MAFAP tools aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models.
+In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. Part of MAFAP Tools, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.
 
-Here we describe the GEARS approach to constructing an anthropogenic emissions accounting satellite framework on demand, based on country-specific socioeconomic information by economic activity, and globally available datasets. We follow the internationally agreed principles of the System of Environmental and Economic Accounts (SEEA) statistical standard [@europeancommission2013] to organize information, aiming to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured [@europeancommission2009]. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA and pilot implementations [@eurostat2015; @flachenecker2018; @gutman2024]. Where needed, deviations from international standards follow
+Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured [@europeancommission2009]. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations [@eurostat2015; @flachenecker2018; @gutman2024].
 
-The main source for emissions from agriculture comes from FAOSTAT [@fao2024]. Emissions from fossil fuel combustion are estimated at the economic activity level, using the Tier 1 method of the Intergovernmental Panel on Climate Change---IPCC---[@ipcc1996; @ipcc2006] and national level energy balances. Emissions from Industrial Processes and Waste come from EDGAR [@crippa2023] and are mapped to economic activities following a broadly tested global approach that facilitate use with CGE frameworks [i.e. that of the Global Trade Analysis Project---GTAP---, @chepeliev2024a; @chepeliev2024b; @chepeliev2024c].
+Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—[@ipcc1996; @ipcc2006] and energy use information from the Energy Statistics Database [@unsd2023]. Emissions from Industrial Processes and Waste come from EDGAR [@crippa2023] and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e. that of the Global Trade Analysis Project—GTAP—[@aguiar2019; @chepeliev2024a].
 
-While the outputs of GEARS are databases that rely on the datasets covered above, its innovation lies in the standardization procedures that allow to create such datasets at different levels of aggregation on demand.
+# Methodology
 
-## Grenhouse Gas Inventories
+## Overview
 
-Gases to be reported:
+As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language [@Rcore2024][^1]. The flow of data follows the diagram in @fig-dataflow.
 
--   Carbon dioxide ($CO_2$).
--   Nitrous oxide ($N_2O$)
--   Methane ($CH_4$).
--   Fluorinated gases.
+[^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
 
-Only as memorandum items:
+::: {#fig-dataflow}
 
--   Nitrogen oxides ($NOx$).
--   Carbon monoxide ($CO$).
--   Volatile compounds distinct from methane ($COVDM$).
--   Sulfur dioxide ($SO_2$).
 
-Greenhouse gas emissions are divided into four main groups:
+MAFAP Complementary Emissions Database Construction Process
+:::
 
--   Energy.
--   Industrial processes.
--   Agriculture, forestry, land use.
--   Waste.
+## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
 
-Using Global Warming Potential (GWP), GHGs are aggregated to $CO_2 equivalent$ or simply $CO_2e$).
+A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023] using @eq-emission-factors.
 
-CRF - Common Reporting Format.
+$$
+E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
+$$ {#eq-emission-factors}
 
-## Air emissions accounts (SEEA-CF)
+Where:
 
-Explain the generic structure of an emissions account.
+-   $E_{GHG,fuel}=$  Emissions of a given GHG by type of fuel (kg GHG).
+-   $C_{fuel}=$ Amount of fuel combusted (TJ).
+-   $F_{GHG, fuel}=$  default emission factor of a given GHG by type of fuel (kg gas/TJ).
 
-![Air Emissions Account (SEEA CF)](){fig-air-emissions-account}
+The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.
 
-## Harmonization
+```{r}
+#| echo: false
+#| label: tbl-unenergy-commodities
+#| tbl-cap: "Energy Commodities"
 
-The Organisation for Economic Co-operation and Development (OECD) and the Statistical Office of the European Communities, Eurostat, developed a methodology for estimating Air Emissions Accounts under the SEEA-CF, based on the National Greenhouse Gas Inventories (NGGI) submitted to the UNFCCC [@eurostat2015; @flachenecker2018]. Our approach was informed by a recent exercise conducted at the country level in Argentina [@gutman2024].
+data.frame(
+  Commodity = 
+    sort(
+      unique(
+        un_energy$Commodity[un_energy$Driver==1]))) |> 
+  gt() |> 
+  as_raw_html()
+  
+```
 
-The OECD-Eurostat methodology uses emission data from the National Greenhouse Gas Inventories (NGGI) as a starting point and assigns these emissions to households and industries according to ISIC Revision 4, using the same concepts and classifications as the System of National Accounts (SNA). To this end, publicly available correspondence tables in Excel format were developed, linking CRF categories with NACE Revision 2 at the two-digit level. "NACE" stands for the "Statistical Classification of Economic Activities in the European Community," the European statistical classification of economic activities. The codes in NACE Rev. 2 are nearly identical to those in ISIC Rev. 4.
+## Emissions from industrial processes and waste
 
-## Global Databases
+The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in @tbl-edgar-domains, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).
 
-This version focuses on:
+| **Code** | **IPCC Greenhouse Gas Inventory domain** |
+|------------------------------------|------------------------------------|
+| **1.A.1.a** | Main Activity Electricity and Heat Production |
+| **1.A.1.bc** | Petroleum Refining - Manufacture of Solid Fuels and Other Energy Industries |
+| **1.A.2** | Manufacturing Industries and Construction |
+| **1.A.3.a** | Civil Aviation |
+| **1.A.3.b_noRES** | Road Transportation no resuspension |
+| **1.A.3.c** | Railways |
+| **1.A.3.d** | Water-borne Navigation |
+| **1.A.3.e** | Other Transportation |
+| **1.A.4** | Residential and other sectors |
+| **1.A.5** | Non-Specified |
+| **1.B.1** | Solid Fuels |
+| **1.B.2** | Oil and Natural Gas |
+| **2.A.1** | Cement production |
+| **2.A.2** | Lime production |
+| **2.A.3** | Glass Production |
+| **2.A.4** | Other Process Uses of Carbonates |
+| **2.B** | Chemical Industry |
+| **2.C** | Metal Industry |
+| **2.D** | Non-Energy Products from Fuels and Solvent Use |
+| **2.E** | Electronics Industry |
+| **2.F** | Product Uses as Substitutes for Ozone Depleting Substances |
+| **2.G** | Other Product Manufacture and Use |
+| **3.A.1** | Enteric Fermentation |
+| **3.A.2** | Manure Management |
+| **3.C.1** | Emissions from biomass burning |
+| **3.C.2** | Liming |
+| **3.C.3** | Urea application |
+| **3.C.4** | Direct N2O Emissions from managed soils |
+| **3.C.5** | Indirect N2O Emissions from managed soils |
+| **3.C.6** | Indirect N2O Emissions from manure management |
+| **3.C.7** | Rice cultivations |
+| **4.A** | Solid Waste Disposal |
+| **4.B** | Biological Treatment of Solid Waste |
+| **4.C** | Incineration and Open Burning of Waste |
+| **4.D** | Wastewater Treatment and Discharge |
+| **5.A** | Indirect N2O emissions from the atmospheric deposition of nitrogen in NOx and NH3 |
+| **5.B** | Fossil fuel fires |
 
-| Group           | ISO3 | Name                                 |
-|-----------------|------|--------------------------------------|
-| Eastern_Africa  | BDI  | Burundi                              |
-|                 | COM  | Comoros                              |
-|                 | DJI  | Djibouti                             |
-|                 | ERI  | Eritrea                              |
-|                 | ETH  | Ethiopia                             |
-|                 | KEN  | Kenya                                |
-|                 | MDG  | Madagascar                           |
-|                 | MUS  | Mauritius                            |
-|                 | MYT  | Mayotte                              |
-|                 | REU  | Reunion                              |
-|                 | RWA  | Rwanda                               |
-|                 | SDN  | Sudan                                |
-|                 | SOM  | Somalia                              |
-|                 | SYC  | Seychelles                           |
-|                 | UGA  | Uganda                               |
-| Northern_Africa | MAR  | Morocco                              |
-|                 | DZA  | Algeria                              |
-|                 | EGY  | Egypt                                |
-|                 | ESH  | Western Sahara                       |
-|                 | LBY  | Libyan Arab Jamahiriya               |
-|                 | TUN  | Tunisia                              |
-| Western_Africa  | BEN  | Benin                                |
-|                 | BFA  | Burkina Faso                         |
-|                 | CAF  | Central African Republic             |
-|                 | CIV  | Cote d'Ivoire                        |
-|                 | CMR  | Cameroon                             |
-|                 | COD  | Congo_the Democratic Republic of the |
-|                 | COG  | Congo                                |
-|                 | CPV  | Cape Verde                           |
-|                 | GAB  | Gabon                                |
-|                 | GHA  | Ghana                                |
-|                 | GIN  | Guinea                               |
-|                 | GMB  | Gambia                               |
-|                 | GNB  | Guinea-Bissau                        |
-|                 | GNQ  | Equatorial Guinea                    |
-|                 | LBR  | Liberia                              |
-|                 | MLI  | Mali                                 |
-|                 | MRT  | Mauritania                           |
-|                 | NER  | Niger                                |
-|                 | NGA  | Nigeria                              |
-|                 | SEN  | Senegal                              |
-|                 | SHN  | Saint Helena                         |
-|                 | SLE  | Sierra Leone                         |
-|                 | STP  | Sao Tome and Principe                |
-|                 | TCD  | Chad                                 |
-|                 | TGO  | Togo                                 |
+: EDGAR greenhouse gas inventory domain coverage {#tbl-edgar-domains}
+
+Source: authors based on Crippa, et al. (2023).
+
+It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO2, CO2 from biofuels, CH4, N2O, and “F-Gases” PFC, HFC, HCFC, and NF3. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO2eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in table 1, not distinguished from the individual shares of CO2 tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves, except for F-Gases, for which the conversion was made by EDGAR.
+
+| Gas                 | Global Warming Potential Values AR5 100-year horizon |
+|-------------------------|----------------------------------------------|
+| Methane (CH4)       | 28 CO~2~ tons equivalent / Gigagram                  |
+| Nitrous Oxide (N2O) | 265 CO~2~ tons equivalent / Gigagram                 |
+
+: Conversion coefficients for methane and nitrous oxide {tbl-conversion-ar5}
+
+Source: @myhre2013 [p. 731].
+
+While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e. industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see Table 3).
+
+| IPCC Code | IPCC | ISIC Code | ISIC |
+|------------------|------------------|------------------|------------------|
+| 2.A.1 | Cement production | 2394 | Manufacture of cement, lime and plaster |
+| 2.A.2 | Lime production | 2394 | Manufacture of cement, lime and plaster |
+| 2.A.3 | Glass Production | 2310 | Manufacture of glass and glass products |
+| 2.A.4 | Other Process Uses of Carbonates | 9999 | Undetermined |
+| 2.B | Chemical Industry | 2011 | Manufacture of basic chemicals |
+| 2.C | Metal Industry | 2410 | Manufacture of basic iron and steel |
+| 2.D | Non-Energy Products from Fuels and Solvent Use | 9999 | Undetermined |
+| 2.E | Electronics Industry | 2640 | Manufacture of consumer electronics |
+| 2.F | Product Uses as Substitutes for Ozone Depleting Substances | 9999 | Undetermined |
+| 2.G | Other Product Manufacture and Use | 9999 | Undetermined |
+| 4.A | Solid Waste Disposal | 3821 | Treatment and disposal of non-hazardous waste |
+| 4.B | Biological Treatment of Solid Waste | 3822 | Treatment and disposal of hazardous waste |
+| 4.C | Incineration and Open Burning of Waste | 3822 | Treatment and disposal of hazardous waste |
+
+: Mapping from EDGAR to individual ISIC economic activities{tbl-edgar-isic-map}
