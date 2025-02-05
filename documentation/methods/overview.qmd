@@ -1,6 +1,6 @@
 ---
-title: "Overview"
-subtitle: "Databases and approaches"
+title: "MAFAP Emissions Database Construction"
+subtitle: "Datasets and approaches"
 author:
   - name: "Renato Vargas"
     id: rv
@@ -17,6 +17,19 @@ editor_options:
 bibliography: references.bib
 ---
 
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| label: libraries
+
+library(tidyverse)
+library(gt)
+un_energy <- readRDS(
+  "gears_db/data/un_energy/un_energy.rds"
+)
+```
+
 # Introduction
 
 The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.
@@ -31,7 +44,7 @@ Emissions from combustion are estimated at the economic activity level and drive
 
 ## Overview
 
-As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single file structure, using the R programming language [@Rcore2024][^1]. The flow of data follows the diagram in @fig-dataflow.
+As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language [@Rcore2024][^1]. The flow of data follows the diagram in @fig-dataflow.
 
 [^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
 
@@ -43,19 +56,34 @@ MAFAP Complementary Emissions Database Construction Process
 
 ## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
 
-A choice was made to estimate emissions from combustion again, although other global datasets already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023].
+A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023] using @eq-emission-factors.
 
 $$
 E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
-$$ {#eq-ghg}
+$$ {#eq-emission-factors}
 
 Where:
 
--   $E_{GHG,fuel}$ = Emissions of a given GHG by type of fuel (kg GHG).
--   $C_{fuel}$= Amount of fuel combusted (TJ).
--   $F_{GHG, fuel}$ = default emission factor of a given GHG by type of fuel (kg gas/TJ).
+-   $E_{GHG,fuel}=$  Emissions of a given GHG by type of fuel (kg GHG).
+-   $C_{fuel}=$ Amount of fuel combusted (TJ).
+-   $F_{GHG, fuel}=$  default emission factor of a given GHG by type of fuel (kg gas/TJ).
 
-The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on those transactions that represent combustion of fuels.
+The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.
+
+```{r}
+#| echo: false
+#| label: tbl-unenergy-commodities
+#| tbl-cap: "Energy Commodities"
+
+data.frame(
+  Commodity = 
+    sort(
+      unique(
+        un_energy$Commodity[un_energy$Driver==1]))) |> 
+  gt() |> 
+  as_raw_html()
+  
+```
 
 ## Emissions from industrial processes and waste
 
