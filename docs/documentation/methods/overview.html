@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -216,6 +236,7 @@ window.Quarto = {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" id="toc-greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="nav-link" data-scroll-target="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</a></li>
   <li><a href="#emissions-from-industrial-processes-and-waste" id="toc-emissions-from-industrial-processes-and-waste" class="nav-link" data-scroll-target="#emissions-from-industrial-processes-and-waste">Emissions from industrial processes and waste</a></li>
   </ul></li>
@@ -270,14 +291,28 @@ window.Quarto = {
 <h1>Introduction</h1>
 <p>The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.</p>
 <p>In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g.&nbsp;the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. Part of MAFAP Tools, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.</p>
-<p>Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured (European Commission et al., 2009). Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations (Eurostat, 2015; Flachenecker et al., 2018; Gutman et al., 2024).</p>
-<p>Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—(IPCC, 1996, 2006) and energy use information from the Energy Statistics Database (UNSD, 2023). Emissions from Industrial Processes and Waste come from EDGAR (Crippa et al., 2023) and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e.&nbsp;that of the Global Trade Analysis Project—GTAP—(Aguiar et al., 2019; Chepeliev, 2024).</p>
+<p>Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured <span class="citation" data-cites="europeancommission2009">(<a href="#ref-europeancommission2009" role="doc-biblioref">European Commission et al. 2009</a>)</span>. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations <span class="citation" data-cites="eurostat2015 flachenecker2018 gutman2024">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>; <a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>.</p>
+<p>Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—<span class="citation" data-cites="ipcc1996 ipcc2006">(<a href="#ref-ipcc1996" role="doc-biblioref">IPCC 1996</a>, <a href="#ref-ipcc2006" role="doc-biblioref">2006</a>)</span> and energy use information from the Energy Statistics Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span>. Emissions from Industrial Processes and Waste come from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span> and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e.&nbsp;that of the Global Trade Analysis Project—GTAP—<span class="citation" data-cites="aguiar2019 chepeliev2024a">(<a href="#ref-aguiar2019" role="doc-biblioref">Aguiar et al. 2019</a>; <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024</a>)</span>.</p>
 </section>
 <section id="methodology" class="level1">
 <h1>Methodology</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single file structure, using the R programming language <span class="citation" data-cites="Rcore2024">(<a href="#ref-Rcore2024" role="doc-biblioref">R Core Team 2024</a>)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The flow of data follows the diagram in <a href="#fig-dataflow" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div id="fig-dataflow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dataflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>MAFAP Complementary Emissions Database Construction Process</p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dataflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</section>
 <section id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="level2">
 <h2 class="anchored" data-anchor-id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</h2>
-<p>A choice was made to estimate emissions from combustion again, although other global datasets already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database (UNSD, 2023).</p>
+<p>A choice was made to estimate emissions from combustion again, although other global datasets already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span>.</p>
 <p><span id="eq-ghg"><span class="math display">\[
 E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
 \tag{1}\]</span></span></p>
@@ -287,13 +322,18 @@ E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
 <li><span class="math inline">\(C_{fuel}\)</span>= Amount of fuel combusted (TJ).</li>
 <li><span class="math inline">\(F_{GHG, fuel}\)</span> = default emission factor of a given GHG by type of fuel (kg gas/TJ).</li>
 </ul>
-<p>The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, and final use of energy resources.</p>
+<p>The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on those transactions that represent combustion of fuels.</p>
 </section>
 <section id="emissions-from-industrial-processes-and-waste" class="level2">
 <h2 class="anchored" data-anchor-id="emissions-from-industrial-processes-and-waste">Emissions from industrial processes and waste</h2>
-<p>The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <strong>?@tbl-edgar-domains</strong>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).</p>
+<p>The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;1</a>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).</p>
+<div id="tbl-edgar-domains" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: EDGAR greenhouse gas inventory domain coverage
+</figcaption>
+<div aria-describedby="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>EDGAR greenhouse gas inventory domain coverage{#tbl-edgar-domains} Source: authors based on Crippa, et al.&nbsp;(2023).</caption>
 <colgroup>
 <col style="width: 50%">
 <col style="width: 50%">
@@ -455,12 +495,16 @@ E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p>Source: authors based on Crippa, et al.&nbsp;(2023).</p>
 <p>It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO2, CO2&nbsp;from&nbsp;biofuels, CH4, N2O, and “F-Gases” PFC, HFC, HCFC, and NF3. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO2eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in table 1, not distinguished from the individual shares of CO2 tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves, except for F-Gases, for which the conversion was made by EDGAR.</p>
 <table class="caption-top table">
-<caption>Conversion coefficients for methane and nitrous oxide{tbl-conversion-ar5} Source: Myhre, et al.&nbsp;(2013, p.&nbsp;731).</caption>
+<caption>Conversion coefficients for methane and nitrous oxide</caption>
 <colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
+<col style="width: 35%">
+<col style="width: 64%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -471,14 +515,15 @@ E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
 <tbody>
 <tr class="odd">
 <td>Methane (CH4)</td>
-<td>28 CO2 tons equivalent / Gigagram</td>
+<td>28 CO<sub>2</sub> tons equivalent / Gigagram</td>
 </tr>
 <tr class="even">
 <td>Nitrous Oxide (N2O)</td>
-<td>265 CO2 tons equivalent / Gigagram</td>
+<td>265 CO<sub>2</sub> tons equivalent / Gigagram</td>
 </tr>
 </tbody>
 </table>
+<p>Source: <span class="citation" data-cites="myhre2013">Myhre et al. (<a href="#ref-myhre2013" role="doc-biblioref">2013, 731</a>)</span>.</p>
 <p>While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e.&nbsp;industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see Table 3).</p>
 <table class="caption-top table">
 <caption>Mapping from EDGAR to individual ISIC economic activities{tbl-edgar-isic-map}</caption>
@@ -579,10 +624,54 @@ E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
 </table>
 
 
+
 </section>
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aguiar2019" class="csl-entry" role="listitem">
+Aguiar, Angel, Maksym Chepeliev, Erwin L. Corong, Robert McDougall, and Dominique van der Mensbrugghe. 2019. <span>“The GTAP Data Base: Version 10.”</span> <em>Journal of Global Economic Analysis</em> 4 (1): 1–27. <a href="https://doi.org/10.21642/JGEA.040101AF">https://doi.org/10.21642/JGEA.040101AF</a>.
+</div>
+<div id="ref-chepeliev2024a" class="csl-entry" role="listitem">
+Chepeliev, Maksym. 2024. <span>“Chapter 13A: CO2 Emissions from Fossil Fuels Combustion.”</span> <a href="http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130">http://www.gtap.agecon.purdue.edu/resources/res_display.asp?RecordID=7130</a>.
+</div>
+<div id="ref-crippa2023" class="csl-entry" role="listitem">
+Crippa, Monica, Diego Guizzardi, Federico Pagani, Manjola Banja, Marilena Muntean, Edwin Schaaf, William Edward Becker, et al. 2023. <span>“GHG Emissions of All World Countries.”</span> Luxembourg. <a href="https://publications.jrc.ec.europa.eu/repository/handle/JRC134504">https://publications.jrc.ec.europa.eu/repository/handle/JRC134504</a>.
+</div>
+<div id="ref-europeancommission2009" class="csl-entry" role="listitem">
+European Commission, International Monetary Fund, Organisation for Economic Co-operation, Development, United Nations, and World Bank. 2009. <span>“System of National Accounts 2008.”</span> <a href="https://unstats.un.org/unsd/nationalaccount/sna2008.asp">https://unstats.un.org/unsd/nationalaccount/sna2008.asp</a>.
+</div>
+<div id="ref-eurostat2015" class="csl-entry" role="listitem">
+Eurostat. 2015. <span>“Manual for Air Emissions Accounts.”</span> Luxembourg. <a href="https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-009">https://ec.europa.eu/eurostat/web/products-manuals-and-guidelines/-/KS-GQ-15-009</a>.
+</div>
+<div id="ref-flachenecker2018" class="csl-entry" role="listitem">
+Flachenecker, Florian, Emmanuelle Guidetti, and Pierre-Alain Pionnier. 2018. <span>“Towards Global SEEA Air Emission Accounts: Description and Evaluation of the OECD Methodology to Estimate SEEA Air Emission Accounts for CO2, CH4 and N2O in Annex-I Countries to the UNFCCC.”</span> Paris. <a href="https://doi.org/10.1787/7d88dfdd-en">https://doi.org/10.1787/7d88dfdd-en</a>.
+</div>
+<div id="ref-gutman2024" class="csl-entry" role="listitem">
+Gutman, Verónica, María Priscila Ramos, Carlos Adrián Romero, Martina Chidiak, Gustavo Adolfo Ferro, María Laura Ojeda, Exequiel Romero Gómez, Juan Ignacio Mercatante, María Paula Covelli, and Verónica Fernández. 2024. <span>“Integración de Información Climática y Económica En Los Sistemas Estadísticos Nacionales: Armonizando Los Inventarios Nacionales de Gases de Efecto Invernadero (INGEI) Con El Sistema de Contabilidad Ambiental y Económica (SCAE).”</span> Buenos Aires. <a href="https://ojs.econ.uba.ar/index.php/DT-IIEP/issue/view/500">https://ojs.econ.uba.ar/index.php/DT-IIEP/issue/view/500</a>.
+</div>
+<div id="ref-ipcc1996" class="csl-entry" role="listitem">
+IPCC. 1996. <span>“Revised 1996 IPCC Guidelines for National Greenhouse Gas Inventories.”</span> London. <a href="https://www.ipcc-nggip.iges.or.jp/public/gl/invs4.html">https://www.ipcc-nggip.iges.or.jp/public/gl/invs4.html</a>.
+</div>
+<div id="ref-ipcc2006" class="csl-entry" role="listitem">
+———. 2006. <span>“2006 IPCC Guidelines for National Greenhouse Gas Inventories.”</span> Geneva. <a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_02_Ch2_Generic.pdf">https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_02_Ch2_Generic.pdf</a>.
+</div>
+<div id="ref-myhre2013" class="csl-entry" role="listitem">
+Myhre, Gunnar, Drew Shindell, Francois-Marie Bréon, William Collins, Jan Fuglestvedt, Jianping Huang, Dorothy Koch, et al. 2013. <span>“Anthropogenic and Natural Radiative Forcing.”</span> Switzerland. <a href="https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter08_FINAL.pdf">https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter08_FINAL.pdf</a>.
+</div>
+<div id="ref-Rcore2024" class="csl-entry" role="listitem">
+R Core Team. 2024. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-unsd2023" class="csl-entry" role="listitem">
+UNSD. 2023. <span>“Energy Statistics Database 2021: Notes on Sources.”</span> <a href="https://unstats.un.org/unsd/energystats/pubs/yearbook/2021/metadata.pdf">https://unstats.un.org/unsd/energystats/pubs/yearbook/2021/metadata.pdf</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

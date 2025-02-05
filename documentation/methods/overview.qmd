@@ -23,21 +23,27 @@ The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seek
 
 In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. Part of MAFAP Tools, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.
 
-Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured (European Commission et al., 2009). Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations (Eurostat, 2015; Flachenecker et al., 2018; Gutman et al., 2024).
+Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured [@europeancommission2009]. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations [@eurostat2015; @flachenecker2018; @gutman2024].
 
-Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—(IPCC, 1996, 2006) and energy use information from the Energy Statistics Database (UNSD, 2023). Emissions from Industrial Processes and Waste come from EDGAR (Crippa et al., 2023) and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e. that of the Global Trade Analysis Project—GTAP—(Aguiar et al., 2019; Chepeliev, 2024).
+Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—[@ipcc1996; @ipcc2006] and energy use information from the Energy Statistics Database [@unsd2023]. Emissions from Industrial Processes and Waste come from EDGAR [@crippa2023] and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e. that of the Global Trade Analysis Project—GTAP—[@aguiar2019; @chepeliev2024a].
 
 # Methodology
 
 ## Overview
 
-As our goal is to leverage valuable data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate it to conform to a single file structure, using the R programming language [@rcore2024][^1]. 
+As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single file structure, using the R programming language [@Rcore2024][^1]. The flow of data follows the diagram in @fig-dataflow.
 
 [^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
 
+::: {#fig-dataflow}
+
+
+MAFAP Complementary Emissions Database Construction Process
+:::
+
 ## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
 
-A choice was made to estimate emissions from combustion again, although other global datasets already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database (UNSD, 2023).
+A choice was made to estimate emissions from combustion again, although other global datasets already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023].
 
 $$
 E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
@@ -45,13 +51,11 @@ $$ {#eq-ghg}
 
 Where:
 
-* $E_{GHG,fuel}$ = Emissions of a given GHG by type of fuel (kg GHG). 
-* $C_{fuel}$= Amount of fuel combusted (TJ).
-* $F_{GHG, fuel}$ = default emission factor of a given GHG by type of fuel (kg gas/TJ).
+-   $E_{GHG,fuel}$ = Emissions of a given GHG by type of fuel (kg GHG).
+-   $C_{fuel}$= Amount of fuel combusted (TJ).
+-   $F_{GHG, fuel}$ = default emission factor of a given GHG by type of fuel (kg gas/TJ).
 
 The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on those transactions that represent combustion of fuels.
-
-
 
 ## Emissions from industrial processes and waste
 
@@ -97,16 +101,20 @@ The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al.,
 | **5.A** | Indirect N2O emissions from the atmospheric deposition of nitrogen in NOx and NH3 |
 | **5.B** | Fossil fuel fires |
 
-: EDGAR greenhouse gas inventory domain coverage{#tbl-edgar-domains} Source: authors based on Crippa, et al. (2023).
+: EDGAR greenhouse gas inventory domain coverage {#tbl-edgar-domains}
+
+Source: authors based on Crippa, et al. (2023).
 
 It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO2, CO2 from biofuels, CH4, N2O, and “F-Gases” PFC, HFC, HCFC, and NF3. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO2eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in table 1, not distinguished from the individual shares of CO2 tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves, except for F-Gases, for which the conversion was made by EDGAR.
 
 | Gas                 | Global Warming Potential Values AR5 100-year horizon |
-|----------------------|--------------------------------------------------|
-| Methane (CH4)       | 28 CO2 tons equivalent / Gigagram                    |
-| Nitrous Oxide (N2O) | 265 CO2 tons equivalent / Gigagram                   |
+|-------------------------|----------------------------------------------|
+| Methane (CH4)       | 28 CO~2~ tons equivalent / Gigagram                  |
+| Nitrous Oxide (N2O) | 265 CO~2~ tons equivalent / Gigagram                 |
 
-: Conversion coefficients for methane and nitrous oxide{tbl-conversion-ar5} Source: Myhre, et al. (2013, p. 731).
+: Conversion coefficients for methane and nitrous oxide {tbl-conversion-ar5}
+
+Source: @myhre2013 [p. 731].
 
 While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e. industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see Table 3).
 
@@ -127,10 +135,3 @@ While the Edgar dataset is very comprehensive, it lacks the disaggregation by dr
 | 4.C | Incineration and Open Burning of Waste | 3822 | Treatment and disposal of hazardous waste |
 
 : Mapping from EDGAR to individual ISIC economic activities{tbl-edgar-isic-map}
-
-
-
-
-
-
-
