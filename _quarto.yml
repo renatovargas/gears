@@ -31,10 +31,10 @@ website:
               href: documentation/guides/gears-user-guide.qmd
         - section: "Methods"
           contents:
-            - text: "Overview"
-              href: documentation/methods/overview.qmd
-            - text: "GEARS database peparation"
-              href: documentation/methods/overview.qmd
+            - text: "Database peparation"
+              href: documentation/methods/emissions_db_construction.qmd
+            - text: "Processing code"
+              href: documentation/methods/gears_processing.qmd
           
 format:
   html:

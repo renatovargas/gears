@@ -121,7 +121,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -147,7 +147,7 @@ window.Quarto = {
 <span class="menu-text">Download</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../documentation/index.html"> 
+    <a class="nav-link active" href="../../documentation/index.html" aria-current="page"> 
 <span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
@@ -160,10 +160,73 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../documentation/methods/emissions_db_construction.html">Methods</a></li><li class="breadcrumb-item"><a href="../../documentation/methods/emissions_db_construction.html">Database peparation</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../documentation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../documentation/guides/gears-user-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GEARS User Guide</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../documentation/methods/emissions_db_construction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Database peparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../documentation/methods/gears_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Processing code</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -184,12 +247,12 @@ window.Quarto = {
   <li><a href="#emissions" id="toc-emissions" class="nav-link" data-scroll-target="#emissions">Emissions</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/emisions_db_construction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/emissions_db_construction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../documentation/methods/emissions_db_construction.html">Methods</a></li><li class="breadcrumb-item"><a href="../../documentation/methods/emissions_db_construction.html">Database peparation</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">MAFAP Emissions Database Construction</h1>
 <p class="subtitle lead">Datasets and approaches</p>
@@ -580,23 +643,23 @@ Table&nbsp;4: FAOSTAT domains sourced
 </figcaption>
 <div aria-describedby="tbl-faostat-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="grrwerzgml" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#grrwerzgml table {
+<div id="khuthesswj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#khuthesswj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#grrwerzgml thead, #grrwerzgml tbody, #grrwerzgml tfoot, #grrwerzgml tr, #grrwerzgml td, #grrwerzgml th {
+#khuthesswj thead, #khuthesswj tbody, #khuthesswj tfoot, #khuthesswj tr, #khuthesswj td, #khuthesswj th {
   border-style: none;
 }
 
-#grrwerzgml p {
+#khuthesswj p {
   margin: 0;
   padding: 0;
 }
 
-#grrwerzgml .gt_table {
+#khuthesswj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -622,12 +685,12 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-left-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_caption {
+#khuthesswj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#grrwerzgml .gt_title {
+#khuthesswj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -639,7 +702,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-width: 0;
 }
 
-#grrwerzgml .gt_subtitle {
+#khuthesswj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -651,7 +714,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-top-width: 0;
 }
 
-#grrwerzgml .gt_heading {
+#khuthesswj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -663,13 +726,13 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_bottom_border {
+#khuthesswj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_col_headings {
+#khuthesswj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -684,7 +747,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_col_heading {
+#khuthesswj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -704,7 +767,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#grrwerzgml .gt_column_spanner_outer {
+#khuthesswj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -716,15 +779,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 4px;
 }
 
-#grrwerzgml .gt_column_spanner_outer:first-child {
+#khuthesswj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#grrwerzgml .gt_column_spanner_outer:last-child {
+#khuthesswj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#grrwerzgml .gt_column_spanner {
+#khuthesswj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -736,11 +799,11 @@ Table&nbsp;4: FAOSTAT domains sourced
   width: 100%;
 }
 
-#grrwerzgml .gt_spanner_row {
+#khuthesswj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#grrwerzgml .gt_group_heading {
+#khuthesswj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -766,7 +829,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   text-align: left;
 }
 
-#grrwerzgml .gt_empty_group_heading {
+#khuthesswj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -781,15 +844,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   vertical-align: middle;
 }
 
-#grrwerzgml .gt_from_md > :first-child {
+#khuthesswj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#grrwerzgml .gt_from_md > :last-child {
+#khuthesswj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#grrwerzgml .gt_row {
+#khuthesswj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -808,7 +871,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#grrwerzgml .gt_stub {
+#khuthesswj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -821,7 +884,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#grrwerzgml .gt_stub_row_group {
+#khuthesswj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -835,15 +898,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   vertical-align: top;
 }
 
-#grrwerzgml .gt_row_group_first td {
+#khuthesswj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#grrwerzgml .gt_row_group_first th {
+#khuthesswj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#grrwerzgml .gt_summary_row {
+#khuthesswj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -853,16 +916,16 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#grrwerzgml .gt_first_summary_row {
+#khuthesswj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_first_summary_row.thick {
+#khuthesswj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#grrwerzgml .gt_last_summary_row {
+#khuthesswj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -872,7 +935,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_grand_summary_row {
+#khuthesswj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -882,7 +945,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#grrwerzgml .gt_first_grand_summary_row {
+#khuthesswj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -892,7 +955,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-top-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_last_grand_summary_row_top {
+#khuthesswj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -902,11 +965,11 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_striped {
+#khuthesswj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#grrwerzgml .gt_table_body {
+#khuthesswj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -915,7 +978,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_footnotes {
+#khuthesswj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -929,7 +992,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_footnote {
+#khuthesswj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -938,7 +1001,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#grrwerzgml .gt_sourcenotes {
+#khuthesswj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -952,7 +1015,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#grrwerzgml .gt_sourcenote {
+#khuthesswj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -960,72 +1023,72 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#grrwerzgml .gt_left {
+#khuthesswj .gt_left {
   text-align: left;
 }
 
-#grrwerzgml .gt_center {
+#khuthesswj .gt_center {
   text-align: center;
 }
 
-#grrwerzgml .gt_right {
+#khuthesswj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#grrwerzgml .gt_font_normal {
+#khuthesswj .gt_font_normal {
   font-weight: normal;
 }
 
-#grrwerzgml .gt_font_bold {
+#khuthesswj .gt_font_bold {
   font-weight: bold;
 }
 
-#grrwerzgml .gt_font_italic {
+#khuthesswj .gt_font_italic {
   font-style: italic;
 }
 
-#grrwerzgml .gt_super {
+#khuthesswj .gt_super {
   font-size: 65%;
 }
 
-#grrwerzgml .gt_footnote_marks {
+#khuthesswj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#grrwerzgml .gt_asterisk {
+#khuthesswj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#grrwerzgml .gt_indent_1 {
+#khuthesswj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#grrwerzgml .gt_indent_2 {
+#khuthesswj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#grrwerzgml .gt_indent_3 {
+#khuthesswj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#grrwerzgml .gt_indent_4 {
+#khuthesswj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#grrwerzgml .gt_indent_5 {
+#khuthesswj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#grrwerzgml .katex-display {
+#khuthesswj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#grrwerzgml div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#khuthesswj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1124,23 +1187,23 @@ Table&nbsp;5: FAOSTAT domains sourced
 </figcaption>
 <div aria-describedby="tbl-faostat-drivers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="liqqannadj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#liqqannadj table {
+<div id="cfmsvtozsz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cfmsvtozsz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#liqqannadj thead, #liqqannadj tbody, #liqqannadj tfoot, #liqqannadj tr, #liqqannadj td, #liqqannadj th {
+#cfmsvtozsz thead, #cfmsvtozsz tbody, #cfmsvtozsz tfoot, #cfmsvtozsz tr, #cfmsvtozsz td, #cfmsvtozsz th {
   border-style: none;
 }
 
-#liqqannadj p {
+#cfmsvtozsz p {
   margin: 0;
   padding: 0;
 }
 
-#liqqannadj .gt_table {
+#cfmsvtozsz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1166,12 +1229,12 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-left-color: #D3D3D3;
 }
 
-#liqqannadj .gt_caption {
+#cfmsvtozsz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#liqqannadj .gt_title {
+#cfmsvtozsz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1183,7 +1246,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-width: 0;
 }
 
-#liqqannadj .gt_subtitle {
+#cfmsvtozsz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1195,7 +1258,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-top-width: 0;
 }
 
-#liqqannadj .gt_heading {
+#cfmsvtozsz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1207,13 +1270,13 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#liqqannadj .gt_bottom_border {
+#cfmsvtozsz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#liqqannadj .gt_col_headings {
+#cfmsvtozsz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1228,7 +1291,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#liqqannadj .gt_col_heading {
+#cfmsvtozsz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1248,7 +1311,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#liqqannadj .gt_column_spanner_outer {
+#cfmsvtozsz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1260,15 +1323,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 4px;
 }
 
-#liqqannadj .gt_column_spanner_outer:first-child {
+#cfmsvtozsz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#liqqannadj .gt_column_spanner_outer:last-child {
+#cfmsvtozsz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#liqqannadj .gt_column_spanner {
+#cfmsvtozsz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1280,11 +1343,11 @@ Table&nbsp;5: FAOSTAT domains sourced
   width: 100%;
 }
 
-#liqqannadj .gt_spanner_row {
+#cfmsvtozsz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#liqqannadj .gt_group_heading {
+#cfmsvtozsz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1310,7 +1373,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   text-align: left;
 }
 
-#liqqannadj .gt_empty_group_heading {
+#cfmsvtozsz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1325,15 +1388,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   vertical-align: middle;
 }
 
-#liqqannadj .gt_from_md > :first-child {
+#cfmsvtozsz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#liqqannadj .gt_from_md > :last-child {
+#cfmsvtozsz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#liqqannadj .gt_row {
+#cfmsvtozsz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1352,7 +1415,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#liqqannadj .gt_stub {
+#cfmsvtozsz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1365,7 +1428,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#liqqannadj .gt_stub_row_group {
+#cfmsvtozsz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1379,15 +1442,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   vertical-align: top;
 }
 
-#liqqannadj .gt_row_group_first td {
+#cfmsvtozsz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#liqqannadj .gt_row_group_first th {
+#cfmsvtozsz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#liqqannadj .gt_summary_row {
+#cfmsvtozsz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1397,16 +1460,16 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#liqqannadj .gt_first_summary_row {
+#cfmsvtozsz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#liqqannadj .gt_first_summary_row.thick {
+#cfmsvtozsz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#liqqannadj .gt_last_summary_row {
+#cfmsvtozsz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1416,7 +1479,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#liqqannadj .gt_grand_summary_row {
+#cfmsvtozsz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1426,7 +1489,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#liqqannadj .gt_first_grand_summary_row {
+#cfmsvtozsz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1436,7 +1499,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-top-color: #D3D3D3;
 }
 
-#liqqannadj .gt_last_grand_summary_row_top {
+#cfmsvtozsz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1446,11 +1509,11 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#liqqannadj .gt_striped {
+#cfmsvtozsz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#liqqannadj .gt_table_body {
+#cfmsvtozsz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1459,7 +1522,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#liqqannadj .gt_footnotes {
+#cfmsvtozsz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1473,7 +1536,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#liqqannadj .gt_footnote {
+#cfmsvtozsz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1482,7 +1545,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#liqqannadj .gt_sourcenotes {
+#cfmsvtozsz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1496,7 +1559,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#liqqannadj .gt_sourcenote {
+#cfmsvtozsz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1504,72 +1567,72 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#liqqannadj .gt_left {
+#cfmsvtozsz .gt_left {
   text-align: left;
 }
 
-#liqqannadj .gt_center {
+#cfmsvtozsz .gt_center {
   text-align: center;
 }
 
-#liqqannadj .gt_right {
+#cfmsvtozsz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#liqqannadj .gt_font_normal {
+#cfmsvtozsz .gt_font_normal {
   font-weight: normal;
 }
 
-#liqqannadj .gt_font_bold {
+#cfmsvtozsz .gt_font_bold {
   font-weight: bold;
 }
 
-#liqqannadj .gt_font_italic {
+#cfmsvtozsz .gt_font_italic {
   font-style: italic;
 }
 
-#liqqannadj .gt_super {
+#cfmsvtozsz .gt_super {
   font-size: 65%;
 }
 
-#liqqannadj .gt_footnote_marks {
+#cfmsvtozsz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#liqqannadj .gt_asterisk {
+#cfmsvtozsz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#liqqannadj .gt_indent_1 {
+#cfmsvtozsz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#liqqannadj .gt_indent_2 {
+#cfmsvtozsz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#liqqannadj .gt_indent_3 {
+#cfmsvtozsz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#liqqannadj .gt_indent_4 {
+#cfmsvtozsz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#liqqannadj .gt_indent_5 {
+#cfmsvtozsz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#liqqannadj .katex-display {
+#cfmsvtozsz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#liqqannadj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cfmsvtozsz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1737,23 +1800,23 @@ Table&nbsp;6: Energy Commodities
 </figcaption>
 <div aria-describedby="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="kdpcoclyxd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kdpcoclyxd table {
+<div id="nkudmzxmev" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nkudmzxmev table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kdpcoclyxd thead, #kdpcoclyxd tbody, #kdpcoclyxd tfoot, #kdpcoclyxd tr, #kdpcoclyxd td, #kdpcoclyxd th {
+#nkudmzxmev thead, #nkudmzxmev tbody, #nkudmzxmev tfoot, #nkudmzxmev tr, #nkudmzxmev td, #nkudmzxmev th {
   border-style: none;
 }
 
-#kdpcoclyxd p {
+#nkudmzxmev p {
   margin: 0;
   padding: 0;
 }
 
-#kdpcoclyxd .gt_table {
+#nkudmzxmev .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1779,12 +1842,12 @@ Table&nbsp;6: Energy Commodities
   border-left-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_caption {
+#nkudmzxmev .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kdpcoclyxd .gt_title {
+#nkudmzxmev .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1796,7 +1859,7 @@ Table&nbsp;6: Energy Commodities
   border-bottom-width: 0;
 }
 
-#kdpcoclyxd .gt_subtitle {
+#nkudmzxmev .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1808,7 +1871,7 @@ Table&nbsp;6: Energy Commodities
   border-top-width: 0;
 }
 
-#kdpcoclyxd .gt_heading {
+#nkudmzxmev .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1820,13 +1883,13 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_bottom_border {
+#nkudmzxmev .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_col_headings {
+#nkudmzxmev .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1841,7 +1904,7 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_col_heading {
+#nkudmzxmev .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1861,7 +1924,7 @@ Table&nbsp;6: Energy Commodities
   overflow-x: hidden;
 }
 
-#kdpcoclyxd .gt_column_spanner_outer {
+#nkudmzxmev .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1873,15 +1936,15 @@ Table&nbsp;6: Energy Commodities
   padding-right: 4px;
 }
 
-#kdpcoclyxd .gt_column_spanner_outer:first-child {
+#nkudmzxmev .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kdpcoclyxd .gt_column_spanner_outer:last-child {
+#nkudmzxmev .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kdpcoclyxd .gt_column_spanner {
+#nkudmzxmev .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1893,11 +1956,11 @@ Table&nbsp;6: Energy Commodities
   width: 100%;
 }
 
-#kdpcoclyxd .gt_spanner_row {
+#nkudmzxmev .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kdpcoclyxd .gt_group_heading {
+#nkudmzxmev .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1923,7 +1986,7 @@ Table&nbsp;6: Energy Commodities
   text-align: left;
 }
 
-#kdpcoclyxd .gt_empty_group_heading {
+#nkudmzxmev .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1938,15 +2001,15 @@ Table&nbsp;6: Energy Commodities
   vertical-align: middle;
 }
 
-#kdpcoclyxd .gt_from_md > :first-child {
+#nkudmzxmev .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kdpcoclyxd .gt_from_md > :last-child {
+#nkudmzxmev .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kdpcoclyxd .gt_row {
+#nkudmzxmev .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1965,7 +2028,7 @@ Table&nbsp;6: Energy Commodities
   overflow-x: hidden;
 }
 
-#kdpcoclyxd .gt_stub {
+#nkudmzxmev .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1978,7 +2041,7 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#kdpcoclyxd .gt_stub_row_group {
+#nkudmzxmev .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1992,15 +2055,15 @@ Table&nbsp;6: Energy Commodities
   vertical-align: top;
 }
 
-#kdpcoclyxd .gt_row_group_first td {
+#nkudmzxmev .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kdpcoclyxd .gt_row_group_first th {
+#nkudmzxmev .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kdpcoclyxd .gt_summary_row {
+#nkudmzxmev .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2010,16 +2073,16 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#kdpcoclyxd .gt_first_summary_row {
+#nkudmzxmev .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_first_summary_row.thick {
+#nkudmzxmev .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kdpcoclyxd .gt_last_summary_row {
+#nkudmzxmev .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2029,7 +2092,7 @@ Table&nbsp;6: Energy Commodities
   border-bottom-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_grand_summary_row {
+#nkudmzxmev .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2039,7 +2102,7 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#kdpcoclyxd .gt_first_grand_summary_row {
+#nkudmzxmev .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2049,7 +2112,7 @@ Table&nbsp;6: Energy Commodities
   border-top-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_last_grand_summary_row_top {
+#nkudmzxmev .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2059,11 +2122,11 @@ Table&nbsp;6: Energy Commodities
   border-bottom-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_striped {
+#nkudmzxmev .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kdpcoclyxd .gt_table_body {
+#nkudmzxmev .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2072,7 +2135,7 @@ Table&nbsp;6: Energy Commodities
   border-bottom-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_footnotes {
+#nkudmzxmev .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2086,7 +2149,7 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_footnote {
+#nkudmzxmev .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2095,7 +2158,7 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#kdpcoclyxd .gt_sourcenotes {
+#nkudmzxmev .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2109,7 +2172,7 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#kdpcoclyxd .gt_sourcenote {
+#nkudmzxmev .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2117,72 +2180,72 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#kdpcoclyxd .gt_left {
+#nkudmzxmev .gt_left {
   text-align: left;
 }
 
-#kdpcoclyxd .gt_center {
+#nkudmzxmev .gt_center {
   text-align: center;
 }
 
-#kdpcoclyxd .gt_right {
+#nkudmzxmev .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kdpcoclyxd .gt_font_normal {
+#nkudmzxmev .gt_font_normal {
   font-weight: normal;
 }
 
-#kdpcoclyxd .gt_font_bold {
+#nkudmzxmev .gt_font_bold {
   font-weight: bold;
 }
 
-#kdpcoclyxd .gt_font_italic {
+#nkudmzxmev .gt_font_italic {
   font-style: italic;
 }
 
-#kdpcoclyxd .gt_super {
+#nkudmzxmev .gt_super {
   font-size: 65%;
 }
 
-#kdpcoclyxd .gt_footnote_marks {
+#nkudmzxmev .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kdpcoclyxd .gt_asterisk {
+#nkudmzxmev .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kdpcoclyxd .gt_indent_1 {
+#nkudmzxmev .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kdpcoclyxd .gt_indent_2 {
+#nkudmzxmev .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kdpcoclyxd .gt_indent_3 {
+#nkudmzxmev .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kdpcoclyxd .gt_indent_4 {
+#nkudmzxmev .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kdpcoclyxd .gt_indent_5 {
+#nkudmzxmev .gt_indent_5 {
   text-indent: 25px;
 }
 
-#kdpcoclyxd .katex-display {
+#nkudmzxmev .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#kdpcoclyxd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nkudmzxmev div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2813,4 +2876,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/emisions_db_construction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/emissions_db_construction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>
