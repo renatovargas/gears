@@ -14,6 +14,7 @@ author:
       - name: Food and Agriculture Organization (FAO)
 editor_options: 
   chunk_output_type: console
+  render-on-save: true
 bibliography: references.bib
 ---
 
@@ -25,8 +26,8 @@ bibliography: references.bib
 
 library(tidyverse)
 library(gt)
-gwp_faostat_total <- readRDS(
-  "gears_db/data/outputs/gwp_faostat_total.rds"
+gwp_total <- readRDS(
+  "gears_db/data/outputs/gwp_total_emissions.rds"
 )
 un_energy <- readRDS(
   "gears_db/data/un_energy/un_energy.rds"
@@ -37,32 +38,33 @@ un_energy <- readRDS(
 
 The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.
 
-In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. Part of MAFAP Tools, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.
+In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g. the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. As an extension of the MAFAP CGE modelling tool, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.
 
 Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured [@europeancommission2009]. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations [@eurostat2015; @flachenecker2018; @gutman2024].
 
-Emissions from combustion are estimated at the economic activity level and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—[@ipcc1996; @ipcc2006] and energy use information from the Energy Statistics Database [@unsd2023]. Emissions from Industrial Processes and Waste come from EDGAR [@crippa2023] and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e. that of the Global Trade Analysis Project—GTAP—[@aguiar2019; @chepeliev2024a].
+Emissions from combustion are estimated at the economic activity level using the International Industrial Standard Classification---ISIC---[@united_nations_international_2008] and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—[@ipcc1996; @ipcc2006] and energy use information from the Energy Statistics Database [@unsd2023]. Emissions from Industrial Processes and Waste come from EDGAR [@crippa2023] and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e. that of the Global Trade Analysis Project---GTA---[@aguiar2019; @chepeliev2024a]. Emissions from Agriculture are sourced from FAOSTAT [@fao2024] and mapped to ISIC economic activities. Individual drivers are left for the practitioner to map to their own structure (i.e. output by industries, endowment by industries, input use by industries, and consumption by households). 
 
 # Methodology
 
 ## Overview
 
-As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language [@Rcore2024][^1]. The flow of data follows the diagram in @fig-dataflow.
+As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language [@Rcore2024][^1]. The original datasets, translated into the much smaller size RDS binary format, as well as the processing scripts, are included with the resulting emissions database repository[^3]. The flow of data follows the diagram in @fig-dataflow.
 
 [^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
 
+[^3]: The data is available at: [https://github.com/renatovargas/gears/tree/master/gears_db/data](https://github.com/renatovargas/gears/tree/master/gears_db/data)
+
 ::: {#fig-dataflow}
-
-
 MAFAP Complementary Emissions Database Construction Process
 :::
 
-## Emissions from industrial processes and waste
 
-The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in @tbl-edgar-domains, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).
+## Total Emissions from EDGAR
+
+ We start our methodological discussion with the sourcing of The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al., 2023) datasets published by the European Commission because they are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in @tbl-edgar-domains, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen). This allows us to provide an overview of the coverage needed by our dataset. However, due to the form in which the data is presented in the EDGAR data and our database needs, we only take advantage of emissions data on industrial processes, waste, and "other" (which refers mainly to emissions from the atmospheric deposition of nitrogen). To avoid double counting, we replace emissions from the use of energy (Chapter 1A) with data from the UN Energy Database [@unsd2023] and emissions from agriculture, forestry, and other land use with data from FAOSTAT [@fao2024]. For comparison purposes, it is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are not covered in EDGAR, but are in FAOSTAT.
 
 | **Code** | **IPCC Greenhouse Gas Inventory domain** |
-|------------------------------------|------------------------------------|
+| :----------------------------------| :----------------------------------|
 | **1.A.1.a** | Main Activity Electricity and Heat Production |
 | **1.A.1.bc** | Petroleum Refining - Manufacture of Solid Fuels and Other Energy Industries |
 | **1.A.2** | Manufacturing Industries and Construction |
@@ -98,14 +100,14 @@ The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al.,
 | **4.B** | Biological Treatment of Solid Waste |
 | **4.C** | Incineration and Open Burning of Waste |
 | **4.D** | Wastewater Treatment and Discharge |
-| **5.A** | Indirect N2O emissions from the atmospheric deposition of nitrogen in NOx and NH3 |
+| **5.A** | Indirect N2O emissions from the atmospheric deposition of nitrogen in NOx and NH~3~ |
 | **5.B** | Fossil fuel fires |
 
 : EDGAR greenhouse gas inventory domain coverage {#tbl-edgar-domains}
 
 Source: authors based on Crippa, et al. (2023).
 
-It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO~2~, CO~2~ from biofuels, CH~4~, N~2~O, and “F-Gases” PFC, HFC, HCFC, and NF~3~. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO~2~eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in @tbl-edgar-domains, not distinguished from the individual shares of CO~2~ tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves using coefficients from Myhre et al. @myhre2013, except for F-Gases, for which the conversion was made by EDGAR.
+ EDGAR datasets contain disaggregated information for the elements in the table above in Gigagrams for CO~2~, CO~2~ from biofuels, CH~4~, N~2~O, and Fluorinated greenhouse gases (F-Gases) PFC, HFC, HCFC, and NF~3~. However, while they provide a single dataset with aggregate GHG emissions expressed in CO~2~eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in @tbl-edgar-domains, not distinguished from the individual shares of CO~2~ tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves using coefficients from Myhre et al. @myhre2013, except for F-Gases, for which the conversion was made by EDGAR and kept separate as needed.
 
 | Gas                 | Global Warming Potential Values AR5 100-year horizon |
 | :--- | :--- |
@@ -116,7 +118,8 @@ It is important to note that large scale biomass burning with Savannah burning, 
 
 Source: @myhre2013 [p. 731].
 
-While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e. industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see @tbl-edgar-isic-map).
+As explained above, while the Edgar dataset is very comprehensive, it lacks the disaggregation by driver (intermediate input, output, endowment, or consumption) to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain emission value belongs, but not which fuel product is responsible for it. For example, we can identify that CO~2~ emissions are emitted by the Road Transportation sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors, as well as those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e. industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see @tbl-edgar-isic-map).
+
 
 | IPCC Code | IPCC | ISIC Code | ISIC |
 | :---: | :--- | :---: | :--- |
@@ -136,21 +139,33 @@ While the Edgar dataset is very comprehensive, it lacks the disaggregation by dr
 
 : Mapping from EDGAR to individual ISIC economic activities {#tbl-edgar-isic-map}
 
-
 ## Emissions from Agriculture and LULUCF
 
-Data on CO~2~, CH~4~, and N~2~O emissions from Agriculture, Forestry, and Other Land Use, including Land Use Change were sourced from FAOSTAT[^2]. The level of disaggregation of its individual datasets allows us to identify the individual agricultural product or asset (in the case of animals) behind the emission of a specific gas. Since values are expressed in kilotonnes (kt) of each GHG, we converted it to Global Warming Potential AR5 for a 100-year horizon using the values in @tbl-conversion-ar5. 
+Data on CO~2~, CH~4~, and N~2~O emissions from Agriculture, Forestry, and Other Land Use, including Land Use Change were sourced from FAOSTAT[^2]. The level of disaggregation of its individual datasets allows us to identify the driving agricultural product (crop) or endowment (animal assets or cropland area) behind the emission of a specific gas. Since values are expressed in kilotonnes (kt) of each GHG, we converted them to Global Warming Potential AR5 for a 100-year horizon using the values in @tbl-conversion-ar5. To facilitate the mapping to CGE and Input-Output frameworks, we added a correspondence to individual ISIC economic activities responsible for the emission, where possible.  
 
-To facilitate the mapping to CGE and Input-Output frameworks, we added a correspondence to individual ISIC economic activities responsible for the emission, where possible.  
+[^2]: Datasets are available at [https://www.fao.org/faostat/en/#data](https://www.fao.org/faostat/en/#data) under the heading "Climate Change: Agrifood systems emissions".
 
-[^2]: Datasets are available at [https://www.fao.org/faostat/en/#data](https://www.fao.org/faostat/en/#data) under the heading "Climate Change: Agrifood systems emissions"
+FAOSTAT datasets go beyond the elements stipulated in the third category of an IPCC inventory, and provide information on energy use by the agricultural sector, as well as emissions from industrial processes and waste. Since we source those from EDGAR for all economic sectors, we only use data from the domains shown in @tbl-faostat-domains from FAOSTAT.
+
 
 ```{r}
 #| echo: false
-#| tbl-label: tbl-faostat-isic
-#| tbl-cap: ISIC sectors used with FAOSTAT elements
+#| label: tbl-faostat-domains
+#| tbl-cap: FAOSTAT domains sourced
 
-data.frame(Code = unique(gwp_total_emissions$`ISIC Code`[startsWith(gwp_total_emissions$`IPCC Code`, "3")]), Sector = unique(gwp_total_emissions$ISIC[startsWith(gwp_total_emissions$`IPCC Code`, "3")])) |> 
+data.frame(Code = unique(gwp_total$`IPCC Code`[startsWith(gwp_total$`IPCC Code`, "3")]), Sector = unique(gwp_total$IPCC[startsWith(gwp_total$`IPCC Code`, "3")])) |> 
+  gt()
+```
+
+More importantly, the reason why we replaced the data from EDGAR on agriculture emissions with FAOSTAT is because of the ability to differentiate the different drivers of those emissions, as well as the separate totals by gas. @tbl-faostat-drivers shows the different elements from FAOSTAT available for practitioners to map to inputs, outputs, endowments, or consumption. 
+
+```{r}
+#| echo: false
+#| label: tbl-faostat-drivers
+#| tbl-cap: FAOSTAT domains sourced
+
+data.frame(Code = unique(gwp_total$`Sector Code`[startsWith(gwp_total$`IPCC Code`, "3")]), Driver = unique(gwp_total$Sector[startsWith(gwp_total$`IPCC Code`, "3")])) |> 
+  arrange(Code) |> 
   gt()
 ```
 
@@ -168,7 +183,7 @@ Where:
 -   $C_{fuel}=$ Amount of fuel combusted (TJ).
 -   $F_{GHG, fuel}=$  default emission factor of a given GHG by type of fuel (kg gas/TJ).
 
-The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.
+The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of all energy resources. In order to estimate emissions we focused on 39 energy resources subject to combustion or fugitive emissions (shown in @tbl-unenergy-commodities) and 88 transactions.
 
 ```{r}
 #| echo: false
@@ -181,7 +196,19 @@ data.frame(
       unique(
         un_energy$Commodity[un_energy$Driver==1]))) |> 
   gt() |> 
-  as_raw_html()
-  
+  cols_align(
+    align = "left",
+    columns = everything()
+  )
 ```
 
+# Results
+
+## Database
+
+
+## Emissions
+
+The resulting database reports GHG emissions in million metric tonnes (mmt) and 100-
+year global warming potentials (GWPs) from the IPCC’s Fifth Assessment
+Reports (AR5). We provide two formats for practitioners' convenience. A long format (what other efforts term "normalized"), where ISIC sectors are laid out in a single column, with a single column of values, and a pivot format, where ISIC sectors (including undetermined) are arranged in columns of data values. We provide a column named "Driver Category", which can take the values "intermediate input", "output", "endowment", "consumption".
