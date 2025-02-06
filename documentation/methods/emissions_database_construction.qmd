@@ -25,9 +25,6 @@ bibliography: references.bib
 
 library(tidyverse)
 library(gt)
-gwp_faostat_total <- readRDS(
-  "gears_db/data/outputs/gwp_faostat_total.rds"
-)
 un_energy <- readRDS(
   "gears_db/data/un_energy/un_energy.rds"
 )
@@ -56,6 +53,37 @@ As our goal is to leverage valuable emissions data from different sources, we ha
 
 MAFAP Complementary Emissions Database Construction Process
 :::
+
+## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
+
+Although the global datasets that we use already have this information in the aggregate, a choice was made to estimate emissions from combustion, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023] using @eq-emission-factors.
+
+$$
+E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
+$$ {#eq-emission-factors}
+
+Where:
+
+-   $E_{GHG,fuel}=$  Emissions of a given GHG by type of fuel (kg GHG).
+-   $C_{fuel}=$ Amount of fuel combusted (TJ).
+-   $F_{GHG, fuel}=$  default emission factor of a given GHG by type of fuel (kg gas/TJ).
+
+The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.
+
+```{r}
+#| echo: false
+#| label: tbl-unenergy-commodities
+#| tbl-cap: "Energy Commodities"
+
+data.frame(
+  Commodity = 
+    sort(
+      unique(
+        un_energy$Commodity[un_energy$Driver==1]))) |> 
+  gt() |> 
+  as_raw_html()
+  
+```
 
 ## Emissions from industrial processes and waste
 
@@ -105,21 +133,21 @@ The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al.,
 
 Source: authors based on Crippa, et al. (2023).
 
-It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO~2~, CO~2~ from biofuels, CH~4~, N~2~O, and “F-Gases” PFC, HFC, HCFC, and NF~3~. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO~2~eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in @tbl-edgar-domains, not distinguished from the individual shares of CO~2~ tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves using coefficients from Myhre et al. @myhre2013, except for F-Gases, for which the conversion was made by EDGAR.
+It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO2, CO2 from biofuels, CH4, N2O, and “F-Gases” PFC, HFC, HCFC, and NF3. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO2eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in table 1, not distinguished from the individual shares of CO2 tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves, except for F-Gases, for which the conversion was made by EDGAR.
 
 | Gas                 | Global Warming Potential Values AR5 100-year horizon |
-| :--- | :--- |
+|-------------------------|----------------------------------------------|
 | Methane (CH4)       | 28 CO~2~ tons equivalent / Gigagram                  |
 | Nitrous Oxide (N2O) | 265 CO~2~ tons equivalent / Gigagram                 |
 
-: Conversion coefficients for methane and nitrous oxide {#tbl-conversion-ar5}
+: Conversion coefficients for methane and nitrous oxide {tbl-conversion-ar5}
 
 Source: @myhre2013 [p. 731].
 
-While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e. industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see @tbl-edgar-isic-map).
+While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e. industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see Table 3).
 
 | IPCC Code | IPCC | ISIC Code | ISIC |
-| :---: | :--- | :---: | :--- |
+|------------------|------------------|------------------|------------------|
 | 2.A.1 | Cement production | 2394 | Manufacture of cement, lime and plaster |
 | 2.A.2 | Lime production | 2394 | Manufacture of cement, lime and plaster |
 | 2.A.3 | Glass Production | 2310 | Manufacture of glass and glass products |
@@ -134,54 +162,4 @@ While the Edgar dataset is very comprehensive, it lacks the disaggregation by dr
 | 4.B | Biological Treatment of Solid Waste | 3822 | Treatment and disposal of hazardous waste |
 | 4.C | Incineration and Open Burning of Waste | 3822 | Treatment and disposal of hazardous waste |
 
-: Mapping from EDGAR to individual ISIC economic activities {#tbl-edgar-isic-map}
-
-
-## Emissions from Agriculture and LULUCF
-
-Data on CO~2~, CH~4~, and N~2~O emissions from Agriculture, Forestry, and Other Land Use, including Land Use Change were sourced from FAOSTAT[^2]. The level of disaggregation of its individual datasets allows us to identify the individual agricultural product or asset (in the case of animals) behind the emission of a specific gas. Since values are expressed in kilotonnes (kt) of each GHG, we converted it to Global Warming Potential AR5 for a 100-year horizon using the values in @tbl-conversion-ar5. 
-
-To facilitate the mapping to CGE and Input-Output frameworks, we added a correspondence to individual ISIC economic activities responsible for the emission, where possible.  
-
-[^2]: Datasets are available at [https://www.fao.org/faostat/en/#data](https://www.fao.org/faostat/en/#data) under the heading "Climate Change: Agrifood systems emissions"
-
-```{r}
-#| echo: false
-#| tbl-label: tbl-faostat-isic
-#| tbl-cap: ISIC sectors used with FAOSTAT elements
-
-data.frame(Code = unique(gwp_total_emissions$`ISIC Code`[startsWith(gwp_total_emissions$`IPCC Code`, "3")]), Sector = unique(gwp_total_emissions$ISIC[startsWith(gwp_total_emissions$`IPCC Code`, "3")])) |> 
-  gt()
-```
-
-## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
-
-A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023] using @eq-emission-factors.
-
-$$
-E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
-$$ {#eq-emission-factors}
-
-Where:
-
--   $E_{GHG,fuel}=$  Emissions of a given GHG by type of fuel (kg GHG).
--   $C_{fuel}=$ Amount of fuel combusted (TJ).
--   $F_{GHG, fuel}=$  default emission factor of a given GHG by type of fuel (kg gas/TJ).
-
-The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.
-
-```{r}
-#| echo: false
-#| label: tbl-unenergy-commodities
-#| tbl-cap: "Energy Commodities"
-
-data.frame(
-  Commodity = 
-    sort(
-      unique(
-        un_energy$Commodity[un_energy$Driver==1]))) |> 
-  gt() |> 
-  as_raw_html()
-  
-```
-
+: Mapping from EDGAR to individual ISIC economic activities{tbl-edgar-isic-map}
