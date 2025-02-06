@@ -237,8 +237,9 @@ window.Quarto = {
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" id="toc-greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="nav-link" data-scroll-target="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</a></li>
   <li><a href="#emissions-from-industrial-processes-and-waste" id="toc-emissions-from-industrial-processes-and-waste" class="nav-link" data-scroll-target="#emissions-from-industrial-processes-and-waste">Emissions from industrial processes and waste</a></li>
+  <li><a href="#emissions-from-agriculture-and-lulucf" id="toc-emissions-from-agriculture-and-lulucf" class="nav-link" data-scroll-target="#emissions-from-agriculture-and-lulucf">Emissions from Agriculture and LULUCF</a></li>
+  <li><a href="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" id="toc-greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="nav-link" data-scroll-target="#greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/overview.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -310,174 +311,13 @@ Figure&nbsp;1
 </figure>
 </div>
 </section>
-<section id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="level2">
-<h2 class="anchored" data-anchor-id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</h2>
-<p>A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> using <a href="#eq-emission-factors" class="quarto-xref">Equation&nbsp;1</a>.</p>
-<p><span id="eq-emission-factors"><span class="math display">\[
-E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
-\tag{1}\]</span></span></p>
-<p>Where:</p>
-<ul>
-<li><span class="math inline">\(E_{GHG,fuel}=\)</span> Emissions of a given GHG by type of fuel (kg GHG).</li>
-<li><span class="math inline">\(C_{fuel}=\)</span> Amount of fuel combusted (TJ).</li>
-<li><span class="math inline">\(F_{GHG, fuel}=\)</span> default emission factor of a given GHG by type of fuel (kg gas/TJ).</li>
-</ul>
-<p>The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.</p>
-<div class="cell">
-<div id="tbl-unenergy-commodities" class="cell quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Energy Commodities
-</figcaption>
-<div aria-describedby="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<div id="dnqvjqbbsh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-  
-  
-<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" data-bgcolor="#FFFFFF">
-<thead style="border-style: none;">
-<tr class="gt_col_headings header" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
-<th id="Commodity" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col" style="text-align: center; border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden;" data-bgcolor="#FFFFFF" data-valign="bottom">Commodity</th>
-</tr>
-</thead>
-<tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Anthracite</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Aviation gasoline</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Bagasse</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Bio jet kerosene</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biodiesel</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biogases</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biogasoline</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Black liquor</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Blast furnace gas</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Brown coal</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Brown coal briquettes</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Charcoal</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coal</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coke-oven coke</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coke oven gas</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coking coal</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Ethane</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Fuel oil</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Fuelwood</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gas coke</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gas oil/diesel oil</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gasoline-type jet fuel</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gasworks gas</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Hard coal</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Kerosene-type jet fuel</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite brown coal</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite brown coal- recoverable resources</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Liquefied petroleum gas (lpg)</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Motor gasoline</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Naphtha</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Natural gas</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Natural gas (including lng)</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other bituminous coal</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other coal products</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other hydrocarbons</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other liquid biofuels</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Peat (for fuel use)</td>
-</tr>
-<tr class="odd" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Petroleum coke</td>
-</tr>
-<tr class="even" style="border-style: none;">
-<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Refinery gas</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-</figure>
-</div>
-</div>
-</section>
 <section id="emissions-from-industrial-processes-and-waste" class="level2">
 <h2 class="anchored" data-anchor-id="emissions-from-industrial-processes-and-waste">Emissions from industrial processes and waste</h2>
-<p>The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;2</a>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).</p>
+<p>The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) is used to source emissions data on industrial processes, waste, and other indicators. EDGAR datasets published by the European Commission are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;1</a>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen).</p>
 <div id="tbl-edgar-domains" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: EDGAR greenhouse gas inventory domain coverage
+Table&nbsp;1: EDGAR greenhouse gas inventory domain coverage
 </figcaption>
 <div aria-describedby="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -646,129 +486,310 @@ Table&nbsp;2: EDGAR greenhouse gas inventory domain coverage
 </figure>
 </div>
 <p>Source: authors based on Crippa, et al.&nbsp;(2023).</p>
-<p>It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO2, CO2&nbsp;from&nbsp;biofuels, CH4, N2O, and “F-Gases” PFC, HFC, HCFC, and NF3. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO2eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in table 1, not distinguished from the individual shares of CO2 tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves, except for F-Gases, for which the conversion was made by EDGAR.</p>
+<p>It is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are excluded and are better covered in the FAOSTAT dataset, explained in the following section. Moreover, EDGAR datasets published by the European Commission contain disaggregated information for the elements in the table above in Gigagrams for CO<sub>2</sub>, CO<sub>2</sub>&nbsp;from&nbsp;biofuels, CH<sub>4</sub>, N<sub>2</sub>O, and “F-Gases” PFC, HFC, HCFC, and NF<sub>3</sub>. Although the EDGAR initiative provides a single dataset with aggregate GHG emissions expressed in CO<sub>2</sub>eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;1</a>, not distinguished from the individual shares of CO<sub>2</sub> tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves using coefficients from Myhre et al. <span class="citation" data-cites="myhre2013">Myhre et al. (<a href="#ref-myhre2013" role="doc-biblioref">2013</a>)</span>, except for F-Gases, for which the conversion was made by EDGAR.</p>
+<div id="tbl-conversion-ar5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conversion-ar5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Conversion coefficients for methane and nitrous oxide
+</figcaption>
+<div aria-describedby="tbl-conversion-ar5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>Conversion coefficients for methane and nitrous oxide</caption>
 <colgroup>
-<col style="width: 35%">
-<col style="width: 64%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Gas</th>
-<th>Global Warming Potential Values AR5 100-year horizon</th>
+<th style="text-align: left;">Gas</th>
+<th style="text-align: left;">Global Warming Potential Values AR5 100-year horizon</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Methane (CH4)</td>
-<td>28 CO<sub>2</sub> tons equivalent / Gigagram</td>
+<td style="text-align: left;">Methane (CH4)</td>
+<td style="text-align: left;">28 CO<sub>2</sub> tons equivalent / Gigagram</td>
 </tr>
 <tr class="even">
-<td>Nitrous Oxide (N2O)</td>
-<td>265 CO<sub>2</sub> tons equivalent / Gigagram</td>
+<td style="text-align: left;">Nitrous Oxide (N2O)</td>
+<td style="text-align: left;">265 CO<sub>2</sub> tons equivalent / Gigagram</td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
 <p>Source: <span class="citation" data-cites="myhre2013">Myhre et al. (<a href="#ref-myhre2013" role="doc-biblioref">2013, 731</a>)</span>.</p>
-<p>While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e.&nbsp;industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see Table 3).</p>
+<p>While the Edgar dataset is very comprehensive, it lacks the disaggregation by driver to satisfy the needs of CGE studies, when it comes to energy and certain agricultural aspects. That means that it is possible to identify to which volume of the IPCC a certain value belongs, but not which fuel product is responsible for the emission. For example, we can identify that CO2 emissions are emitted by the Road Transportation no resuspension sector, but not whether the emissions come from the burning of Diesel or from Bioethanol or any other fuel type. For that reason, we replace the values related to energy with those from our own estimates using the United Nations Energy Database and default emission factors and those elements related to agriculture and LULUCF with emissions data from FAOSTAT at the driver level (explained in the FAOSTAT section below). For completeness, the remaining domains; i.e.&nbsp;industrial processes, waste, and others are linked to total output of specific economic activities, using the International Standard Industrial Classification (United Nations, 2008) where possible (see <a href="#tbl-edgar-isic-map" class="quarto-xref">Table&nbsp;3</a>).</p>
+<div id="tbl-edgar-isic-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-edgar-isic-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Mapping from EDGAR to individual ISIC economic activities
+</figcaption>
+<div aria-describedby="tbl-edgar-isic-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>Mapping from EDGAR to individual ISIC economic activities{tbl-edgar-isic-map}</caption>
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 27%">
+<col style="width: 22%">
+<col style="width: 27%">
+<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>IPCC Code</th>
-<th>IPCC</th>
-<th>ISIC Code</th>
-<th>ISIC</th>
+<th style="text-align: center;">IPCC Code</th>
+<th style="text-align: left;">IPCC</th>
+<th style="text-align: center;">ISIC Code</th>
+<th style="text-align: left;">ISIC</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>2.A.1</td>
-<td>Cement production</td>
-<td>2394</td>
-<td>Manufacture of cement, lime and plaster</td>
+<td style="text-align: center;">2.A.1</td>
+<td style="text-align: left;">Cement production</td>
+<td style="text-align: center;">2394</td>
+<td style="text-align: left;">Manufacture of cement, lime and plaster</td>
 </tr>
 <tr class="even">
-<td>2.A.2</td>
-<td>Lime production</td>
-<td>2394</td>
-<td>Manufacture of cement, lime and plaster</td>
+<td style="text-align: center;">2.A.2</td>
+<td style="text-align: left;">Lime production</td>
+<td style="text-align: center;">2394</td>
+<td style="text-align: left;">Manufacture of cement, lime and plaster</td>
 </tr>
 <tr class="odd">
-<td>2.A.3</td>
-<td>Glass Production</td>
-<td>2310</td>
-<td>Manufacture of glass and glass products</td>
+<td style="text-align: center;">2.A.3</td>
+<td style="text-align: left;">Glass Production</td>
+<td style="text-align: center;">2310</td>
+<td style="text-align: left;">Manufacture of glass and glass products</td>
 </tr>
 <tr class="even">
-<td>2.A.4</td>
-<td>Other Process Uses of Carbonates</td>
-<td>9999</td>
-<td>Undetermined</td>
+<td style="text-align: center;">2.A.4</td>
+<td style="text-align: left;">Other Process Uses of Carbonates</td>
+<td style="text-align: center;">9999</td>
+<td style="text-align: left;">Undetermined</td>
 </tr>
 <tr class="odd">
-<td>2.B</td>
-<td>Chemical Industry</td>
-<td>2011</td>
-<td>Manufacture of basic chemicals</td>
+<td style="text-align: center;">2.B</td>
+<td style="text-align: left;">Chemical Industry</td>
+<td style="text-align: center;">2011</td>
+<td style="text-align: left;">Manufacture of basic chemicals</td>
 </tr>
 <tr class="even">
-<td>2.C</td>
-<td>Metal Industry</td>
-<td>2410</td>
-<td>Manufacture of basic iron and steel</td>
+<td style="text-align: center;">2.C</td>
+<td style="text-align: left;">Metal Industry</td>
+<td style="text-align: center;">2410</td>
+<td style="text-align: left;">Manufacture of basic iron and steel</td>
 </tr>
 <tr class="odd">
-<td>2.D</td>
-<td>Non-Energy Products from Fuels and Solvent Use</td>
-<td>9999</td>
-<td>Undetermined</td>
+<td style="text-align: center;">2.D</td>
+<td style="text-align: left;">Non-Energy Products from Fuels and Solvent Use</td>
+<td style="text-align: center;">9999</td>
+<td style="text-align: left;">Undetermined</td>
 </tr>
 <tr class="even">
-<td>2.E</td>
-<td>Electronics Industry</td>
-<td>2640</td>
-<td>Manufacture of consumer electronics</td>
+<td style="text-align: center;">2.E</td>
+<td style="text-align: left;">Electronics Industry</td>
+<td style="text-align: center;">2640</td>
+<td style="text-align: left;">Manufacture of consumer electronics</td>
 </tr>
 <tr class="odd">
-<td>2.F</td>
-<td>Product Uses as Substitutes for Ozone Depleting Substances</td>
-<td>9999</td>
-<td>Undetermined</td>
+<td style="text-align: center;">2.F</td>
+<td style="text-align: left;">Product Uses as Substitutes for Ozone Depleting Substances</td>
+<td style="text-align: center;">9999</td>
+<td style="text-align: left;">Undetermined</td>
 </tr>
 <tr class="even">
-<td>2.G</td>
-<td>Other Product Manufacture and Use</td>
-<td>9999</td>
-<td>Undetermined</td>
+<td style="text-align: center;">2.G</td>
+<td style="text-align: left;">Other Product Manufacture and Use</td>
+<td style="text-align: center;">9999</td>
+<td style="text-align: left;">Undetermined</td>
 </tr>
 <tr class="odd">
-<td>4.A</td>
-<td>Solid Waste Disposal</td>
-<td>3821</td>
-<td>Treatment and disposal of non-hazardous waste</td>
+<td style="text-align: center;">4.A</td>
+<td style="text-align: left;">Solid Waste Disposal</td>
+<td style="text-align: center;">3821</td>
+<td style="text-align: left;">Treatment and disposal of non-hazardous waste</td>
 </tr>
 <tr class="even">
-<td>4.B</td>
-<td>Biological Treatment of Solid Waste</td>
-<td>3822</td>
-<td>Treatment and disposal of hazardous waste</td>
+<td style="text-align: center;">4.B</td>
+<td style="text-align: left;">Biological Treatment of Solid Waste</td>
+<td style="text-align: center;">3822</td>
+<td style="text-align: left;">Treatment and disposal of hazardous waste</td>
 </tr>
 <tr class="odd">
-<td>4.C</td>
-<td>Incineration and Open Burning of Waste</td>
-<td>3822</td>
-<td>Treatment and disposal of hazardous waste</td>
+<td style="text-align: center;">4.C</td>
+<td style="text-align: left;">Incineration and Open Burning of Waste</td>
+<td style="text-align: center;">3822</td>
+<td style="text-align: left;">Treatment and disposal of hazardous waste</td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+</section>
+<section id="emissions-from-agriculture-and-lulucf" class="level2">
+<h2 class="anchored" data-anchor-id="emissions-from-agriculture-and-lulucf">Emissions from Agriculture and LULUCF</h2>
+<p>Data on CO<sub>2</sub>, CH<sub>4</sub>, and N<sub>2</sub>O emissions from Agriculture, Forestry, and Other Land Use, including Land Use Change were sourced from FAOSTAT<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The level of disaggregation of its individual datasets allows us to identify the individual agricultural product or asset (in the case of animals) behind the emission of a specific gas.</p>
+</section>
+<section id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions" class="level2">
+<h2 class="anchored" data-anchor-id="greenhouse-gas-emissions-from-fuel-combustion-and-fugitive-emissions">Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions</h2>
+<p>A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> using <a href="#eq-emission-factors" class="quarto-xref">Equation&nbsp;1</a>.</p>
+<p><span id="eq-emission-factors"><span class="math display">\[
+E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
+\tag{1}\]</span></span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(E_{GHG,fuel}=\)</span> Emissions of a given GHG by type of fuel (kg GHG).</li>
+<li><span class="math inline">\(C_{fuel}=\)</span> Amount of fuel combusted (TJ).</li>
+<li><span class="math inline">\(F_{GHG, fuel}=\)</span> default emission factor of a given GHG by type of fuel (kg gas/TJ).</li>
+</ul>
+<p>The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of energy resources. In order to estimate emissions we focused on 39 energy resources and 88 transactions that represent combustion.</p>
+<div class="cell">
+<div id="tbl-unenergy-commodities" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Energy Commodities
+</figcaption>
+<div aria-describedby="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="dwiaeussqd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+  
+  
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" data-bgcolor="#FFFFFF">
+<thead style="border-style: none;">
+<tr class="gt_col_headings header" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
+<th id="Commodity" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col" style="text-align: center; border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden;" data-bgcolor="#FFFFFF" data-valign="bottom">Commodity</th>
+</tr>
+</thead>
+<tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Anthracite</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Aviation gasoline</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Bagasse</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Bio jet kerosene</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biodiesel</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biogases</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Biogasoline</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Black liquor</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Blast furnace gas</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Brown coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Brown coal briquettes</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Charcoal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coal</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coke-oven coke</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coke oven gas</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Coking coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Ethane</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Fuel oil</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Fuelwood</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gas coke</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gas oil/diesel oil</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gasoline-type jet fuel</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Gasworks gas</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Hard coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Kerosene-type jet fuel</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite brown coal</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Lignite brown coal- recoverable resources</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Liquefied petroleum gas (lpg)</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Motor gasoline</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Naphtha</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Natural gas</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Natural gas (including lng)</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other bituminous coal</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other coal products</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other hydrocarbons</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Other liquid biofuels</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Peat (for fuel use)</td>
+</tr>
+<tr class="odd" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Petroleum coke</td>
+</tr>
+<tr class="even" style="border-style: none;">
+<td class="gt_row gt_center" headers="Commodity" style="text-align: center; border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden;" data-valign="middle">Refinery gas</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
 
 
 
@@ -817,6 +838,7 @@ UNSD. 2023. <span>“Energy Statistics Database 2021: Notes on Sources.”</span
 
 <ol>
 <li id="fn1"><p>R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Datasets are available at <a href="https://www.fao.org/faostat/en/#data">https://www.fao.org/faostat/en/#data</a> under the heading “Climate Change: Agrifood systems emissions”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
