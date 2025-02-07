@@ -777,20 +777,26 @@ energy_total <- un_energy |>
 Test for UN Energy elements
 
 ```{r}
-# table <- combined_data |> 
-#   filter(Year== 2020,
-#          OfInterest == 1,
-#          Driver == 1) |> 
-#   group_by(Transaction, Commodity) |> 
-#   summarize(Total = sum(Quantity, na.rm = T)) |> 
-#   pivot_wider(names_from = Commodity, values_from = Total)
-# 
-# write.table(
-#   table,
-#   "clipboard",
-#   sep = "\t",
-#   na = "",
-#   row.names = F)
+table <- un_energy |>
+  filter(Year== 2020,
+         OfInterest == 1,
+         Driver == 1) |>
+  group_by(Transaction, Commodity) |>
+  summarize(Total = sum(Quantity, na.rm = T)) |>
+  pivot_wider(names_from = Commodity, values_from = Total)
+
+write.table(
+  table,
+  "clipboard",
+  sep = "\t",
+  na = "",
+  row.names = F)
+
+
+table <- un_energy |> 
+  group_by(Commodity, Unit) |> 
+  summarize(Total = sum(Quantity, na.rm = T)) |> 
+  ungroup()
 ```
 
 
