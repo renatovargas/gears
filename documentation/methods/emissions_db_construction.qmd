@@ -169,9 +169,9 @@ data.frame(Code = unique(gwp_total$`Sector Code`[startsWith(gwp_total$`IPCC Code
   gt()
 ```
 
-## Greenhouse Gas Emissions from Fuel Combustion and Fugitive Emissions
+## Greenhouse Gas Emissions from Stationary and Mobile Combustion
 
-A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023] using @eq-emission-factors.
+A choice was made to estimate emissions from combustion, although the global datasets that we use already have this information in the aggregate, because it was important to be able to distinguish between the different fuels driving the combustion and the sectors in which this happened. Greenhouse gas emissions from fuel combustion and fugitive emissions were estimated applying Tier 1 coefficients from the 2006 IPCC Guidelines for National Greenhouse Gas Inventories to national information on fuel uses from the United Nations Energy Database [@unsd2023] using @eq-emission-factors. We first applied conversion factors from units of volume (metric tons) to Terajoules from _Definitions, Units of Measure and Conversion Factors_ [@united_nations_energy_1987].
 
 $$
 E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}

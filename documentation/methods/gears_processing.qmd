@@ -751,15 +751,15 @@ energy_total <- un_energy |>
     `Emissions (CO2eq) from CH4 (AR5)`,
     `Emissions (CO2eq) from N2O (AR5)`
   ) |> 
-  pivot_longer(
-    cols = c(
-      `Emissions (CO2)`,
-      `Emissions (CO2eq) from CH4 (AR5)`,
-      `Emissions (CO2eq) from N2O (AR5)`
-    ),
-    names_to = "Element",
-    values_to = "Value"
-  ) |> 
+  # pivot_longer(
+  #   cols = c(
+  #     `Emissions (CO2)`,
+  #     `Emissions (CO2eq) from CH4 (AR5)`,
+  #     `Emissions (CO2eq) from N2O (AR5)`
+  #   ),
+  #   names_to = "Element",
+  #   values_to = "Value"
+  # ) |> 
   rename(
     Area = Country.or.Area,
     Sector = Transaction,
@@ -777,26 +777,52 @@ energy_total <- un_energy |>
 Test for UN Energy elements
 
 ```{r}
-table <- un_energy |>
-  filter(Year== 2020,
-         OfInterest == 1,
-         Driver == 1) |>
-  group_by(Transaction, Commodity) |>
-  summarize(Total = sum(Quantity, na.rm = T)) |>
-  pivot_wider(names_from = Commodity, values_from = Total)
-
-write.table(
-  table,
-  "clipboard",
-  sep = "\t",
-  na = "",
-  row.names = F)
-
-
-table <- un_energy |> 
-  group_by(Commodity, Unit) |> 
-  summarize(Total = sum(Quantity, na.rm = T)) |> 
-  ungroup()
+# # Test Energy Use
+# 
+# table <- un_energy |> 
+#   filter(
+#     Country.or.Area == "Nigeria",
+#     Year == 2018,
+#     OfInterest == 1,
+#     Driver == 1
+#   ) |>
+#   arrange(
+#     # Transaction,
+#     Commodity
+#   ) |> 
+#   group_by(
+#     # Transaction,
+#     Commodity
+#   ) |> 
+#   summarize(
+#     Total = sum(Quantity, na.rm = T)
+#   ) |> 
+#   ungroup()
+# write.table(table, "clipboard-128", sep = "\t", row.names = F)
+# 
+# # Test Emissions
+# table <- energy_total |> 
+#   filter(
+#     Area == "Nigeria",
+#     Year == 2018,
+#     # OfInterest == 1,
+#     # Driver == 1
+#   ) |>
+#   arrange(
+#     # Sector,
+#     Driver
+#   ) |> 
+#   group_by(
+#     # Sector,
+#     Driver
+#   ) |> 
+#   summarize(
+#     CO2 = sum(`Emissions (CO2)`, na.rm = T),
+#     CH4 = sum(`Emissions (CO2eq) from CH4 (AR5)`, na.rm = T),
+#     N2O = sum(`Emissions (CO2eq) from N2O (AR5)`, na.rm = T)
+#   ) |> 
+#   ungroup()
+# write.table(table, paste0("clipboard-",2^20), sep = "\t", row.names = F)
 ```
 
 
@@ -980,6 +1006,13 @@ saveRDS(
 # write.xlsx(
 #   test,
 #   file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
+
+test <- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )
+write.table(test, "clipboard-128", sep = "\t", row.names = F)
+
+write.xlsx(
+  test,
+  file = "gears_db/data/outputs/un_nigeria18_pivot_test.xlsx")
 ```
 
 # End

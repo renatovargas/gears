@@ -1,4 +1,5 @@
 library(tidyverse)
+library(readxl)
 
 rm(list = ls())
 
@@ -38,14 +39,6 @@ combined_data$Commodity <- tolower(combined_data$Commodity)
 # Remove leading and trailing spaces from the Transaction column
 combined_data$Transaction <- trimws(combined_data$Transaction)
 combined_data$Commodity <- trimws(combined_data$Commodity)
-
-
-# #Fix transaction duplicates
-# write.table(
-#   sort(unique(un_energy$Commodity)),
-#   "clipboard",
-#   sep = "\t",
-#   row.names = F)
 
 fixed_transactions <- read_xlsx(
   "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
