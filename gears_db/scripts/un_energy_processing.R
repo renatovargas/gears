@@ -27,18 +27,18 @@ for (file in file_list) {
 }
 
 # Combine all data frames into a single data frame
-combined_data <- do.call(rbind, data_list)
+combined_data2 <- do.call(rbind, data_list)
 
 # Remove auto row names
-row.names(combined_data) <- NULL
+row.names(combined_data2) <- NULL
 
 # Make all observations lowercase to avoid duplicates
-combined_data$Transaction <- tolower(combined_data$Transaction)
-combined_data$Commodity <- tolower(combined_data$Commodity)
+combined_data2$Transaction <- tolower(combined_data2$Transaction)
+combined_data2$Commodity <- tolower(combined_data2$Commodity)
 
 # Remove leading and trailing spaces from the Transaction column
-combined_data$Transaction <- trimws(combined_data$Transaction)
-combined_data$Commodity <- trimws(combined_data$Commodity)
+combined_data2$Transaction <- trimws(combined_data2$Transaction)
+combined_data2$Commodity <- trimws(combined_data2$Commodity)
 
 fixed_transactions <- read_xlsx(
   "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
@@ -46,19 +46,27 @@ fixed_transactions <- read_xlsx(
 fixed_commodities <- read_xlsx(
   "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
   sheet = "Commodity")
+fixed_countries <- read_xlsx(
+  "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
+  sheet = "Countries")
 
-combined_data <- combined_data |> 
+combined_data <- combined_data2 |> 
   left_join(fixed_transactions, join_by(Transaction)) |>
-  left_join(fixed_commodities, join_by(Commodity)) |> 
+  left_join(fixed_commodities, join_by(Commodity)) |>
+  left_join(fixed_countries, join_by(Country.or.Area)) |> 
   select(-c(Commodity...Transaction,
             Quantity.Footnotes,
             Transaction,
-            Commodity)) |> 
+            Commodity,
+            Country.or.Area)) |> 
   rename(Transaction = `Fixed Transaction`,
          Commodity = `Fixed Commodity`) |> 
   mutate(Transaction = str_to_sentence(Transaction),
-         Commodity = str_to_sentence(Commodity)) |> 
-  mutate(across(where(is.character), as.factor))
+         Commodity = str_to_sentence(Commodity)) |>
+  filter(! is.na(ISO3) ) |> 
+  mutate(across(where(is.character), as.factor)) |> 
+  relocate(ISO3, .before = Year) |> 
+  relocate(c(`Area Code`, Area), .before = ISO3)
 
 # Save to RDS to save space
 saveRDS(combined_data,"gears_db/data/un_energy/un_energy.rds")

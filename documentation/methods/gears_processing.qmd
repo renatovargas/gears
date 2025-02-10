@@ -728,7 +728,8 @@ rm(list = objects[objects %in% ls()])
 
 energy_total <- un_energy |> 
   filter(Driver == 1,
-         OfInterest == 1) |> 
+         OfInterest == 1,
+         ! is.na(ISO3)) |> 
   left_join(un_energy_ipcc_coef, join_by(Commodity)) |>
   # Estimate emissions using IPCC 2006 Coefficients
   mutate(
@@ -743,7 +744,13 @@ energy_total <- un_energy |>
       Quantity * to_TJ * N2O * 10^(-6) * 265
   ) |> 
   select(
-    Country.or.Area,
+    `Area Code`,
+    Area,
+    ISO3,
+    `IPCC Code`,
+    IPCC,
+    `ISIC Code`,
+    ISIC,
     Year,
     Transaction,
     Commodity,
@@ -751,17 +758,23 @@ energy_total <- un_energy |>
     `Emissions (CO2eq) from CH4 (AR5)`,
     `Emissions (CO2eq) from N2O (AR5)`
   ) |> 
-  # pivot_longer(
-  #   cols = c(
-  #     `Emissions (CO2)`,
-  #     `Emissions (CO2eq) from CH4 (AR5)`,
-  #     `Emissions (CO2eq) from N2O (AR5)`
-  #   ),
-  #   names_to = "Element",
-  #   values_to = "Value"
-  # ) |> 
+  pivot_longer(
+    cols = c(
+      `Emissions (CO2)`,
+      `Emissions (CO2eq) from CH4 (AR5)`,
+      `Emissions (CO2eq) from N2O (AR5)`
+    ),
+    names_to = "Element",
+    values_to = "Value"
+  ) |>
+  mutate(
+    Element = case_when(
+      Commodity %in% c("Bio jet kerosene", 
+                       "Biodiesel", 
+                       "Biogasoline") ~ "Emissions (CO2bio)",
+      .default = Element)
+  ) |> 
   rename(
-    Area = Country.or.Area,
     Sector = Transaction,
     Driver = Commodity
   ) |> 
@@ -1000,19 +1013,19 @@ saveRDS(
 ### Smaller size tests for discussion.
 
 ```{r}
-# test <- energy_total |>
-#   filter(
-#     Year %in% c(2020:2022))
-# write.xlsx(
-#   test,
-#   file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
-
-test <- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )
-write.table(test, "clipboard-128", sep = "\t", row.names = F)
-
+test <- energy_total |>
+  filter(
+    Year %in% c(2018:2020))
 write.xlsx(
   test,
-  file = "gears_db/data/outputs/un_nigeria18_pivot_test.xlsx")
+  file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
+
+# test <- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )
+# write.table(test, "clipboard-128", sep = "\t", row.names = F)
+# 
+# write.xlsx(
+#   test,
+#   file = "gears_db/data/outputs/un_nigeria18_pivot_test.xlsx")
 ```
 
 # End
