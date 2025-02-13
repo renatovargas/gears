@@ -1013,12 +1013,12 @@ saveRDS(
 ### Smaller size tests for discussion.
 
 ```{r}
-test <- energy_total |>
-  filter(
-    Year %in% c(2018:2020))
-write.xlsx(
-  test,
-  file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
+# test <- energy_total |>
+#   filter(
+#     Year %in% c(2018:2020))
+# write.xlsx(
+#   test,
+#   file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
 
 # test <- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )
 # write.table(test, "clipboard-128", sep = "\t", row.names = F)
