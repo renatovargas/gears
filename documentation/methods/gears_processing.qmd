@@ -314,7 +314,7 @@ gwp_edgar_total <- rbind(
     join_by(ISO3)
   ) |> 
   select(
-    #`Area Code`,
+    `Area Code`,
     Area,
     ISO3,
     `Driver Code`,
@@ -746,7 +746,7 @@ energy_total <- un_energy |>
       Quantity * to_TJ * N2O * 10^(-6) * 265
   ) |> 
   select(
-    #`Area Code`,
+    `Area Code`,
     Area,
     ISO3,
     `IPCC Code`,
@@ -928,7 +928,6 @@ gwp_total_emissions <- rbind(
     `Sector Code`
   ) |> 
   select(
-    #`Area Code`,
     Area,
     ISO3,
     Year,
