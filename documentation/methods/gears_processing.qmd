@@ -314,7 +314,7 @@ gwp_edgar_total <- rbind(
     join_by(ISO3)
   ) |> 
   select(
-    `Area Code`,
+    #`Area Code`,
     Area,
     ISO3,
     `Driver Code`,
@@ -727,6 +727,8 @@ rm(list = objects[objects %in% ls()])
 ```{r}
 
 energy_total <- un_energy |> 
+  # We added Driver == 1 for products that are combustion
+  # We added OfInterest == for Transaction that are of interest
   filter(Driver == 1,
          OfInterest == 1,
          ! is.na(ISO3)) |> 
@@ -744,7 +746,7 @@ energy_total <- un_energy |>
       Quantity * to_TJ * N2O * 10^(-6) * 265
   ) |> 
   select(
-    `Area Code`,
+    #`Area Code`,
     Area,
     ISO3,
     `IPCC Code`,
@@ -926,6 +928,7 @@ gwp_total_emissions <- rbind(
     `Sector Code`
   ) |> 
   select(
+    #`Area Code`,
     Area,
     ISO3,
     Year,
