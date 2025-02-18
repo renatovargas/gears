@@ -128,6 +128,9 @@ fao_ipcc <- read_xlsx(
 isic <- read_xlsx(
   "gears_db/data/classifications/equivalence.xlsx",
   sheet = "GWP ISIC")
+full_isic4 <- read_xlsx(
+  "gears_db/data/classifications/equivalence.xlsx",
+  sheet = "ISIC Rev 4")
 un_energy_ipcc_coef <- read_xlsx(
   "gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx",
   sheet = "un_energy_coefficients"
@@ -216,7 +219,7 @@ transform_edgar_datasets <- function(datasets, dataset_names) {
   # Assign the transformed dataset to the global environment
   assign(paste0("transformed_", name), transformed, envir = .GlobalEnv)
   
-  # Recur with the rest of the datasets
+  # Recursion with the rest of the datasets
   transform_edgar_datasets(datasets[-1], dataset_names[-1])
 }
 ```
@@ -299,9 +302,11 @@ gwp_edgar_total <- rbind(
     `Sector Code` = ipcc_code_2006_for_standard_report,
     Sector = ipcc_code_2006_for_standard_report_name,
     Sector = if_else(
-      `Sector Code`== "1.A.5", 
+      `Sector Code`== "1.A.5",
       "Non-Specified from IPCC Energy Volume",
-      Sector)
+      Sector),
+    # `Sector Code` = "",
+    # Sector = ""
   ) |> 
   mutate(across(where(is.character), as.factor)) |> 
   rename(
@@ -405,9 +410,9 @@ transformed_faostat_total <- faostat_total_emissions |>
       `Driver Code`== 5061 ~
       2012,
       `Driver Code` %in% c(67291, 6795) ~
-        9999,
-      `Driver Code` %in% c(67292, 6750, 6751, 6992, 6993) ~
         9998,
+      `Driver Code` %in% c(67292, 6750, 6751, 6992, 6993) ~
+        9997,
       .default = `Sector Code`)
   ) |>
   # Finally select in order to 
@@ -722,13 +727,16 @@ objects <- c(
 rm(list = objects[objects %in% ls()])
 ```
 
-## UN Energy Data
+# UN Energy Data
 
 ```{r}
+#| warning: false
+#| message: false
+#| label: energy-first-clean
 
 energy_total <- un_energy |> 
   # We added Driver == 1 for products that are combustion
-  # We added OfInterest == for Transaction that are of interest
+  # We added OfInterest == for transactions that are of interest
   filter(Driver == 1,
          OfInterest == 1,
          ! is.na(ISO3)) |> 
@@ -844,7 +852,12 @@ Test for UN Energy elements
 # Bind Final Datasets
 
 ```{r}
-gwp_total_emissions <- rbind(
+#| warning: false
+#| message: false
+#| label: full-dataset-first-clean
+
+
+gwp_total_emissions3 <- rbind(
   gwp_faostat_total,
   gwp_edgar_total
 ) |> 
@@ -919,6 +932,10 @@ gwp_total_emissions <- rbind(
       .default = `ISIC`
     )
   ) |> 
+  mutate(
+    Driver = "",
+    Category = ""
+  ) |> 
   arrange(
     Unit,
     ISO3,
@@ -926,6 +943,64 @@ gwp_total_emissions <- rbind(
     `IPCC Code`,
     `ISIC Code`,
     `Sector Code`
+  ) |>
+  rename(
+    `Subsector Code` = `Sector Code`,
+    Subsector = Sector,
+    `Emission Type` = Element) |> 
+  select(
+    Area,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    IPCC,
+    Category,
+    `Emission Type`,
+    `ISIC Code`,
+    ISIC,
+    `Subsector Code`,
+    Subsector,
+    Driver,
+    Unit,
+    Value
+  ) |> 
+  filter(
+    ! startsWith(`IPCC Code`, "1.A."),
+    Unit != "An"
+  )
+```
+
+At this point, we introduce the UN Energy dataset and replace the energy part of EDGAR. First, we need to mimmick the structure. In a second step, we change the ISIC sector for all non-transformative industries' consumption to "9999 Undetermined". This is because, we noticed that Households are not consuming a lot of fuels that they normally do consume in the UN Energy dataset. We pool that again and redistribute it according to input consumption from all non- transformative sectors including households.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: energy-addition
+
+energy_addition <- energy_total |> 
+  mutate(
+    Sector = if_else(Sector == "Consumption by electricity, chp and heat plants", "Electricity, chp and heat plants", Sector),
+    `ISIC Code` = if_else(
+      startsWith(as.character(Sector), "Consumption"),
+      "9999",
+      `ISIC Code`
+    ),
+    ISIC = if_else(
+      startsWith(as.character(Sector), "Consumption"),
+      "Undetermined",
+      ISIC
+    ),
+    Category = if_else(
+      startsWith(as.character(Sector), "Consumption"),
+      "Intermediate or final Consumption",
+      Sector
+    ),
+    `Subsector Code` = `ISIC Code`,
+    Subsector = ISIC,
+    Unit = "kt"
+  ) |> 
+  rename(
+    `Emission Type` = Element
   ) |> 
   select(
     Area,
@@ -933,15 +1008,86 @@ gwp_total_emissions <- rbind(
     Year,
     `IPCC Code`,
     IPCC,
-    Element,
+    Category,
+    `Emission Type`,
     `ISIC Code`,
     ISIC,
-    `Sector Code`,
-    Sector,
-    Unit,
+    `Subsector Code`,
+    Subsector,
+    Driver,
+    Unit, 
     Value
   )
+  
 ```
+
+And we bind them together.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: gwptotal-energy-bind
+
+gwp_total_emissions2 <- rbind(
+  energy_addition,
+  gwp_total_emissions3) |>
+  mutate(
+    `ISIC Code` = factor(
+      `ISIC Code`,
+      levels = full_isic4$Code
+    ),
+    ISIC = factor(
+      ISIC,
+      levels = full_isic4$Description
+    ),
+    `IPCC Code` = factor(
+      `IPCC Code`,
+      levels = sort(unique(as.character(`IPCC Code`)))
+    ),
+    Category = case_when(
+      startsWith(as.character(`IPCC Code`), "1.B") ~ "Fugitive Emissions",
+      startsWith(as.character(`IPCC Code`), "2") ~ "Industrial Processes",
+      startsWith(as.character(`IPCC Code`), "3.A") ~ "Livestock",
+      startsWith(as.character(`IPCC Code`), "3.B") ~ "Land",
+      startsWith(as.character(`IPCC Code`), "3.C") ~ "Aggregate Sources on Land",
+      startsWith(as.character(`IPCC Code`), "4") ~ "Waste",
+      startsWith(as.character(`IPCC Code`), "5") ~ "Other",
+      .default = Category
+    )
+  ) |> 
+  filter(
+  Year > 1989 &
+  !(Driver %in% c("Charcoal", "Fuelwood", "Bagasse") & `Emission Type` == "Emissions (CO2)")
+) |>  
+  arrange(
+    ISO3,
+    Year,
+    `IPCC Code`,
+    # Category,
+    Driver
+  )
+  
+```
+
+One thing that we want to do is keep only those countries that have the whole set of IPCC codes, we accomplish that with:
+
+```{r}
+# Create a reference set of required IPCC codes
+required_ipcc <- c("1.", "3.", "4.")
+
+# Identify countries that have all required IPCC codes
+valid_countries <- with(gwp_total_emissions2, tapply(`IPCC Code`, ISO3, function(codes) {
+  all(sapply(required_ipcc, function(prefix) any(grepl(paste0("^", prefix), codes))))
+}))
+
+# Filter dataset to keep only valid countries
+gwp_total_emissions <- gwp_total_emissions2[gwp_total_emissions2$ISO3 %in% names(valid_countries[valid_countries]), ]
+
+number_of_countries <- length(unique(gwp_total_emissions$Area))
+
+```
+
+And we establish that we have `{r} number_of_countries` available in the dataset.
 
 ### Final Pivot
 
@@ -956,8 +1102,8 @@ isic_pivot <-
     names_from = c(
       `ISIC Code`,
       ISIC,
-      `Sector Code`,
-      Sector),
+      `Subsector Code`,
+      Subsector),
     values_from = Value,
     id_cols = c(
       Area,
@@ -965,7 +1111,9 @@ isic_pivot <-
       Year,
       `IPCC Code`,
       IPCC,
-      Element,
+      Category,
+      Driver,
+      `Emission Type`,
       Unit
     ),
     values_fn = sum,
@@ -978,7 +1126,7 @@ isic_long <- gwp_total_emissions |>
   mutate(
     `ISIC Detail` = paste(
       `ISIC Code`, ISIC, 
-      `Sector Code`, Sector, 
+      `Subsector Code`, Subsector, 
       sep = "_")
   ) |> 
   select(
@@ -987,7 +1135,9 @@ isic_long <- gwp_total_emissions |>
     Year,
     `IPCC Code`,
     IPCC,
-    Element,
+    Category,
+    Driver,
+    `Emission Type`,
     `ISIC Detail`,
     Unit,
     Value
@@ -1011,6 +1161,31 @@ saveRDS(
 #   gwp_total_emissions,
 #   "gears_db/data/outputs/gwp_total_emissions.csv")
 ```
+
+### Saving to ZIP and compress
+
+```{r}
+#| warning: false
+#| message: false
+#| label: save-compress-csv
+
+write.csv(
+  gwp_total_emissions, 
+  "gears_db/data/outputs/gwp_total_emissions.csv")
+
+# Create ZIP without preserving the full folder structure
+zip::zip(
+  zipfile = "gears_db/data/outputs/gwp_total_emissions.zip",
+  files = "gears_db/data/outputs/gwp_total_emissions.csv",
+  mode = "cherry-pick"
+)
+
+# Remove the uncompressed CSV file
+unlink("gears_db/data/outputs/gwp_total_emissions.csv")
+
+```
+
+
 
 ### Smaller size tests for discussion.
 
