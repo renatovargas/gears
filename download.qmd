@@ -1,6 +1,16 @@
 ---
-title: "Download"
+title: "Data Downloads"
 ---
 
-Here you can download different versions and aggregations of the GEARS database for selected countries. Please refer to the [GEARS guide](documentation/guides/gears-user-guide.qmd) for details.
+Here you can download different versions of the MAFAP Emissions Database. Please refer to the [MAFAP EMDB guide](documentation/guides/gears-user-guide.qmd) for details.
+
+## Complete Database
+
+We provide annual time series data on emissions of the three main greenhouse gases (CO2, CH4, N2O) and fluorinated gases per sector, country, and driver where possible, expressed in CO~2~ teq for a 100-year horizon (AR5), in zipped Comma Separated Values (".csv") files, as well as much smaller R dataset files (".rds") for convenience.
+
+| | | |
+|:----------|:-:|:-:|
+|**GWP Total Emissions ISIC Pivot** provides a wide dataset with ISIC sectors and agriculture subsectors as columns.| <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions_pivot.csv"> Download .csv </a> | <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions_pivot.rds"> Download .rds </a> | 
+|**GWP Total Emissions ISIC Long** provides a long version with sectors and agriculture subsectors concatenated into a single column.| <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions_long.csv"> Download .csv </a> | <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions_long.rds" download="gwp_total_emissions.rds"> Download .rds </a> | 
+|**GWP Total Emissions** provides all decriptor fields in disaggregated form for maximum flexibility.| <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions.csv"> Download .csv </a> | <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions.rds"> Download .rds </a> | 
 

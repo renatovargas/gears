@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Renato Vargas">
 
-<title>GEARS database preparation – GEARS</title>
+<title>GEARS database preparation – MAFAP EMDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,10 +89,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ed89baa274803ae4d45b16618c3e5cca.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -133,7 +133,7 @@ div.csl-indent {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">GEARS</span>
+    <span class="navbar-title">MAFAP EMDB</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -262,12 +262,13 @@ div.csl-indent {
   <li><a href="#livestock" id="toc-livestock" class="nav-link" data-scroll-target="#livestock">Livestock</a></li>
   <li><a href="#dataset-binding" id="toc-dataset-binding" class="nav-link" data-scroll-target="#dataset-binding">Dataset binding</a></li>
   </ul></li>
-  <li><a href="#un-energy-data-1" id="toc-un-energy-data-1" class="nav-link" data-scroll-target="#un-energy-data-1">UN Energy Data</a></li>
   </ul></li>
+  <li><a href="#un-energy-data-1" id="toc-un-energy-data-1" class="nav-link" data-scroll-target="#un-energy-data-1">UN Energy Data</a></li>
   <li><a href="#bind-final-datasets" id="toc-bind-final-datasets" class="nav-link" data-scroll-target="#bind-final-datasets">Bind Final Datasets</a>
   <ul class="collapse">
   <li><a href="#final-pivot" id="toc-final-pivot" class="nav-link" data-scroll-target="#final-pivot">Final Pivot</a></li>
   <li><a href="#saving-to-rds" id="toc-saving-to-rds" class="nav-link" data-scroll-target="#saving-to-rds">Saving to RDS</a></li>
+  <li><a href="#saving-to-zip-and-compress" id="toc-saving-to-zip-and-compress" class="nav-link" data-scroll-target="#saving-to-zip-and-compress">Saving to ZIP and compress</a></li>
   <li><a href="#smaller-size-tests-for-discussion." id="toc-smaller-size-tests-for-discussion." class="nav-link" data-scroll-target="#smaller-size-tests-for-discussion.">Smaller size tests for discussion.</a></li>
   </ul></li>
   <li><a href="#end" id="toc-end" class="nav-link" data-scroll-target="#end">End</a></li>
@@ -413,10 +414,13 @@ div.csl-indent {
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>isic <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/classifications/equivalence.xlsx"</span>,</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"GWP ISIC"</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>un_energy_ipcc_coef <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"un_energy_coefficients"</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>full_isic4 <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/classifications/equivalence.xlsx"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"ISIC Rev 4"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>un_energy_ipcc_coef <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"un_energy_coefficients"</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test to see units of measurement for each commodity</span></span>
@@ -454,23 +458,23 @@ div.csl-indent {
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>edgar_ipcc_names <span class="sc">|&gt;</span> </span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="nsxwdwwgcb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nsxwdwwgcb table {
+<div id="yaockjgefc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yaockjgefc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nsxwdwwgcb thead, #nsxwdwwgcb tbody, #nsxwdwwgcb tfoot, #nsxwdwwgcb tr, #nsxwdwwgcb td, #nsxwdwwgcb th {
+#yaockjgefc thead, #yaockjgefc tbody, #yaockjgefc tfoot, #yaockjgefc tr, #yaockjgefc td, #yaockjgefc th {
   border-style: none;
 }
 
-#nsxwdwwgcb p {
+#yaockjgefc p {
   margin: 0;
   padding: 0;
 }
 
-#nsxwdwwgcb .gt_table {
+#yaockjgefc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -496,12 +500,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_caption {
+#yaockjgefc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nsxwdwwgcb .gt_title {
+#yaockjgefc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -513,7 +517,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#nsxwdwwgcb .gt_subtitle {
+#yaockjgefc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -525,7 +529,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#nsxwdwwgcb .gt_heading {
+#yaockjgefc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -537,13 +541,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_bottom_border {
+#yaockjgefc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_col_headings {
+#yaockjgefc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -558,7 +562,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_col_heading {
+#yaockjgefc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -578,7 +582,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#nsxwdwwgcb .gt_column_spanner_outer {
+#yaockjgefc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -590,15 +594,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#nsxwdwwgcb .gt_column_spanner_outer:first-child {
+#yaockjgefc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nsxwdwwgcb .gt_column_spanner_outer:last-child {
+#yaockjgefc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nsxwdwwgcb .gt_column_spanner {
+#yaockjgefc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -610,11 +614,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#nsxwdwwgcb .gt_spanner_row {
+#yaockjgefc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nsxwdwwgcb .gt_group_heading {
+#yaockjgefc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -640,7 +644,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#nsxwdwwgcb .gt_empty_group_heading {
+#yaockjgefc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -655,15 +659,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#nsxwdwwgcb .gt_from_md > :first-child {
+#yaockjgefc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nsxwdwwgcb .gt_from_md > :last-child {
+#yaockjgefc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nsxwdwwgcb .gt_row {
+#yaockjgefc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -682,7 +686,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#nsxwdwwgcb .gt_stub {
+#yaockjgefc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -695,7 +699,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nsxwdwwgcb .gt_stub_row_group {
+#yaockjgefc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -709,15 +713,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#nsxwdwwgcb .gt_row_group_first td {
+#yaockjgefc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nsxwdwwgcb .gt_row_group_first th {
+#yaockjgefc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nsxwdwwgcb .gt_summary_row {
+#yaockjgefc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -727,16 +731,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nsxwdwwgcb .gt_first_summary_row {
+#yaockjgefc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_first_summary_row.thick {
+#yaockjgefc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nsxwdwwgcb .gt_last_summary_row {
+#yaockjgefc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -746,7 +750,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_grand_summary_row {
+#yaockjgefc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -756,7 +760,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nsxwdwwgcb .gt_first_grand_summary_row {
+#yaockjgefc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -766,7 +770,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_last_grand_summary_row_top {
+#yaockjgefc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -776,11 +780,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_striped {
+#yaockjgefc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nsxwdwwgcb .gt_table_body {
+#yaockjgefc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -789,7 +793,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_footnotes {
+#yaockjgefc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -803,7 +807,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_footnote {
+#yaockjgefc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -812,7 +816,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nsxwdwwgcb .gt_sourcenotes {
+#yaockjgefc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -826,7 +830,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nsxwdwwgcb .gt_sourcenote {
+#yaockjgefc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -834,79 +838,79 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nsxwdwwgcb .gt_left {
+#yaockjgefc .gt_left {
   text-align: left;
 }
 
-#nsxwdwwgcb .gt_center {
+#yaockjgefc .gt_center {
   text-align: center;
 }
 
-#nsxwdwwgcb .gt_right {
+#yaockjgefc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nsxwdwwgcb .gt_font_normal {
+#yaockjgefc .gt_font_normal {
   font-weight: normal;
 }
 
-#nsxwdwwgcb .gt_font_bold {
+#yaockjgefc .gt_font_bold {
   font-weight: bold;
 }
 
-#nsxwdwwgcb .gt_font_italic {
+#yaockjgefc .gt_font_italic {
   font-style: italic;
 }
 
-#nsxwdwwgcb .gt_super {
+#yaockjgefc .gt_super {
   font-size: 65%;
 }
 
-#nsxwdwwgcb .gt_footnote_marks {
+#yaockjgefc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nsxwdwwgcb .gt_asterisk {
+#yaockjgefc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nsxwdwwgcb .gt_indent_1 {
+#yaockjgefc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nsxwdwwgcb .gt_indent_2 {
+#yaockjgefc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nsxwdwwgcb .gt_indent_3 {
+#yaockjgefc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nsxwdwwgcb .gt_indent_4 {
+#yaockjgefc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nsxwdwwgcb .gt_indent_5 {
+#yaockjgefc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nsxwdwwgcb .katex-display {
+#yaockjgefc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nsxwdwwgcb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yaockjgefc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="code" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">code</th>
 <th id="ipcc_name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">ipcc_name</th>
 </tr>
@@ -1099,7 +1103,7 @@ div.csl-indent {
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assign the transformed dataset to the global environment</span></span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"transformed_"</span>, name), transformed, <span class="at">envir =</span> .GlobalEnv)</span>
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Recur with the rest of the datasets</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Recursion with the rest of the datasets</span></span>
 <span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transform_edgar_datasets</span>(datasets[<span class="sc">-</span><span class="dv">1</span>], dataset_names[<span class="sc">-</span><span class="dv">1</span>])</span>
 <span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1176,43 +1180,45 @@ div.csl-indent {
 <span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="ot">=</span> ipcc_code_2006_for_standard_report,</span>
 <span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sector =</span> ipcc_code_2006_for_standard_report_name,</span>
 <span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sector =</span> <span class="fu">if_else</span>(</span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span><span class="sc">==</span> <span class="st">"1.A.5"</span>, </span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span><span class="sc">==</span> <span class="st">"1.A.5"</span>,</span>
 <span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Non-Specified from IPCC Energy Volume"</span>,</span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>      Sector)</span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">Element =</span> Substance,</span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">ISO3 =</span> Country_code_A3,</span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span> <span class="ot">=</span> ipcc_code_2006_for_standard_report,</span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">IPCC =</span> ipcc_code_2006_for_standard_report_name) <span class="sc">|&gt;</span> </span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    fao_countries,</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">join_by</span>(ISO3)</span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Area Code</span><span class="st">`</span>,</span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>    Area,</span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span>,</span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    Driver,</span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>,</span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    Sector,</span>
-<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Element Code</span><span class="st">`</span>,</span>
-<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    Element,</span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>, </span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    Year,</span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
-<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    Value )</span>
-<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove all EDGAR inputs</span></span>
-<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> </span>
-<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ls</span>()[<span class="fu">startsWith</span>(<span class="fu">ls</span>(), <span class="st">"transformed_"</span>) <span class="sc">|</span></span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>         <span class="fu">startsWith</span>(<span class="fu">ls</span>(), <span class="st">"edgar"</span>)])</span>
-<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a><span class="co"># And save to RDS</span></span>
-<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gwp_edgar_total, <span class="st">"gears_db/data/outputs/gwp_edgar_total.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>      Sector),</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `Sector Code` = "",</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sector = ""</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">Element =</span> Substance,</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">ISO3 =</span> Country_code_A3,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span> <span class="ot">=</span> ipcc_code_2006_for_standard_report,</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">IPCC =</span> ipcc_code_2006_for_standard_report_name) <span class="sc">|&gt;</span> </span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>    fao_countries,</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">join_by</span>(ISO3)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Area Code</span><span class="st">`</span>,</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>    Area,</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span>,</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    Driver,</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>,</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    Sector,</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Element Code</span><span class="st">`</span>,</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    Element,</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>, </span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>    Value )</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove all EDGAR inputs</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> </span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ls</span>()[<span class="fu">startsWith</span>(<span class="fu">ls</span>(), <span class="st">"transformed_"</span>) <span class="sc">|</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>         <span class="fu">startsWith</span>(<span class="fu">ls</span>(), <span class="st">"edgar"</span>)])</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="co"># And save to RDS</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gwp_edgar_total, <span class="st">"gears_db/data/outputs/gwp_edgar_total.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1237,23 +1243,23 @@ div.csl-indent {
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">|&gt;</span></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="euhlvdjaxh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#euhlvdjaxh table {
+<div id="bfhoephxxr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bfhoephxxr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#euhlvdjaxh thead, #euhlvdjaxh tbody, #euhlvdjaxh tfoot, #euhlvdjaxh tr, #euhlvdjaxh td, #euhlvdjaxh th {
+#bfhoephxxr thead, #bfhoephxxr tbody, #bfhoephxxr tfoot, #bfhoephxxr tr, #bfhoephxxr td, #bfhoephxxr th {
   border-style: none;
 }
 
-#euhlvdjaxh p {
+#bfhoephxxr p {
   margin: 0;
   padding: 0;
 }
 
-#euhlvdjaxh .gt_table {
+#bfhoephxxr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1279,12 +1285,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_caption {
+#bfhoephxxr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#euhlvdjaxh .gt_title {
+#bfhoephxxr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1296,7 +1302,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#euhlvdjaxh .gt_subtitle {
+#bfhoephxxr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1308,7 +1314,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#euhlvdjaxh .gt_heading {
+#bfhoephxxr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1320,13 +1326,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_bottom_border {
+#bfhoephxxr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_col_headings {
+#bfhoephxxr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1341,7 +1347,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_col_heading {
+#bfhoephxxr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1361,7 +1367,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#euhlvdjaxh .gt_column_spanner_outer {
+#bfhoephxxr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1373,15 +1379,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#euhlvdjaxh .gt_column_spanner_outer:first-child {
+#bfhoephxxr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#euhlvdjaxh .gt_column_spanner_outer:last-child {
+#bfhoephxxr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#euhlvdjaxh .gt_column_spanner {
+#bfhoephxxr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1393,11 +1399,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#euhlvdjaxh .gt_spanner_row {
+#bfhoephxxr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#euhlvdjaxh .gt_group_heading {
+#bfhoephxxr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1423,7 +1429,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#euhlvdjaxh .gt_empty_group_heading {
+#bfhoephxxr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1438,15 +1444,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#euhlvdjaxh .gt_from_md > :first-child {
+#bfhoephxxr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#euhlvdjaxh .gt_from_md > :last-child {
+#bfhoephxxr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#euhlvdjaxh .gt_row {
+#bfhoephxxr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1465,7 +1471,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#euhlvdjaxh .gt_stub {
+#bfhoephxxr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1478,7 +1484,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#euhlvdjaxh .gt_stub_row_group {
+#bfhoephxxr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1492,15 +1498,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#euhlvdjaxh .gt_row_group_first td {
+#bfhoephxxr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#euhlvdjaxh .gt_row_group_first th {
+#bfhoephxxr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#euhlvdjaxh .gt_summary_row {
+#bfhoephxxr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1510,16 +1516,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#euhlvdjaxh .gt_first_summary_row {
+#bfhoephxxr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_first_summary_row.thick {
+#bfhoephxxr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#euhlvdjaxh .gt_last_summary_row {
+#bfhoephxxr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1529,7 +1535,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_grand_summary_row {
+#bfhoephxxr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1539,7 +1545,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#euhlvdjaxh .gt_first_grand_summary_row {
+#bfhoephxxr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1549,7 +1555,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_last_grand_summary_row_top {
+#bfhoephxxr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1559,11 +1565,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_striped {
+#bfhoephxxr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#euhlvdjaxh .gt_table_body {
+#bfhoephxxr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1572,7 +1578,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_footnotes {
+#bfhoephxxr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1586,7 +1592,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_footnote {
+#bfhoephxxr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1595,7 +1601,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#euhlvdjaxh .gt_sourcenotes {
+#bfhoephxxr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1609,7 +1615,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#euhlvdjaxh .gt_sourcenote {
+#bfhoephxxr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1617,79 +1623,79 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#euhlvdjaxh .gt_left {
+#bfhoephxxr .gt_left {
   text-align: left;
 }
 
-#euhlvdjaxh .gt_center {
+#bfhoephxxr .gt_center {
   text-align: center;
 }
 
-#euhlvdjaxh .gt_right {
+#bfhoephxxr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#euhlvdjaxh .gt_font_normal {
+#bfhoephxxr .gt_font_normal {
   font-weight: normal;
 }
 
-#euhlvdjaxh .gt_font_bold {
+#bfhoephxxr .gt_font_bold {
   font-weight: bold;
 }
 
-#euhlvdjaxh .gt_font_italic {
+#bfhoephxxr .gt_font_italic {
   font-style: italic;
 }
 
-#euhlvdjaxh .gt_super {
+#bfhoephxxr .gt_super {
   font-size: 65%;
 }
 
-#euhlvdjaxh .gt_footnote_marks {
+#bfhoephxxr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#euhlvdjaxh .gt_asterisk {
+#bfhoephxxr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#euhlvdjaxh .gt_indent_1 {
+#bfhoephxxr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#euhlvdjaxh .gt_indent_2 {
+#bfhoephxxr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#euhlvdjaxh .gt_indent_3 {
+#bfhoephxxr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#euhlvdjaxh .gt_indent_4 {
+#bfhoephxxr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#euhlvdjaxh .gt_indent_5 {
+#bfhoephxxr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#euhlvdjaxh .katex-display {
+#bfhoephxxr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#euhlvdjaxh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#bfhoephxxr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="V1" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V1</th>
 <th id="V2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">V2</th>
 <th id="V3" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V3</th>
@@ -2001,9 +2007,9 @@ div.csl-indent {
 <span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span><span class="sc">==</span> <span class="dv">5061</span> <span class="sc">~</span></span>
 <span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2012</span>,</span>
 <span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">67291</span>, <span class="dv">6795</span>) <span class="sc">~</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>        <span class="dv">9999</span>,</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>        <span class="dv">9998</span>,</span>
 <span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">67292</span>, <span class="dv">6750</span>, <span class="dv">6751</span>, <span class="dv">6992</span>, <span class="dv">6993</span>) <span class="sc">~</span></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>        <span class="dv">9998</span>,</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>        <span class="dv">9997</span>,</span>
 <span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>)</span>
 <span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Finally select in order to </span></span>
@@ -2039,23 +2045,23 @@ div.csl-indent {
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">|&gt;</span></span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="bzlxkydfbs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bzlxkydfbs table {
+<div id="ocyjneuwll" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ocyjneuwll table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bzlxkydfbs thead, #bzlxkydfbs tbody, #bzlxkydfbs tfoot, #bzlxkydfbs tr, #bzlxkydfbs td, #bzlxkydfbs th {
+#ocyjneuwll thead, #ocyjneuwll tbody, #ocyjneuwll tfoot, #ocyjneuwll tr, #ocyjneuwll td, #ocyjneuwll th {
   border-style: none;
 }
 
-#bzlxkydfbs p {
+#ocyjneuwll p {
   margin: 0;
   padding: 0;
 }
 
-#bzlxkydfbs .gt_table {
+#ocyjneuwll .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2081,12 +2087,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_caption {
+#ocyjneuwll .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bzlxkydfbs .gt_title {
+#ocyjneuwll .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2098,7 +2104,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#bzlxkydfbs .gt_subtitle {
+#ocyjneuwll .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2110,7 +2116,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#bzlxkydfbs .gt_heading {
+#ocyjneuwll .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2122,13 +2128,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_bottom_border {
+#ocyjneuwll .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_col_headings {
+#ocyjneuwll .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2143,7 +2149,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_col_heading {
+#ocyjneuwll .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2163,7 +2169,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#bzlxkydfbs .gt_column_spanner_outer {
+#ocyjneuwll .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2175,15 +2181,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#bzlxkydfbs .gt_column_spanner_outer:first-child {
+#ocyjneuwll .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bzlxkydfbs .gt_column_spanner_outer:last-child {
+#ocyjneuwll .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bzlxkydfbs .gt_column_spanner {
+#ocyjneuwll .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2195,11 +2201,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#bzlxkydfbs .gt_spanner_row {
+#ocyjneuwll .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bzlxkydfbs .gt_group_heading {
+#ocyjneuwll .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2225,7 +2231,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#bzlxkydfbs .gt_empty_group_heading {
+#ocyjneuwll .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2240,15 +2246,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#bzlxkydfbs .gt_from_md > :first-child {
+#ocyjneuwll .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bzlxkydfbs .gt_from_md > :last-child {
+#ocyjneuwll .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bzlxkydfbs .gt_row {
+#ocyjneuwll .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2267,7 +2273,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#bzlxkydfbs .gt_stub {
+#ocyjneuwll .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2280,7 +2286,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#bzlxkydfbs .gt_stub_row_group {
+#ocyjneuwll .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2294,15 +2300,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#bzlxkydfbs .gt_row_group_first td {
+#ocyjneuwll .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bzlxkydfbs .gt_row_group_first th {
+#ocyjneuwll .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bzlxkydfbs .gt_summary_row {
+#ocyjneuwll .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2312,16 +2318,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#bzlxkydfbs .gt_first_summary_row {
+#ocyjneuwll .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_first_summary_row.thick {
+#ocyjneuwll .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bzlxkydfbs .gt_last_summary_row {
+#ocyjneuwll .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2331,7 +2337,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_grand_summary_row {
+#ocyjneuwll .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2341,7 +2347,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#bzlxkydfbs .gt_first_grand_summary_row {
+#ocyjneuwll .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2351,7 +2357,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_last_grand_summary_row_top {
+#ocyjneuwll .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2361,11 +2367,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_striped {
+#ocyjneuwll .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bzlxkydfbs .gt_table_body {
+#ocyjneuwll .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2374,7 +2380,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_footnotes {
+#ocyjneuwll .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2388,7 +2394,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_footnote {
+#ocyjneuwll .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2397,7 +2403,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#bzlxkydfbs .gt_sourcenotes {
+#ocyjneuwll .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2411,7 +2417,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#bzlxkydfbs .gt_sourcenote {
+#ocyjneuwll .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2419,79 +2425,79 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#bzlxkydfbs .gt_left {
+#ocyjneuwll .gt_left {
   text-align: left;
 }
 
-#bzlxkydfbs .gt_center {
+#ocyjneuwll .gt_center {
   text-align: center;
 }
 
-#bzlxkydfbs .gt_right {
+#ocyjneuwll .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bzlxkydfbs .gt_font_normal {
+#ocyjneuwll .gt_font_normal {
   font-weight: normal;
 }
 
-#bzlxkydfbs .gt_font_bold {
+#ocyjneuwll .gt_font_bold {
   font-weight: bold;
 }
 
-#bzlxkydfbs .gt_font_italic {
+#ocyjneuwll .gt_font_italic {
   font-style: italic;
 }
 
-#bzlxkydfbs .gt_super {
+#ocyjneuwll .gt_super {
   font-size: 65%;
 }
 
-#bzlxkydfbs .gt_footnote_marks {
+#ocyjneuwll .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bzlxkydfbs .gt_asterisk {
+#ocyjneuwll .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bzlxkydfbs .gt_indent_1 {
+#ocyjneuwll .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bzlxkydfbs .gt_indent_2 {
+#ocyjneuwll .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bzlxkydfbs .gt_indent_3 {
+#ocyjneuwll .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bzlxkydfbs .gt_indent_4 {
+#ocyjneuwll .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bzlxkydfbs .gt_indent_5 {
+#ocyjneuwll .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bzlxkydfbs .katex-display {
+#ocyjneuwll .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bzlxkydfbs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ocyjneuwll div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="V1" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V1</th>
 <th id="V2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">V2</th>
 <th id="V3" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V3</th>
@@ -2579,23 +2585,23 @@ div.csl-indent {
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">|&gt;</span></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="nbwfssgwnj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nbwfssgwnj table {
+<div id="izprsydeag" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#izprsydeag table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nbwfssgwnj thead, #nbwfssgwnj tbody, #nbwfssgwnj tfoot, #nbwfssgwnj tr, #nbwfssgwnj td, #nbwfssgwnj th {
+#izprsydeag thead, #izprsydeag tbody, #izprsydeag tfoot, #izprsydeag tr, #izprsydeag td, #izprsydeag th {
   border-style: none;
 }
 
-#nbwfssgwnj p {
+#izprsydeag p {
   margin: 0;
   padding: 0;
 }
 
-#nbwfssgwnj .gt_table {
+#izprsydeag .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2621,12 +2627,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_caption {
+#izprsydeag .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nbwfssgwnj .gt_title {
+#izprsydeag .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2638,7 +2644,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#nbwfssgwnj .gt_subtitle {
+#izprsydeag .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2650,7 +2656,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#nbwfssgwnj .gt_heading {
+#izprsydeag .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2662,13 +2668,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_bottom_border {
+#izprsydeag .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_col_headings {
+#izprsydeag .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2683,7 +2689,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_col_heading {
+#izprsydeag .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2703,7 +2709,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#nbwfssgwnj .gt_column_spanner_outer {
+#izprsydeag .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2715,15 +2721,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#nbwfssgwnj .gt_column_spanner_outer:first-child {
+#izprsydeag .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nbwfssgwnj .gt_column_spanner_outer:last-child {
+#izprsydeag .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nbwfssgwnj .gt_column_spanner {
+#izprsydeag .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2735,11 +2741,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#nbwfssgwnj .gt_spanner_row {
+#izprsydeag .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nbwfssgwnj .gt_group_heading {
+#izprsydeag .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2765,7 +2771,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#nbwfssgwnj .gt_empty_group_heading {
+#izprsydeag .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2780,15 +2786,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#nbwfssgwnj .gt_from_md > :first-child {
+#izprsydeag .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nbwfssgwnj .gt_from_md > :last-child {
+#izprsydeag .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nbwfssgwnj .gt_row {
+#izprsydeag .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2807,7 +2813,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#nbwfssgwnj .gt_stub {
+#izprsydeag .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2820,7 +2826,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nbwfssgwnj .gt_stub_row_group {
+#izprsydeag .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2834,15 +2840,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#nbwfssgwnj .gt_row_group_first td {
+#izprsydeag .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nbwfssgwnj .gt_row_group_first th {
+#izprsydeag .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nbwfssgwnj .gt_summary_row {
+#izprsydeag .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2852,16 +2858,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nbwfssgwnj .gt_first_summary_row {
+#izprsydeag .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_first_summary_row.thick {
+#izprsydeag .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nbwfssgwnj .gt_last_summary_row {
+#izprsydeag .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2871,7 +2877,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_grand_summary_row {
+#izprsydeag .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2881,7 +2887,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nbwfssgwnj .gt_first_grand_summary_row {
+#izprsydeag .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2891,7 +2897,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_last_grand_summary_row_top {
+#izprsydeag .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2901,11 +2907,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_striped {
+#izprsydeag .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nbwfssgwnj .gt_table_body {
+#izprsydeag .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2914,7 +2920,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_footnotes {
+#izprsydeag .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2928,7 +2934,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_footnote {
+#izprsydeag .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2937,7 +2943,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nbwfssgwnj .gt_sourcenotes {
+#izprsydeag .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2951,7 +2957,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#nbwfssgwnj .gt_sourcenote {
+#izprsydeag .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2959,79 +2965,79 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#nbwfssgwnj .gt_left {
+#izprsydeag .gt_left {
   text-align: left;
 }
 
-#nbwfssgwnj .gt_center {
+#izprsydeag .gt_center {
   text-align: center;
 }
 
-#nbwfssgwnj .gt_right {
+#izprsydeag .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nbwfssgwnj .gt_font_normal {
+#izprsydeag .gt_font_normal {
   font-weight: normal;
 }
 
-#nbwfssgwnj .gt_font_bold {
+#izprsydeag .gt_font_bold {
   font-weight: bold;
 }
 
-#nbwfssgwnj .gt_font_italic {
+#izprsydeag .gt_font_italic {
   font-style: italic;
 }
 
-#nbwfssgwnj .gt_super {
+#izprsydeag .gt_super {
   font-size: 65%;
 }
 
-#nbwfssgwnj .gt_footnote_marks {
+#izprsydeag .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nbwfssgwnj .gt_asterisk {
+#izprsydeag .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nbwfssgwnj .gt_indent_1 {
+#izprsydeag .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nbwfssgwnj .gt_indent_2 {
+#izprsydeag .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nbwfssgwnj .gt_indent_3 {
+#izprsydeag .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nbwfssgwnj .gt_indent_4 {
+#izprsydeag .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nbwfssgwnj .gt_indent_5 {
+#izprsydeag .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nbwfssgwnj .katex-display {
+#izprsydeag .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nbwfssgwnj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#izprsydeag div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="V1" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V1</th>
 <th id="V2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">V2</th>
 <th id="V3" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V3</th>
@@ -3298,23 +3304,23 @@ div.csl-indent {
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(V1,V2) <span class="sc">|&gt;</span> </span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="ftkpbfjbxy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ftkpbfjbxy table {
+<div id="qsxzshkqvn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qsxzshkqvn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ftkpbfjbxy thead, #ftkpbfjbxy tbody, #ftkpbfjbxy tfoot, #ftkpbfjbxy tr, #ftkpbfjbxy td, #ftkpbfjbxy th {
+#qsxzshkqvn thead, #qsxzshkqvn tbody, #qsxzshkqvn tfoot, #qsxzshkqvn tr, #qsxzshkqvn td, #qsxzshkqvn th {
   border-style: none;
 }
 
-#ftkpbfjbxy p {
+#qsxzshkqvn p {
   margin: 0;
   padding: 0;
 }
 
-#ftkpbfjbxy .gt_table {
+#qsxzshkqvn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3340,12 +3346,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_caption {
+#qsxzshkqvn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ftkpbfjbxy .gt_title {
+#qsxzshkqvn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3357,7 +3363,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#ftkpbfjbxy .gt_subtitle {
+#qsxzshkqvn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3369,7 +3375,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#ftkpbfjbxy .gt_heading {
+#qsxzshkqvn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3381,13 +3387,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_bottom_border {
+#qsxzshkqvn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_col_headings {
+#qsxzshkqvn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3402,7 +3408,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_col_heading {
+#qsxzshkqvn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3422,7 +3428,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#ftkpbfjbxy .gt_column_spanner_outer {
+#qsxzshkqvn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3434,15 +3440,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#ftkpbfjbxy .gt_column_spanner_outer:first-child {
+#qsxzshkqvn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ftkpbfjbxy .gt_column_spanner_outer:last-child {
+#qsxzshkqvn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ftkpbfjbxy .gt_column_spanner {
+#qsxzshkqvn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3454,11 +3460,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#ftkpbfjbxy .gt_spanner_row {
+#qsxzshkqvn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ftkpbfjbxy .gt_group_heading {
+#qsxzshkqvn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3484,7 +3490,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#ftkpbfjbxy .gt_empty_group_heading {
+#qsxzshkqvn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3499,15 +3505,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#ftkpbfjbxy .gt_from_md > :first-child {
+#qsxzshkqvn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ftkpbfjbxy .gt_from_md > :last-child {
+#qsxzshkqvn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ftkpbfjbxy .gt_row {
+#qsxzshkqvn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3526,7 +3532,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#ftkpbfjbxy .gt_stub {
+#qsxzshkqvn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3539,7 +3545,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ftkpbfjbxy .gt_stub_row_group {
+#qsxzshkqvn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3553,15 +3559,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#ftkpbfjbxy .gt_row_group_first td {
+#qsxzshkqvn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ftkpbfjbxy .gt_row_group_first th {
+#qsxzshkqvn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ftkpbfjbxy .gt_summary_row {
+#qsxzshkqvn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3571,16 +3577,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ftkpbfjbxy .gt_first_summary_row {
+#qsxzshkqvn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_first_summary_row.thick {
+#qsxzshkqvn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ftkpbfjbxy .gt_last_summary_row {
+#qsxzshkqvn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3590,7 +3596,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_grand_summary_row {
+#qsxzshkqvn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3600,7 +3606,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ftkpbfjbxy .gt_first_grand_summary_row {
+#qsxzshkqvn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3610,7 +3616,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_last_grand_summary_row_top {
+#qsxzshkqvn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3620,11 +3626,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_striped {
+#qsxzshkqvn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ftkpbfjbxy .gt_table_body {
+#qsxzshkqvn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3633,7 +3639,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_footnotes {
+#qsxzshkqvn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3647,7 +3653,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_footnote {
+#qsxzshkqvn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3656,7 +3662,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ftkpbfjbxy .gt_sourcenotes {
+#qsxzshkqvn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3670,7 +3676,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ftkpbfjbxy .gt_sourcenote {
+#qsxzshkqvn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3678,79 +3684,79 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ftkpbfjbxy .gt_left {
+#qsxzshkqvn .gt_left {
   text-align: left;
 }
 
-#ftkpbfjbxy .gt_center {
+#qsxzshkqvn .gt_center {
   text-align: center;
 }
 
-#ftkpbfjbxy .gt_right {
+#qsxzshkqvn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ftkpbfjbxy .gt_font_normal {
+#qsxzshkqvn .gt_font_normal {
   font-weight: normal;
 }
 
-#ftkpbfjbxy .gt_font_bold {
+#qsxzshkqvn .gt_font_bold {
   font-weight: bold;
 }
 
-#ftkpbfjbxy .gt_font_italic {
+#qsxzshkqvn .gt_font_italic {
   font-style: italic;
 }
 
-#ftkpbfjbxy .gt_super {
+#qsxzshkqvn .gt_super {
   font-size: 65%;
 }
 
-#ftkpbfjbxy .gt_footnote_marks {
+#qsxzshkqvn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ftkpbfjbxy .gt_asterisk {
+#qsxzshkqvn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ftkpbfjbxy .gt_indent_1 {
+#qsxzshkqvn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ftkpbfjbxy .gt_indent_2 {
+#qsxzshkqvn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ftkpbfjbxy .gt_indent_3 {
+#qsxzshkqvn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ftkpbfjbxy .gt_indent_4 {
+#qsxzshkqvn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ftkpbfjbxy .gt_indent_5 {
+#qsxzshkqvn .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ftkpbfjbxy .katex-display {
+#qsxzshkqvn .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ftkpbfjbxy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qsxzshkqvn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="V1" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V1</th>
 <th id="V2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">V2</th>
 <th id="V3" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V3</th>
@@ -3864,23 +3870,23 @@ div.csl-indent {
 the `.groups` argument.</code></pre>
 </div>
 <div class="cell-output-display">
-<div id="bdsbmzapwc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bdsbmzapwc table {
+<div id="ojqmroozye" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ojqmroozye table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bdsbmzapwc thead, #bdsbmzapwc tbody, #bdsbmzapwc tfoot, #bdsbmzapwc tr, #bdsbmzapwc td, #bdsbmzapwc th {
+#ojqmroozye thead, #ojqmroozye tbody, #ojqmroozye tfoot, #ojqmroozye tr, #ojqmroozye td, #ojqmroozye th {
   border-style: none;
 }
 
-#bdsbmzapwc p {
+#ojqmroozye p {
   margin: 0;
   padding: 0;
 }
 
-#bdsbmzapwc .gt_table {
+#ojqmroozye .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3906,12 +3912,12 @@ the `.groups` argument.</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_caption {
+#ojqmroozye .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bdsbmzapwc .gt_title {
+#ojqmroozye .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3923,7 +3929,7 @@ the `.groups` argument.</code></pre>
   border-bottom-width: 0;
 }
 
-#bdsbmzapwc .gt_subtitle {
+#ojqmroozye .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3935,7 +3941,7 @@ the `.groups` argument.</code></pre>
   border-top-width: 0;
 }
 
-#bdsbmzapwc .gt_heading {
+#ojqmroozye .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3947,13 +3953,13 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_bottom_border {
+#ojqmroozye .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_col_headings {
+#ojqmroozye .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3968,7 +3974,7 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_col_heading {
+#ojqmroozye .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3988,7 +3994,7 @@ the `.groups` argument.</code></pre>
   overflow-x: hidden;
 }
 
-#bdsbmzapwc .gt_column_spanner_outer {
+#ojqmroozye .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4000,15 +4006,15 @@ the `.groups` argument.</code></pre>
   padding-right: 4px;
 }
 
-#bdsbmzapwc .gt_column_spanner_outer:first-child {
+#ojqmroozye .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bdsbmzapwc .gt_column_spanner_outer:last-child {
+#ojqmroozye .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bdsbmzapwc .gt_column_spanner {
+#ojqmroozye .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4020,11 +4026,11 @@ the `.groups` argument.</code></pre>
   width: 100%;
 }
 
-#bdsbmzapwc .gt_spanner_row {
+#ojqmroozye .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bdsbmzapwc .gt_group_heading {
+#ojqmroozye .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4050,7 +4056,7 @@ the `.groups` argument.</code></pre>
   text-align: left;
 }
 
-#bdsbmzapwc .gt_empty_group_heading {
+#ojqmroozye .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4065,15 +4071,15 @@ the `.groups` argument.</code></pre>
   vertical-align: middle;
 }
 
-#bdsbmzapwc .gt_from_md > :first-child {
+#ojqmroozye .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bdsbmzapwc .gt_from_md > :last-child {
+#ojqmroozye .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bdsbmzapwc .gt_row {
+#ojqmroozye .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4092,7 +4098,7 @@ the `.groups` argument.</code></pre>
   overflow-x: hidden;
 }
 
-#bdsbmzapwc .gt_stub {
+#ojqmroozye .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4105,7 +4111,7 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#bdsbmzapwc .gt_stub_row_group {
+#ojqmroozye .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4119,15 +4125,15 @@ the `.groups` argument.</code></pre>
   vertical-align: top;
 }
 
-#bdsbmzapwc .gt_row_group_first td {
+#ojqmroozye .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bdsbmzapwc .gt_row_group_first th {
+#ojqmroozye .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bdsbmzapwc .gt_summary_row {
+#ojqmroozye .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4137,16 +4143,16 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#bdsbmzapwc .gt_first_summary_row {
+#ojqmroozye .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_first_summary_row.thick {
+#ojqmroozye .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bdsbmzapwc .gt_last_summary_row {
+#ojqmroozye .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4156,7 +4162,7 @@ the `.groups` argument.</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_grand_summary_row {
+#ojqmroozye .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4166,7 +4172,7 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#bdsbmzapwc .gt_first_grand_summary_row {
+#ojqmroozye .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4176,7 +4182,7 @@ the `.groups` argument.</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_last_grand_summary_row_top {
+#ojqmroozye .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4186,11 +4192,11 @@ the `.groups` argument.</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_striped {
+#ojqmroozye .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bdsbmzapwc .gt_table_body {
+#ojqmroozye .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4199,7 +4205,7 @@ the `.groups` argument.</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_footnotes {
+#ojqmroozye .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4213,7 +4219,7 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_footnote {
+#ojqmroozye .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4222,7 +4228,7 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#bdsbmzapwc .gt_sourcenotes {
+#ojqmroozye .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4236,7 +4242,7 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#bdsbmzapwc .gt_sourcenote {
+#ojqmroozye .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4244,79 +4250,79 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#bdsbmzapwc .gt_left {
+#ojqmroozye .gt_left {
   text-align: left;
 }
 
-#bdsbmzapwc .gt_center {
+#ojqmroozye .gt_center {
   text-align: center;
 }
 
-#bdsbmzapwc .gt_right {
+#ojqmroozye .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bdsbmzapwc .gt_font_normal {
+#ojqmroozye .gt_font_normal {
   font-weight: normal;
 }
 
-#bdsbmzapwc .gt_font_bold {
+#ojqmroozye .gt_font_bold {
   font-weight: bold;
 }
 
-#bdsbmzapwc .gt_font_italic {
+#ojqmroozye .gt_font_italic {
   font-style: italic;
 }
 
-#bdsbmzapwc .gt_super {
+#ojqmroozye .gt_super {
   font-size: 65%;
 }
 
-#bdsbmzapwc .gt_footnote_marks {
+#ojqmroozye .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bdsbmzapwc .gt_asterisk {
+#ojqmroozye .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bdsbmzapwc .gt_indent_1 {
+#ojqmroozye .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bdsbmzapwc .gt_indent_2 {
+#ojqmroozye .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bdsbmzapwc .gt_indent_3 {
+#ojqmroozye .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bdsbmzapwc .gt_indent_4 {
+#ojqmroozye .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bdsbmzapwc .gt_indent_5 {
+#ojqmroozye .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bdsbmzapwc .katex-display {
+#ojqmroozye .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bdsbmzapwc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ojqmroozye div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="Driver" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Driver</th>
 <th id="Sector" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Sector</th>
 <th id="Unit" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Unit</th>
@@ -4531,23 +4537,23 @@ the `.groups` argument.</code></pre>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(V1,V2) <span class="sc">|&gt;</span> </span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="oaolcguuxk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oaolcguuxk table {
+<div id="gbwvwfzrgq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gbwvwfzrgq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oaolcguuxk thead, #oaolcguuxk tbody, #oaolcguuxk tfoot, #oaolcguuxk tr, #oaolcguuxk td, #oaolcguuxk th {
+#gbwvwfzrgq thead, #gbwvwfzrgq tbody, #gbwvwfzrgq tfoot, #gbwvwfzrgq tr, #gbwvwfzrgq td, #gbwvwfzrgq th {
   border-style: none;
 }
 
-#oaolcguuxk p {
+#gbwvwfzrgq p {
   margin: 0;
   padding: 0;
 }
 
-#oaolcguuxk .gt_table {
+#gbwvwfzrgq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4573,12 +4579,12 @@ the `.groups` argument.</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_caption {
+#gbwvwfzrgq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oaolcguuxk .gt_title {
+#gbwvwfzrgq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4590,7 +4596,7 @@ the `.groups` argument.</code></pre>
   border-bottom-width: 0;
 }
 
-#oaolcguuxk .gt_subtitle {
+#gbwvwfzrgq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4602,7 +4608,7 @@ the `.groups` argument.</code></pre>
   border-top-width: 0;
 }
 
-#oaolcguuxk .gt_heading {
+#gbwvwfzrgq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4614,13 +4620,13 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_bottom_border {
+#gbwvwfzrgq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_col_headings {
+#gbwvwfzrgq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4635,7 +4641,7 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_col_heading {
+#gbwvwfzrgq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4655,7 +4661,7 @@ the `.groups` argument.</code></pre>
   overflow-x: hidden;
 }
 
-#oaolcguuxk .gt_column_spanner_outer {
+#gbwvwfzrgq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4667,15 +4673,15 @@ the `.groups` argument.</code></pre>
   padding-right: 4px;
 }
 
-#oaolcguuxk .gt_column_spanner_outer:first-child {
+#gbwvwfzrgq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oaolcguuxk .gt_column_spanner_outer:last-child {
+#gbwvwfzrgq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oaolcguuxk .gt_column_spanner {
+#gbwvwfzrgq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4687,11 +4693,11 @@ the `.groups` argument.</code></pre>
   width: 100%;
 }
 
-#oaolcguuxk .gt_spanner_row {
+#gbwvwfzrgq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oaolcguuxk .gt_group_heading {
+#gbwvwfzrgq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4717,7 +4723,7 @@ the `.groups` argument.</code></pre>
   text-align: left;
 }
 
-#oaolcguuxk .gt_empty_group_heading {
+#gbwvwfzrgq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4732,15 +4738,15 @@ the `.groups` argument.</code></pre>
   vertical-align: middle;
 }
 
-#oaolcguuxk .gt_from_md > :first-child {
+#gbwvwfzrgq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oaolcguuxk .gt_from_md > :last-child {
+#gbwvwfzrgq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oaolcguuxk .gt_row {
+#gbwvwfzrgq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4759,7 +4765,7 @@ the `.groups` argument.</code></pre>
   overflow-x: hidden;
 }
 
-#oaolcguuxk .gt_stub {
+#gbwvwfzrgq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4772,7 +4778,7 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#oaolcguuxk .gt_stub_row_group {
+#gbwvwfzrgq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4786,15 +4792,15 @@ the `.groups` argument.</code></pre>
   vertical-align: top;
 }
 
-#oaolcguuxk .gt_row_group_first td {
+#gbwvwfzrgq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oaolcguuxk .gt_row_group_first th {
+#gbwvwfzrgq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oaolcguuxk .gt_summary_row {
+#gbwvwfzrgq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4804,16 +4810,16 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#oaolcguuxk .gt_first_summary_row {
+#gbwvwfzrgq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_first_summary_row.thick {
+#gbwvwfzrgq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oaolcguuxk .gt_last_summary_row {
+#gbwvwfzrgq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4823,7 +4829,7 @@ the `.groups` argument.</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_grand_summary_row {
+#gbwvwfzrgq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4833,7 +4839,7 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#oaolcguuxk .gt_first_grand_summary_row {
+#gbwvwfzrgq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4843,7 +4849,7 @@ the `.groups` argument.</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_last_grand_summary_row_top {
+#gbwvwfzrgq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4853,11 +4859,11 @@ the `.groups` argument.</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_striped {
+#gbwvwfzrgq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oaolcguuxk .gt_table_body {
+#gbwvwfzrgq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4866,7 +4872,7 @@ the `.groups` argument.</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_footnotes {
+#gbwvwfzrgq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4880,7 +4886,7 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_footnote {
+#gbwvwfzrgq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4889,7 +4895,7 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#oaolcguuxk .gt_sourcenotes {
+#gbwvwfzrgq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4903,7 +4909,7 @@ the `.groups` argument.</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#oaolcguuxk .gt_sourcenote {
+#gbwvwfzrgq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4911,79 +4917,79 @@ the `.groups` argument.</code></pre>
   padding-right: 5px;
 }
 
-#oaolcguuxk .gt_left {
+#gbwvwfzrgq .gt_left {
   text-align: left;
 }
 
-#oaolcguuxk .gt_center {
+#gbwvwfzrgq .gt_center {
   text-align: center;
 }
 
-#oaolcguuxk .gt_right {
+#gbwvwfzrgq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oaolcguuxk .gt_font_normal {
+#gbwvwfzrgq .gt_font_normal {
   font-weight: normal;
 }
 
-#oaolcguuxk .gt_font_bold {
+#gbwvwfzrgq .gt_font_bold {
   font-weight: bold;
 }
 
-#oaolcguuxk .gt_font_italic {
+#gbwvwfzrgq .gt_font_italic {
   font-style: italic;
 }
 
-#oaolcguuxk .gt_super {
+#gbwvwfzrgq .gt_super {
   font-size: 65%;
 }
 
-#oaolcguuxk .gt_footnote_marks {
+#gbwvwfzrgq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oaolcguuxk .gt_asterisk {
+#gbwvwfzrgq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oaolcguuxk .gt_indent_1 {
+#gbwvwfzrgq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oaolcguuxk .gt_indent_2 {
+#gbwvwfzrgq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oaolcguuxk .gt_indent_3 {
+#gbwvwfzrgq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oaolcguuxk .gt_indent_4 {
+#gbwvwfzrgq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oaolcguuxk .gt_indent_5 {
+#gbwvwfzrgq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oaolcguuxk .katex-display {
+#gbwvwfzrgq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oaolcguuxk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gbwvwfzrgq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="gt_col_headings header">
+<tr class="header gt_col_headings">
 <th id="V1" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V1</th>
 <th id="V2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">V2</th>
 <th id="V3" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">V3</th>
@@ -5134,301 +5140,440 @@ the `.groups` argument.</code></pre>
 </div>
 </section>
 </section>
-<section id="un-energy-data-1" class="level2">
-<h2 class="anchored" data-anchor-id="un-energy-data-1">UN Energy Data</h2>
+</section>
+<section id="un-energy-data-1" class="level1">
+<h1>UN Energy Data</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>energy_total <span class="ot">&lt;-</span> un_energy <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Driver <span class="sc">==</span> <span class="dv">1</span>,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         OfInterest <span class="sc">==</span> <span class="dv">1</span>,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span> <span class="fu">is.na</span>(ISO3)) <span class="sc">|&gt;</span> </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(un_energy_ipcc_coef, <span class="fu">join_by</span>(Commodity)) <span class="sc">|&gt;</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate emissions using IPCC 2006 Coefficients</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Includes transformation from Kg to thousand metric tons</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Emissions (CO2)"</span> <span class="ot">=</span> </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>      Quantity <span class="sc">*</span> to_TJ <span class="sc">*</span> CO2 <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span>),</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># GWP CH4 AR5 100-year horizon (* 28)</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Emissions (CO2eq) from CH4 (AR5)"</span> <span class="ot">=</span> </span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>      Quantity <span class="sc">*</span> to_TJ <span class="sc">*</span> CH4 <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span>) <span class="sc">*</span> <span class="dv">28</span>,</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># GWP N2O AR5 100-year horizon (* 265)</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Emissions (CO2eq) from N2O (AR5)"</span> <span class="ot">=</span> </span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>      Quantity <span class="sc">*</span> to_TJ <span class="sc">*</span> N2O <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span>) <span class="sc">*</span> <span class="dv">265</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Area Code</span><span class="st">`</span>,</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    Area,</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    ISIC,</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    Year,</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    Transaction,</span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    Commodity,</span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emissions (CO2)</span><span class="st">`</span>,</span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emissions (CO2eq) from CH4 (AR5)</span><span class="st">`</span>,</span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emissions (CO2eq) from N2O (AR5)</span><span class="st">`</span></span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(</span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emissions (CO2)</span><span class="st">`</span>,</span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emissions (CO2eq) from CH4 (AR5)</span><span class="st">`</span>,</span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emissions (CO2eq) from N2O (AR5)</span><span class="st">`</span></span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Element"</span>,</span>
-<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Value"</span></span>
-<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">Element =</span> <span class="fu">case_when</span>(</span>
-<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>      Commodity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bio jet kerosene"</span>, </span>
-<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Biodiesel"</span>, </span>
-<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Biogasoline"</span>) <span class="sc">~</span> <span class="st">"Emissions (CO2bio)"</span>,</span>
-<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> Element)</span>
-<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sector =</span> Transaction,</span>
-<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">Driver =</span> Commodity</span>
-<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
-<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>    Area,</span>
-<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a>    Year,</span>
-<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>    Sector,</span>
-<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>    Driver</span>
-<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We added Driver == 1 for products that are combustion</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We added OfInterest == for transactions that are of interest</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Driver <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>         OfInterest <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span> <span class="fu">is.na</span>(ISO3)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(un_energy_ipcc_coef, <span class="fu">join_by</span>(Commodity)) <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate emissions using IPCC 2006 Coefficients</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Includes transformation from Kg to thousand metric tons</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Emissions (CO2)"</span> <span class="ot">=</span> </span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>      Quantity <span class="sc">*</span> to_TJ <span class="sc">*</span> CO2 <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span>),</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># GWP CH4 AR5 100-year horizon (* 28)</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Emissions (CO2eq) from CH4 (AR5)"</span> <span class="ot">=</span> </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      Quantity <span class="sc">*</span> to_TJ <span class="sc">*</span> CH4 <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span>) <span class="sc">*</span> <span class="dv">28</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># GWP N2O AR5 100-year horizon (* 265)</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Emissions (CO2eq) from N2O (AR5)"</span> <span class="ot">=</span> </span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>      Quantity <span class="sc">*</span> to_TJ <span class="sc">*</span> N2O <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span>) <span class="sc">*</span> <span class="dv">265</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Area Code</span><span class="st">`</span>,</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    Area,</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    ISIC,</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    Transaction,</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    Commodity,</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emissions (CO2)</span><span class="st">`</span>,</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emissions (CO2eq) from CH4 (AR5)</span><span class="st">`</span>,</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emissions (CO2eq) from N2O (AR5)</span><span class="st">`</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emissions (CO2)</span><span class="st">`</span>,</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emissions (CO2eq) from CH4 (AR5)</span><span class="st">`</span>,</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emissions (CO2eq) from N2O (AR5)</span><span class="st">`</span></span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Element"</span>,</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Value"</span></span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">Element =</span> <span class="fu">case_when</span>(</span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>      Commodity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bio jet kerosene"</span>, </span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Biodiesel"</span>, </span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Biogasoline"</span>) <span class="sc">~</span> <span class="st">"Emissions (CO2bio)"</span>,</span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> Element)</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sector =</span> Transaction,</span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">Driver =</span> Commodity</span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>    Area,</span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>    Sector,</span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a>    Driver</span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Test for UN Energy elements</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Test Energy Use</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># table &lt;- un_energy |&gt; </span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     Country.or.Area == "Nigeria",</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     Year == 2018,</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     OfInterest == 1,</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     Driver == 1</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt;</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   arrange(</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Transaction,</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     Commodity</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt; </span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Transaction,</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     Commodity</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt; </span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     Total = sum(Quantity, na.rm = T)</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt; </span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   ungroup()</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co"># write.table(table, "clipboard-128", sep = "\t", row.names = F)</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co"># # Test Emissions</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co"># table &lt;- energy_total |&gt; </span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(</span></span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     Area == "Nigeria",</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     Year == 2018,</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     # OfInterest == 1,</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Driver == 1</span></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt;</span></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   arrange(</span></span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Sector,</span></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     Driver</span></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt; </span></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(</span></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Sector,</span></span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="co">#     Driver</span></span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt; </span></span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(</span></span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     CO2 = sum(`Emissions (CO2)`, na.rm = T),</span></span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="co">#     CH4 = sum(`Emissions (CO2eq) from CH4 (AR5)`, na.rm = T),</span></span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="co">#     N2O = sum(`Emissions (CO2eq) from N2O (AR5)`, na.rm = T)</span></span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) |&gt; </span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="co">#   ungroup()</span></span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="co"># write.table(table, paste0("clipboard-",2^20), sep = "\t", row.names = F)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
 </section>
 <section id="bind-final-datasets" class="level1">
 <h1>Bind Final Datasets</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gwp_total_emissions <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  gwp_faostat_total,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  gwp_edgar_total</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    isic[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>)],</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">join_by</span>(</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(<span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>, <span class="st">`</span><span class="at">ISIC</span><span class="st">`</span>, <span class="at">.before =</span> Year) <span class="sc">|&gt;</span> </span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span> <span class="fu">is.na</span>(Area)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add ISIC codes to animals and crops</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">case_when</span>(</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0946"</span>, <span class="st">"0960"</span>, <span class="st">"0961"</span></span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0141"</span>, <span class="co"># Raising of cattle and buffaloes</span></span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0976"</span>, <span class="st">"1016"</span></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0144"</span>, <span class="co"># Raising of sheep and goats</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1049"</span>, <span class="st">"1051"</span></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0145"</span>, <span class="co"># Raising of swine/pigs</span></span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1096"</span>, <span class="st">"1107"</span>, <span class="st">"1110"</span></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0142"</span>, <span class="co"># Raising of horses and other equines</span></span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1126"</span>, <span class="st">"1177"</span></span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0143"</span>, <span class="co"># Raising of camels and camelids</span></span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1052"</span>, <span class="st">"1053"</span>, <span class="st">"1068"</span>, <span class="st">"1079"</span></span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0146"</span>, <span class="co"># Raising of poultry</span></span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0027"</span> <span class="sc">~</span> <span class="st">"0112"</span>, <span class="co"># Growing of rice</span></span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0015"</span>, <span class="st">"0044"</span>, <span class="st">"0071"</span>, </span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0075"</span>, <span class="st">"0056"</span>, <span class="st">"0079"</span>, </span>
-<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0083"</span>, <span class="st">"0176"</span>, <span class="st">"0236"</span></span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">~</span> <span class="st">"0111"</span>, <span class="co"># Growing of cereals (except rice), leguminous crops and oil seeds</span></span>
-<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0116"</span> <span class="sc">~</span> <span class="st">"0113"</span>, <span class="co"># Growing of vegetables and melons, roots and tubers</span></span>
-<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0156"</span> <span class="sc">~</span> <span class="st">"0114"</span>, <span class="co"># Growing of sugar cane</span></span>
-<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span></span>
-<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">case_when</span>(</span>
-<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0946"</span>, <span class="st">"0960"</span>, <span class="st">"0961"</span></span>
-<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of cattle and buffaloes"</span>,</span>
-<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0976"</span>, <span class="st">"1016"</span></span>
-<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of sheep and goats"</span>,</span>
-<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1049"</span>, <span class="st">"1051"</span></span>
-<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of swine/pigs"</span>,</span>
-<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1096"</span>, <span class="st">"1107"</span>, <span class="st">"1110"</span></span>
-<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of horses and other equines"</span>,</span>
-<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1126"</span>, <span class="st">"1177"</span></span>
-<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of camels and camelids"</span>,</span>
-<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1052"</span>, <span class="st">"1053"</span>, <span class="st">"1068"</span>, <span class="st">"1079"</span></span>
-<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of poultry"</span>,</span>
-<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0027"</span> <span class="sc">~</span> <span class="st">"Growing of rice"</span>,</span>
-<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0015"</span>, <span class="st">"0044"</span>, <span class="st">"0071"</span>, </span>
-<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0075"</span>, <span class="st">"0056"</span>, <span class="st">"0079"</span>, </span>
-<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0083"</span>, <span class="st">"0176"</span>, <span class="st">"0236"</span></span>
-<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">~</span> <span class="st">"Growing of cereals (except rice), leguminous crops and oil seeds"</span>,</span>
-<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0116"</span> <span class="sc">~</span> <span class="st">"Growing of vegetables and melons, roots and tubers"</span>, <span class="co"># </span></span>
-<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0156"</span> <span class="sc">~</span> <span class="st">"Growing of sugar cane"</span>,</span>
-<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="st">`</span><span class="at">ISIC</span><span class="st">`</span></span>
-<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
-<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
-<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
-<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>    Year,</span>
-<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
-<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
-<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span></span>
-<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>    Area,</span>
-<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
-<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>    Year,</span>
-<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
-<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
-<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a>    Element,</span>
-<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
-<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>    ISIC,</span>
-<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>,</span>
-<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>    Sector,</span>
-<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
-<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>    Value</span>
-<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gwp_total_emissions3 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  gwp_faostat_total,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  gwp_edgar_total</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    isic[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>)],</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">join_by</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Driver Code</span><span class="st">`</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(<span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>, <span class="st">`</span><span class="at">ISIC</span><span class="st">`</span>, <span class="at">.before =</span> Year) <span class="sc">|&gt;</span> </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span> <span class="fu">is.na</span>(Area)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add ISIC codes to animals and crops</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0946"</span>, <span class="st">"0960"</span>, <span class="st">"0961"</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0141"</span>, <span class="co"># Raising of cattle and buffaloes</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0976"</span>, <span class="st">"1016"</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0144"</span>, <span class="co"># Raising of sheep and goats</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1049"</span>, <span class="st">"1051"</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0145"</span>, <span class="co"># Raising of swine/pigs</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1096"</span>, <span class="st">"1107"</span>, <span class="st">"1110"</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0142"</span>, <span class="co"># Raising of horses and other equines</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1126"</span>, <span class="st">"1177"</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0143"</span>, <span class="co"># Raising of camels and camelids</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1052"</span>, <span class="st">"1053"</span>, <span class="st">"1068"</span>, <span class="st">"1079"</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"0146"</span>, <span class="co"># Raising of poultry</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0027"</span> <span class="sc">~</span> <span class="st">"0112"</span>, <span class="co"># Growing of rice</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0015"</span>, <span class="st">"0044"</span>, <span class="st">"0071"</span>, </span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0075"</span>, <span class="st">"0056"</span>, <span class="st">"0079"</span>, </span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0083"</span>, <span class="st">"0176"</span>, <span class="st">"0236"</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">~</span> <span class="st">"0111"</span>, <span class="co"># Growing of cereals (except rice), leguminous crops and oil seeds</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0116"</span> <span class="sc">~</span> <span class="st">"0113"</span>, <span class="co"># Growing of vegetables and melons, roots and tubers</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0156"</span> <span class="sc">~</span> <span class="st">"0114"</span>, <span class="co"># Growing of sugar cane</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">case_when</span>(</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0946"</span>, <span class="st">"0960"</span>, <span class="st">"0961"</span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of cattle and buffaloes"</span>,</span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0976"</span>, <span class="st">"1016"</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of sheep and goats"</span>,</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1049"</span>, <span class="st">"1051"</span></span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of swine/pigs"</span>,</span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1096"</span>, <span class="st">"1107"</span>, <span class="st">"1110"</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of horses and other equines"</span>,</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1126"</span>, <span class="st">"1177"</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of camels and camelids"</span>,</span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>        <span class="st">"1052"</span>, <span class="st">"1053"</span>, <span class="st">"1068"</span>, <span class="st">"1079"</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">~</span> <span class="st">"Raising of poultry"</span>,</span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0027"</span> <span class="sc">~</span> <span class="st">"Growing of rice"</span>,</span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0015"</span>, <span class="st">"0044"</span>, <span class="st">"0071"</span>, </span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0075"</span>, <span class="st">"0056"</span>, <span class="st">"0079"</span>, </span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0083"</span>, <span class="st">"0176"</span>, <span class="st">"0236"</span></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">~</span> <span class="st">"Growing of cereals (except rice), leguminous crops and oil seeds"</span>,</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0116"</span> <span class="sc">~</span> <span class="st">"Growing of vegetables and melons, roots and tubers"</span>, <span class="co"># </span></span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"0156"</span> <span class="sc">~</span> <span class="st">"Growing of sugar cane"</span>,</span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="st">`</span><span class="at">ISIC</span><span class="st">`</span></span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">Driver =</span> <span class="st">""</span>,</span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">Category =</span> <span class="st">""</span></span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span></span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Subsector Code</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>,</span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">Subsector =</span> Sector,</span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span> <span class="ot">=</span> Element) <span class="sc">|&gt;</span> </span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>    Area,</span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
+<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>    Category,</span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span>,</span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>    ISIC,</span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Subsector Code</span><span class="st">`</span>,</span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>    Subsector,</span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a>    Driver,</span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a>    Value</span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span> <span class="fu">startsWith</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>, <span class="st">"1.A."</span>),</span>
+<span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a>    Unit <span class="sc">!=</span> <span class="st">"An"</span></span>
+<span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>At this point, we introduce the UN Energy dataset and replace the energy part of EDGAR. First, we need to mimmick the structure. In a second step, we change the ISIC sector for all non-transformative industries’ consumption to “9999 Undetermined”. This is because, we noticed that Households are not consuming a lot of fuels that they normally do consume in the UN Energy dataset. We pool that again and redistribute it according to input consumption from all non- transformative sectors including households.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>energy_addition <span class="ot">&lt;-</span> energy_total <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sector =</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        Sector <span class="sc">==</span> <span class="st">"Consumption by electricity, chp and heat plants"</span>, <span class="st">"Electricity, chp and heat plants"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        Sector),</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span> <span class="ot">=</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(<span class="fu">as.character</span>(Sector), <span class="st">"Consumption"</span>),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"9999"</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>),</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">ISIC =</span> <span class="fu">if_else</span>(</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(Sector), <span class="st">"Consumption"</span>),</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Undetermined"</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>      ISIC</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">Category =</span> <span class="fu">if_else</span>(</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(Sector), <span class="st">"Consumption"</span>),</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Intermediate or final Consumption"</span>,</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>      Sector</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unit =</span> <span class="st">"kt"</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">if_else</span>(</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>      Driver <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Aviation gasoline"</span>, <span class="st">"Kerosene-type jet fuel"</span>),</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"5110"</span>,</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">ISIC =</span> <span class="fu">if_else</span>(</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>      Driver <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Aviation gasoline"</span>, <span class="st">"Kerosene-type jet fuel"</span>),</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Passenger air transport"</span>,</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>      ISIC</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Subsector Code</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">Subsector =</span> ISIC,</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span> <span class="ot">=</span> Element</span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>    Area,</span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>    Category,</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span>,</span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>    ISIC,</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Subsector Code</span><span class="st">`</span>,</span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>    Subsector,</span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>    Driver,</span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>    Unit, </span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>    Value</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And we bind them together.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gwp_total_emissions2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  energy_addition,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  gwp_total_emissions3) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> full_isic4<span class="sc">$</span>Code</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ISIC =</span> <span class="fu">factor</span>(</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>      ISIC,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> full_isic4<span class="sc">$</span>Description</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">sort</span>(<span class="fu">unique</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>)))</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">Category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"1.B"</span>) <span class="sc">~</span> <span class="st">"Fugitive Emissions"</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"2"</span>) <span class="sc">~</span> <span class="st">"Industrial Processes"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"3.A"</span>) <span class="sc">~</span> <span class="st">"Livestock"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"3.B"</span>) <span class="sc">~</span> <span class="st">"Land"</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"3.C"</span>) <span class="sc">~</span> <span class="st">"Aggregate Sources on Land"</span>,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"4"</span>) <span class="sc">~</span> <span class="st">"Waste"</span>,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">startsWith</span>(<span class="fu">as.character</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>), <span class="st">"5"</span>) <span class="sc">~</span> <span class="st">"Other"</span>,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> Category</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  Year <span class="sc">&gt;</span> <span class="dv">1989</span> <span class="sc">&amp;</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span>(Driver <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Charcoal"</span>, <span class="st">"Fuelwood"</span>, <span class="st">"Bagasse"</span>) <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Emissions (CO2)"</span>)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span>  </span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Category,</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    Driver</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One thing that we want to do is keep only those countries that have the whole set of IPCC codes, we accomplish that with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a reference set of required IPCC codes</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>required_ipcc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1."</span>, <span class="st">"3."</span>, <span class="st">"4."</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify countries that have all required IPCC codes</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>valid_countries <span class="ot">&lt;-</span> <span class="fu">with</span>(gwp_total_emissions2, <span class="fu">tapply</span>(<span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>, ISO3, <span class="cf">function</span>(codes) {</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all</span>(<span class="fu">sapply</span>(required_ipcc, <span class="cf">function</span>(prefix) <span class="fu">any</span>(<span class="fu">grepl</span>(<span class="fu">paste0</span>(<span class="st">"^"</span>, prefix), codes))))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter dataset to keep only valid countries</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>gwp_total_emissions <span class="ot">&lt;-</span> gwp_total_emissions2[gwp_total_emissions2<span class="sc">$</span>ISO3 <span class="sc">%in%</span> <span class="fu">names</span>(valid_countries[valid_countries]), ]</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>number_of_countries <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(gwp_total_emissions<span class="sc">$</span>Area))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And we establish that we have 220 available in the dataset.</p>
 <section id="final-pivot" class="level3">
 <h3 class="anchored" data-anchor-id="final-pivot">Final Pivot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>isic_pivot <span class="ot">&lt;-</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  gwp_total_emissions <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> <span class="fu">c</span>(</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      ISIC,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>,</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      Sector),</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> Value,</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="fu">c</span>(</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>      Area,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>      ISO3,</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>      Year,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>      IPCC,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>      Element,</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>      Unit</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_fn =</span> sum,</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_sort =</span> T) <span class="sc">|&gt;</span> </span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">Total =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">3</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>isic_long <span class="ot">&lt;-</span> gwp_total_emissions <span class="sc">|&gt;</span> </span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Detail</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">paste</span>(</span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>, ISIC, </span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Sector Code</span><span class="st">`</span>, Sector, </span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    Area,</span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>    Year,</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>    Element,</span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Detail</span><span class="st">`</span>,</span>
-<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
-<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    Value</span>
-<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>isic_pivot <span class="ot">&lt;-</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  gwp_total_emissions <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> <span class="fu">c</span>(</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>      ISIC,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Subsector Code</span><span class="st">`</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>      Subsector),</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> Value,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="fu">c</span>(</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>      Area,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>      ISO3,</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>      Year,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>      IPCC,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>      Category,</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>      Driver,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>      Unit</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_fn =</span> sum,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_sort =</span> T) <span class="sc">|&gt;</span> </span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Total =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">3</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>isic_long <span class="ot">&lt;-</span> gwp_total_emissions <span class="sc">|&gt;</span> </span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Detail</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">paste</span>(</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ISIC Code</span><span class="st">`</span>, ISIC, </span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Subsector Code</span><span class="st">`</span>, Subsector, </span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>    Area,</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>    ISO3,</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>    Year,</span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">IPCC Code</span><span class="st">`</span>,</span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>    IPCC,</span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>    Category,</span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>    Driver,</span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Emission Type</span><span class="st">`</span>,</span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ISIC Detail</span><span class="st">`</span>,</span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>    Unit,</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>    Value</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="saving-to-rds" class="level3">
 <h3 class="anchored" data-anchor-id="saving-to-rds">Saving to RDS</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># And save to RDS</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  gwp_total_emissions, </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_total_emissions.rds"</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  isic_long, </span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_total_emissions_long.rds"</span>)</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  isic_pivot, </span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_total_emissions_pivot.rds"</span>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   gwp_total_emissions,</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   "gears_db/data/outputs/gwp_total_emissions.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># And save to RDS</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  gwp_total_emissions, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_total_emissions.rds"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  isic_long, </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_total_emissions_long.rds"</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  isic_pivot, </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_total_emissions_pivot.rds"</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># For comparisons we keep EDGAR + FAOSTAT</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  gwp_total_emissions3, </span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gears_db/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="saving-to-zip-and-compress" class="level3">
+<h3 class="anchored" data-anchor-id="saving-to-zip-and-compress">Saving to ZIP and compress</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Total Emissions</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   gwp_total_emissions,</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   "gears_db/data/outputs/gwp_total_emissions.csv")</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create ZIP without preserving the full folder structure</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># zip::zip(</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   zipfile = "gears_db/data/outputs/gwp_total_emissions.zip",</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   files = "gears_db/data/outputs/gwp_total_emissions.csv",</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   mode = "cherry-pick"</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # Remove the uncompressed CSV file</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co"># unlink("gears_db/data/outputs/gwp_total_emissions.csv")</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># # Total with ISIC Long Version</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">#   isic_long,</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">#   "gears_db/data/outputs/gwp_total_emissions_long.csv")</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create ZIP without preserving the full folder structure</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co"># zip::zip(</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   zipfile = "gears_db/data/outputs/gwp_total_emissions_long.zip",</span></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="co">#   files = "gears_db/data/outputs/gwp_total_emissions_long.csv",</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   mode = "cherry-pick"</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="co"># # Remove the uncompressed CSV file</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="co"># unlink("gears_db/data/outputs/gwp_total_emissions_long.csv")</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a><span class="co"># # Total with ISIC Pivot Version</span></span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(</span></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a><span class="co">#   isic_long,</span></span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   "gears_db/data/outputs/gwp_total_emissions_pivot.csv")</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create ZIP without preserving the full folder structure</span></span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="co"># zip::zip(</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="co">#   zipfile = "gears_db/data/outputs/gwp_total_emissions_pivot.zip",</span></span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a><span class="co">#   files = "gears_db/data/outputs/gwp_total_emissions_pivot.csv",</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a><span class="co">#   mode = "cherry-pick"</span></span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a><span class="co"># # Remove the uncompressed CSV file</span></span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a><span class="co"># unlink("gears_db/data/outputs/gwp_total_emissions_pivot.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="smaller-size-tests-for-discussion." class="level3">
 <h3 class="anchored" data-anchor-id="smaller-size-tests-for-discussion.">Smaller size tests for discussion.</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> energy_total <span class="sc">|&gt;</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    Year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2018</span><span class="sc">:</span><span class="dv">2020</span>))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.xlsx</span>(</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  test,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"gears_db/data/outputs/un_energy_emissions_test.xlsx"</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># test &lt;- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># write.table(test, "clipboard-128", sep = "\t", row.names = F)</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># write.xlsx(</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   test,</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   file = "gears_db/data/outputs/un_nigeria18_pivot_test.xlsx")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test &lt;- energy_total |&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     Year %in% c(2018:2020))</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># write.xlsx(</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   test,</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># test &lt;- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># write.table(test, "clipboard-128", sep = "\t", row.names = F)</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># write.xlsx(</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   test,</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   file = "gears_db/data/outputs/un_nigeria18_pivot_test.xlsx")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -5529,6 +5674,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -5639,6 +5786,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

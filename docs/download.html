@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Download – GEARS</title>
+<title>Data Downloads – MAFAP EMDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -34,10 +34,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ed89baa274803ae4d45b16618c3e5cca.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -78,7 +78,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">GEARS</span>
+    <span class="navbar-title">MAFAP EMDB</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -114,15 +114,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#complete-database" id="toc-complete-database" class="nav-link active" data-scroll-target="#complete-database">Complete Database</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/download.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Download</h1>
+<h1 class="title">Data Downloads</h1>
 </div>
 
 
@@ -139,9 +145,37 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Here you can download different versions and aggregations of the GEARS database for selected countries. Please refer to the <a href="./documentation/guides/gears-user-guide.html">GEARS guide</a> for details.</p>
+<p>Here you can download different versions of the MAFAP Emissions Database. Please refer to the <a href="./documentation/guides/gears-user-guide.html">MAFAP EMDB guide</a> for details.</p>
+<section id="complete-database" class="level2">
+<h2 class="anchored" data-anchor-id="complete-database">Complete Database</h2>
+<p>We provide annual time series data on emissions of the three main greenhouse gases (CO2, CH4, N2O) and fluorinated gases per sector, country, and driver where possible, expressed in CO<sub>2</sub> teq for a 100-year horizon (AR5), in zipped Comma Separated Values (“.csv”) files, as well as much smaller R dataset files (“.rds”) for convenience.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>GWP Total Emissions ISIC Pivot</strong> provides a wide dataset with ISIC sectors and agriculture subsectors as columns.</td>
+<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions_pivot.csv"> Download .csv </a></td>
+<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions_pivot.rds"> Download .rds </a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>GWP Total Emissions ISIC Long</strong> provides a long version with sectors and agriculture subsectors concatenated into a single column.</td>
+<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions_long.csv"> Download .csv </a></td>
+<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions_long.rds" download="gwp_total_emissions.rds"> Download .rds </a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>GWP Total Emissions</strong> provides all decriptor fields in disaggregated form for maximum flexibility.</td>
+<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions.csv"> Download .csv </a></td>
+<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/gears/master/gears_db/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions.rds"> Download .rds </a></td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -226,6 +260,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -336,6 +372,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -566,4 +603,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/download.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/download.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>

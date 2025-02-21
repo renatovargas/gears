@@ -153,7 +153,7 @@ FAOSTAT datasets go beyond the elements stipulated in the third category of an I
 #| label: tbl-faostat-domains
 #| tbl-cap: FAOSTAT domains sourced
 
-data.frame(Code = unique(gwp_total$`IPCC Code`[startsWith(gwp_total$`IPCC Code`, "3")]), Sector = unique(gwp_total$IPCC[startsWith(gwp_total$`IPCC Code`, "3")])) |> 
+data.frame(Code = unique(gwp_total$`IPCC Code`[startsWith(as.character(gwp_total$`IPCC Code`), "3")]), Sector = unique(gwp_total$IPCC[startsWith(as.character(gwp_total$`IPCC Code`), "3")])) |> 
   gt()
 ```
 
@@ -164,7 +164,7 @@ More importantly, the reason why we replaced the data from EDGAR on agriculture 
 #| label: tbl-faostat-drivers
 #| tbl-cap: FAOSTAT domains sourced
 
-data.frame(Code = unique(gwp_total$`Sector Code`[startsWith(gwp_total$`IPCC Code`, "3")]), Driver = unique(gwp_total$Sector[startsWith(gwp_total$`IPCC Code`, "3")])) |> 
+data.frame(Code = unique(gwp_total$`Subsector Code`[startsWith(as.character(gwp_total$`IPCC Code`), "3")]), Driver = unique(gwp_total$Subsector[startsWith(as.character(gwp_total$`IPCC Code`), "3")])) |>
   arrange(Code) |> 
   gt()
 ```
