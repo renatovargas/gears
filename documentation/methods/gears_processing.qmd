@@ -797,58 +797,6 @@ energy_total <- un_energy |>
 
 ```
 
-Test for UN Energy elements
-
-```{r}
-# # Test Energy Use
-# 
-# table <- un_energy |> 
-#   filter(
-#     Country.or.Area == "Nigeria",
-#     Year == 2018,
-#     OfInterest == 1,
-#     Driver == 1
-#   ) |>
-#   arrange(
-#     # Transaction,
-#     Commodity
-#   ) |> 
-#   group_by(
-#     # Transaction,
-#     Commodity
-#   ) |> 
-#   summarize(
-#     Total = sum(Quantity, na.rm = T)
-#   ) |> 
-#   ungroup()
-# write.table(table, "clipboard-128", sep = "\t", row.names = F)
-# 
-# # Test Emissions
-# table <- energy_total |> 
-#   filter(
-#     Area == "Nigeria",
-#     Year == 2018,
-#     # OfInterest == 1,
-#     # Driver == 1
-#   ) |>
-#   arrange(
-#     # Sector,
-#     Driver
-#   ) |> 
-#   group_by(
-#     # Sector,
-#     Driver
-#   ) |> 
-#   summarize(
-#     CO2 = sum(`Emissions (CO2)`, na.rm = T),
-#     CH4 = sum(`Emissions (CO2eq) from CH4 (AR5)`, na.rm = T),
-#     N2O = sum(`Emissions (CO2eq) from N2O (AR5)`, na.rm = T)
-#   ) |> 
-#   ungroup()
-# write.table(table, paste0("clipboard-",2^20), sep = "\t", row.names = F)
-```
-
-
 # Bind Final Datasets
 
 ```{r}
@@ -979,12 +927,15 @@ At this point, we introduce the UN Energy dataset and replace the energy part of
 
 energy_addition <- energy_total |> 
   mutate(
-    Sector = if_else(Sector == "Consumption by electricity, chp and heat plants", "Electricity, chp and heat plants", Sector),
-    `ISIC Code` = if_else(
-      startsWith(as.character(Sector), "Consumption"),
-      "9999",
-      `ISIC Code`
-    ),
+    Sector = 
+      if_else(
+        Sector == "Consumption by electricity, chp and heat plants", "Electricity, chp and heat plants",
+        Sector),
+    `ISIC Code` = 
+      if_else(
+        startsWith(as.character(Sector), "Consumption"),
+        "9999",
+        `ISIC Code`),
     ISIC = if_else(
       startsWith(as.character(Sector), "Consumption"),
       "Undetermined",
@@ -995,9 +946,21 @@ energy_addition <- energy_total |>
       "Intermediate or final Consumption",
       Sector
     ),
+    Unit = "kt"
+  ) |>
+  mutate(
+    `ISIC Code` = if_else(
+      Driver %in% c("Aviation gasoline", "Kerosene-type jet fuel"),
+      "5110",
+      `ISIC Code`
+    ),
+    ISIC = if_else(
+      Driver %in% c("Aviation gasoline", "Kerosene-type jet fuel"),
+      "Passenger air transport",
+      ISIC
+    ),
     `Subsector Code` = `ISIC Code`,
     Subsector = ISIC,
-    Unit = "kt"
   ) |> 
   rename(
     `Emission Type` = Element
@@ -1157,9 +1120,10 @@ saveRDS(
 saveRDS(
   isic_pivot, 
   "gears_db/data/outputs/gwp_total_emissions_pivot.rds")
-# write.csv(
-#   gwp_total_emissions,
-#   "gears_db/data/outputs/gwp_total_emissions.csv")
+# For comparisons we keep EDGAR + FAOSTAT
+saveRDS(
+  gwp_total_emissions3, 
+  "gears_db/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
 ```
 
 ### Saving to ZIP and compress
@@ -1169,23 +1133,54 @@ saveRDS(
 #| message: false
 #| label: save-compress-csv
 
-write.csv(
-  gwp_total_emissions, 
-  "gears_db/data/outputs/gwp_total_emissions.csv")
-
-# Create ZIP without preserving the full folder structure
-zip::zip(
-  zipfile = "gears_db/data/outputs/gwp_total_emissions.zip",
-  files = "gears_db/data/outputs/gwp_total_emissions.csv",
-  mode = "cherry-pick"
-)
-
-# Remove the uncompressed CSV file
-unlink("gears_db/data/outputs/gwp_total_emissions.csv")
+# # Total Emissions
+# write.csv(
+#   gwp_total_emissions,
+#   "gears_db/data/outputs/gwp_total_emissions.csv")
+# 
+# # Create ZIP without preserving the full folder structure
+# zip::zip(
+#   zipfile = "gears_db/data/outputs/gwp_total_emissions.zip",
+#   files = "gears_db/data/outputs/gwp_total_emissions.csv",
+#   mode = "cherry-pick"
+# )
+# 
+# # Remove the uncompressed CSV file
+# unlink("gears_db/data/outputs/gwp_total_emissions.csv")
+# 
+# # Total with ISIC Long Version
+# 
+# write.csv(
+#   isic_long,
+#   "gears_db/data/outputs/gwp_total_emissions_long.csv")
+# 
+# # Create ZIP without preserving the full folder structure
+# zip::zip(
+#   zipfile = "gears_db/data/outputs/gwp_total_emissions_long.zip",
+#   files = "gears_db/data/outputs/gwp_total_emissions_long.csv",
+#   mode = "cherry-pick"
+# )
+# 
+# # Remove the uncompressed CSV file
+# unlink("gears_db/data/outputs/gwp_total_emissions_long.csv")
+# 
+# # Total with ISIC Pivot Version
+# 
+# write.csv(
+#   isic_long,
+#   "gears_db/data/outputs/gwp_total_emissions_pivot.csv")
+# 
+# # Create ZIP without preserving the full folder structure
+# zip::zip(
+#   zipfile = "gears_db/data/outputs/gwp_total_emissions_pivot.zip",
+#   files = "gears_db/data/outputs/gwp_total_emissions_pivot.csv",
+#   mode = "cherry-pick"
+# )
+# 
+# # Remove the uncompressed CSV file
+# unlink("gears_db/data/outputs/gwp_total_emissions_pivot.csv")
 
 ```
-
-
 
 ### Smaller size tests for discussion.
 
