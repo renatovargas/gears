@@ -1019,7 +1019,7 @@ gwp_total_emissions2 <- rbind(
     )
   ) |> 
   filter(
-  Year > 1989 & Year <= 2023 &
+  Year > 1989 & Year <= 2022 &
   !(Driver %in% c("Charcoal", "Fuelwood", "Bagasse") & `Emission Type` == "Emissions (CO2)")
 ) |>  
   arrange(
@@ -1110,20 +1110,20 @@ isic_long <- gwp_total_emissions |>
 ### Saving to RDS
 
 ```{r}
-# And save to RDS
-saveRDS(
-  gwp_total_emissions, 
-  "emdb/data/outputs/gwp_total_emissions.rds")
-saveRDS(
-  isic_long, 
-  "emdb/data/outputs/gwp_total_emissions_long.rds")
-saveRDS(
-  isic_pivot, 
-  "emdb/data/outputs/gwp_total_emissions_pivot.rds")
-# For comparisons we keep EDGAR + FAOSTAT
-saveRDS(
-  gwp_total_emissions3, 
-  "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
+# # And save to RDS
+# saveRDS(
+#   gwp_total_emissions, 
+#   "emdb/data/outputs/gwp_total_emissions.rds")
+# saveRDS(
+#   isic_long, 
+#   "emdb/data/outputs/gwp_total_emissions_long.rds")
+# saveRDS(
+#   isic_pivot, 
+#   "emdb/data/outputs/gwp_total_emissions_pivot.rds")
+# # For comparisons we keep EDGAR + FAOSTAT
+# saveRDS(
+#   gwp_total_emissions3, 
+#   "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
 ```
 
 ### Saving to ZIP and compress
