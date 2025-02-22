@@ -11,7 +11,7 @@
 # Visit:https://au-afrec.org/index.php/data-statistics-energy-balances
 # A leaner version in DuckDb format can be found in the 
 # data folder of this repository at: 
-# "gears_db/data/afrec_energy_balances.duckdb"
+# "emdb/data/afrec_energy_balances.duckdb"
 
 # Out of Biomass,			
 # Fuelwood, Charcoal, Other vegetal and agricultural waste,
@@ -30,17 +30,17 @@ library(openxlsx)
 # library(readr)
 
 all_data <- read.csv(
-  "gears_db/data/afrec/all_data.csv", stringsAsFactors = T)
+  "emdb/data/afrec/all_data.csv", stringsAsFactors = T)
 series <- read.csv(
-  "gears_db/data/afrec/series.csv", stringsAsFactors = T)
+  "emdb/data/afrec/series.csv", stringsAsFactors = T)
 units <- read.csv(
-  "gears_db/data/afrec/units.csv", stringsAsFactors = T)
+  "emdb/data/afrec/units.csv", stringsAsFactors = T)
 zones <- read.csv(
-  "gears_db/data/afrec/zones.csv", stringsAsFactors = T)
+  "emdb/data/afrec/zones.csv", stringsAsFactors = T)
 
 con <- dbConnect(
   duckdb(), 
-  dbdir = "gears_db/data/afrec_energy_balances.duckdb", 
+  dbdir = "emdb/data/afrec_energy_balances.duckdb", 
   read_only = FALSE)
 dbWriteTable(con, "all_data", all_data, overwrite = T)
 dbWriteTable(con, "series", series, overwrite = T)
@@ -125,7 +125,7 @@ e_flows_cats <- nigeria |>
   # )
 
 balance_to_seea <- read_xlsx(
-  "gears_db/data/classifications/classifications.xlsx",
+  "emdb/data/classifications/classifications.xlsx",
   sheet = "balance_to_seea")
 
 e_flows_cats2 <- e_flows_cats |> 
@@ -156,16 +156,16 @@ e_flows_cats2 <- e_flows_cats |>
   )
   
 
-saveRDS(e_flows_cats2, file="gears_db/data/afrec/nga_2018.RDS") 
+saveRDS(e_flows_cats2, file="emdb/data/afrec/nga_2018.RDS") 
 
 write.xlsx(
   e_flows_cats, 
-  "gears_db/data/classifications/test_balance.xlsx",
+  "emdb/data/classifications/test_balance.xlsx",
   overwrite = T,
   rowNames = F)
 
 write.xlsx(
   e_flows_cats2, 
-  "gears_db/data/classifications/test_balance2.xlsx",
+  "emdb/data/classifications/test_balance2.xlsx",
   overwrite = T,
   rowNames = F)

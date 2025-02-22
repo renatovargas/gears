@@ -25,7 +25,7 @@ library(dplyr)
 # Connect to energy balances database
 con <- dbConnect(
   duckdb(),
-  dbdir = "gears_db/data/afrec_energy_balances.duckdb", 
+  dbdir = "emdb/data/afrec_energy_balances.duckdb", 
   read_only = T
 )
 

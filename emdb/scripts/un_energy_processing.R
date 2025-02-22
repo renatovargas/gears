@@ -41,13 +41,13 @@ combined_data2$Transaction <- trimws(combined_data2$Transaction)
 combined_data2$Commodity <- trimws(combined_data2$Commodity)
 
 fixed_transactions <- read_xlsx(
-  "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
+  "emdb/data/classifications/un_energy_transactions_fix.xlsx",
   sheet = "Transaction")
 fixed_commodities <- read_xlsx(
-  "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
+  "emdb/data/classifications/un_energy_transactions_fix.xlsx",
   sheet = "Commodity")
 fixed_countries <- read_xlsx(
-  "gears_db/data/classifications/un_energy_transactions_fix.xlsx",
+  "emdb/data/classifications/un_energy_transactions_fix.xlsx",
   sheet = "Countries")
 
 combined_data <- combined_data2 |> 
@@ -69,4 +69,4 @@ combined_data <- combined_data2 |>
   relocate(c(`Area Code`, Area), .before = ISO3)
 
 # Save to RDS to save space
-saveRDS(combined_data,"gears_db/data/un_energy/un_energy.rds")
+saveRDS(combined_data,"emdb/data/un_energy/un_energy.rds")

@@ -27,10 +27,10 @@ bibliography: references.bib
 library(tidyverse)
 library(gt)
 gwp_total <- readRDS(
-  "gears_db/data/outputs/gwp_total_emissions.rds"
+  "emdb/data/outputs/gwp_total_emissions.rds"
 )
 un_energy <- readRDS(
-  "gears_db/data/un_energy/un_energy.rds"
+  "emdb/data/un_energy/un_energy.rds"
 )
 ```
 
@@ -52,7 +52,7 @@ As our goal is to leverage valuable emissions data from different sources, we ha
 
 [^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
 
-[^3]: The data is available at: [https://github.com/renatovargas/gears/tree/master/gears_db/data](https://github.com/renatovargas/gears/tree/master/gears_db/data)
+[^3]: The data is available at: [https://github.com/renatovargas/gears/tree/master/emdb/data](https://github.com/renatovargas/gears/tree/master/emdb/data)
 
 ::: {#fig-dataflow}
 MAFAP Complementary Emissions Database Construction Process

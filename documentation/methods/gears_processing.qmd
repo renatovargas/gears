@@ -47,32 +47,32 @@ Note that some datasets have been converted to R rds files in a previous step fo
 
 # EDGAR
 edgar <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_AR5_GHG_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_AR5_GHG_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_co2 <- read_xlsx(
-  "gears_db/data/edgar/IEA_EDGAR_CO2_1970_2023.xlsx",
+  "emdb/data/edgar/IEA_EDGAR_CO2_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_co2bio  <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_CO2bio_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_CO2bio_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_ch4 <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_CH4_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_CH4_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_n2o <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_N2O_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_N2O_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_f_gases <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_AR5g_F-gases_1990_2023.xlsx",
+  "emdb/data/edgar/EDGAR_AR5g_F-gases_1990_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 ```
@@ -87,31 +87,31 @@ edgar_f_gases <- read_xlsx(
 # FAOSTAT
 faostat_total_emissions <- 
   readRDS(
-    "gears_db/data/faostat/total_emissions.rds")
+    "emdb/data/faostat/total_emissions.rds")
 faostat_crops <- 
   readRDS(
-    "gears_db/data/faostat/crops.rds")
+    "emdb/data/faostat/crops.rds")
 faostat_drained_organic_soils <- 
   readRDS(
-    "gears_db/data/faostat/drained_organic_soils.rds")
+    "emdb/data/faostat/drained_organic_soils.rds")
 faostat_flags <- 
   readRDS(
-    "gears_db/data/faostat/flags.rds")
+    "emdb/data/faostat/flags.rds")
 faostat_livestock <- 
-  readRDS("gears_db/data/faostat/livestock.rds")
+  readRDS("emdb/data/faostat/livestock.rds")
 faostat_production <- 
   readRDS(
-    "gears_db/data/faostat/production.rds")
+    "emdb/data/faostat/production.rds")
 faostat_area_codes <- 
   readRDS(
-    "gears_db/data/faostat/area_codes.rds")
+    "emdb/data/faostat/area_codes.rds")
 ```
 
 ### UN Energy Data
 
 ```{r}
 un_energy <- readRDS(
-  "gears_db/data/un_energy/un_energy.rds"
+  "emdb/data/un_energy/un_energy.rds"
 )
 ```
 
@@ -120,19 +120,19 @@ un_energy <- readRDS(
 
 ```{r}
 fao_countries <- read_xlsx(
-  "gears_db/data/classifications/equivalence.xlsx",
+  "emdb/data/classifications/equivalence.xlsx",
   sheet = "FAOSTAT COUNTRIES")
 fao_ipcc <- read_xlsx(
-  "gears_db/data/classifications/equivalence.xlsx",
+  "emdb/data/classifications/equivalence.xlsx",
   sheet = "FAOSTAT IPCC")
 isic <- read_xlsx(
-  "gears_db/data/classifications/equivalence.xlsx",
+  "emdb/data/classifications/equivalence.xlsx",
   sheet = "GWP ISIC")
 full_isic4 <- read_xlsx(
-  "gears_db/data/classifications/equivalence.xlsx",
+  "emdb/data/classifications/equivalence.xlsx",
   sheet = "ISIC Rev 4")
 un_energy_ipcc_coef <- read_xlsx(
-  "gears_db/data/coefficients/un_energy_ipcc_coefficients.xlsx",
+  "emdb/data/coefficients/un_energy_ipcc_coefficients.xlsx",
   sheet = "un_energy_coefficients"
 )
 ```
@@ -340,7 +340,7 @@ rm(list =
          startsWith(ls(), "edgar")])
 
 # And save to RDS
-saveRDS(gwp_edgar_total, "gears_db/data/outputs/gwp_edgar_total.rds")
+saveRDS(gwp_edgar_total, "emdb/data/outputs/gwp_edgar_total.rds")
 ```
 
 ## FAOSTAT databases
@@ -716,7 +716,7 @@ gwp_faostat_total <- rbind(
   
 
 # And save to RDS
-saveRDS(gwp_faostat_total, "gears_db/data/outputs/gwp_faostat_total.rds")
+saveRDS(gwp_faostat_total, "emdb/data/outputs/gwp_faostat_total.rds")
 
 objects <- c(
   "faostat_total_emissions", 
@@ -1113,17 +1113,17 @@ isic_long <- gwp_total_emissions |>
 # And save to RDS
 saveRDS(
   gwp_total_emissions, 
-  "gears_db/data/outputs/gwp_total_emissions.rds")
+  "emdb/data/outputs/gwp_total_emissions.rds")
 saveRDS(
   isic_long, 
-  "gears_db/data/outputs/gwp_total_emissions_long.rds")
+  "emdb/data/outputs/gwp_total_emissions_long.rds")
 saveRDS(
   isic_pivot, 
-  "gears_db/data/outputs/gwp_total_emissions_pivot.rds")
+  "emdb/data/outputs/gwp_total_emissions_pivot.rds")
 # For comparisons we keep EDGAR + FAOSTAT
 saveRDS(
   gwp_total_emissions3, 
-  "gears_db/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
+  "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
 ```
 
 ### Saving to ZIP and compress
@@ -1136,49 +1136,49 @@ saveRDS(
 # # Total Emissions
 # write.csv(
 #   gwp_total_emissions,
-#   "gears_db/data/outputs/gwp_total_emissions.csv")
+#   "emdb/data/outputs/gwp_total_emissions.csv")
 # 
 # # Create ZIP without preserving the full folder structure
 # zip::zip(
-#   zipfile = "gears_db/data/outputs/gwp_total_emissions.zip",
-#   files = "gears_db/data/outputs/gwp_total_emissions.csv",
+#   zipfile = "emdb/data/outputs/gwp_total_emissions.zip",
+#   files = "emdb/data/outputs/gwp_total_emissions.csv",
 #   mode = "cherry-pick"
 # )
 # 
 # # Remove the uncompressed CSV file
-# unlink("gears_db/data/outputs/gwp_total_emissions.csv")
+# unlink("emdb/data/outputs/gwp_total_emissions.csv")
 # 
 # # Total with ISIC Long Version
 # 
 # write.csv(
 #   isic_long,
-#   "gears_db/data/outputs/gwp_total_emissions_long.csv")
+#   "emdb/data/outputs/gwp_total_emissions_long.csv")
 # 
 # # Create ZIP without preserving the full folder structure
 # zip::zip(
-#   zipfile = "gears_db/data/outputs/gwp_total_emissions_long.zip",
-#   files = "gears_db/data/outputs/gwp_total_emissions_long.csv",
+#   zipfile = "emdb/data/outputs/gwp_total_emissions_long.zip",
+#   files = "emdb/data/outputs/gwp_total_emissions_long.csv",
 #   mode = "cherry-pick"
 # )
 # 
 # # Remove the uncompressed CSV file
-# unlink("gears_db/data/outputs/gwp_total_emissions_long.csv")
+# unlink("emdb/data/outputs/gwp_total_emissions_long.csv")
 # 
 # # Total with ISIC Pivot Version
 # 
 # write.csv(
 #   isic_long,
-#   "gears_db/data/outputs/gwp_total_emissions_pivot.csv")
+#   "emdb/data/outputs/gwp_total_emissions_pivot.csv")
 # 
 # # Create ZIP without preserving the full folder structure
 # zip::zip(
-#   zipfile = "gears_db/data/outputs/gwp_total_emissions_pivot.zip",
-#   files = "gears_db/data/outputs/gwp_total_emissions_pivot.csv",
+#   zipfile = "emdb/data/outputs/gwp_total_emissions_pivot.zip",
+#   files = "emdb/data/outputs/gwp_total_emissions_pivot.csv",
 #   mode = "cherry-pick"
 # )
 # 
 # # Remove the uncompressed CSV file
-# unlink("gears_db/data/outputs/gwp_total_emissions_pivot.csv")
+# unlink("emdb/data/outputs/gwp_total_emissions_pivot.csv")
 
 ```
 
@@ -1190,14 +1190,14 @@ saveRDS(
 #     Year %in% c(2018:2020))
 # write.xlsx(
 #   test,
-#   file = "gears_db/data/outputs/un_energy_emissions_test.xlsx")
+#   file = "emdb/data/outputs/un_energy_emissions_test.xlsx")
 
 # test <- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )
 # write.table(test, "clipboard-128", sep = "\t", row.names = F)
 # 
 # write.xlsx(
 #   test,
-#   file = "gears_db/data/outputs/un_nigeria18_pivot_test.xlsx")
+#   file = "emdb/data/outputs/un_nigeria18_pivot_test.xlsx")
 ```
 
 # End

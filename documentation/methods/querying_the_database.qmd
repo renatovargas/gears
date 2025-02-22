@@ -38,17 +38,17 @@ library(openxlsx)
 #| label: datasets
 
 # Emissions long data
-total_emissions <- readRDS("gears_db/data/outputs/gwp_total_emissions_long.rds")
-total_emissions_pivot <- readRDS("gears_db/data/outputs/gwp_total_emissions_pivot.rds")
+total_emissions <- readRDS("emdb/data/outputs/gwp_total_emissions_long.rds")
+total_emissions_pivot <- readRDS("emdb/data/outputs/gwp_total_emissions_pivot.rds")
 
 # SAM Equivalence table
 sam_equivalence <- read_xlsx(
-  "gears_db/data/sam/nga/SAM-Nigeria-2018-Equivalence.xlsx",
+  "emdb/data/sam/nga/SAM-Nigeria-2018-Equivalence.xlsx",
   sheet = "sam-equivalence")
 
 # SAM elements
 sam_names <- read_xlsx(
-  "gears_db/data/sam/nga/SAM-Nigeria-2018.xlsx",
+  "emdb/data/sam/nga/SAM-Nigeria-2018.xlsx",
   range = "B9:B224",
   sheet = "SAM-names",
   col_names = F)
@@ -115,7 +115,7 @@ nigeria_sam_emissions_2021 <- total_emissions |>
 
 write.xlsx(
   nigeria_sam_emissions_2021,
-  file = "gears_db/data/outputs/emissions_nigeria_2018.xlsx")
+  file = "emdb/data/outputs/emissions_nigeria_2018.xlsx")
 ```
 
 
@@ -130,10 +130,10 @@ test_nigeria18_pivot <- total_emissions_pivot |>
          Area =="Nigeria")
 write.xlsx(
   test_nigeria18,
-  file = "gears_db/data/outputs/test_nigeria18.xlsx")
+  file = "emdb/data/outputs/test_nigeria18.xlsx")
 write.xlsx(
   test_nigeria18_pivot,
-  file = "gears_db/data/outputs/test_nigeria18_pivot.xlsx")
+  file = "emdb/data/outputs/test_nigeria18_pivot.xlsx")
 
 ```
 

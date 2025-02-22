@@ -7,32 +7,32 @@ library(readxl)
 library(openxlsx)
 
 edgar <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_AR5_GHG_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_AR5_GHG_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_c02 <- read_xlsx(
-  "gears_db/data/edgar/IEA_EDGAR_CO2_1970_2023.xlsx",
+  "emdb/data/edgar/IEA_EDGAR_CO2_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_co02bio  <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_CO2bio_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_CO2bio_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_ch4 <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_CH4_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_CH4_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_n2o <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_N2O_1970_2023.xlsx",
+  "emdb/data/edgar/EDGAR_N2O_1970_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 
 edgar_f_gases <- read_xlsx(
-  "gears_db/data/edgar/EDGAR_AR5g_F-gases_1990_2023.xlsx",
+  "emdb/data/edgar/EDGAR_AR5g_F-gases_1990_2023.xlsx",
   skip = 9,
   sheet = "IPCC 2006")
 

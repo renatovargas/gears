@@ -16,7 +16,7 @@ library(forcats)
 rm(list = ls())
 
 # total_emissions <- read_csv(
-#   "gears_db/data/faostat/faostat_em_totals.csv",
+#   "emdb/data/faostat/faostat_em_totals.csv",
 #   locale = locale(encoding = "latin1"))
 # crops <- read_csv(
 #   "D:/OneDrive/_WORK/2024-03-FAO/materials/FAOSTAT/Emissions_crops_E_All_Data_(Normalized)/Emissions_crops_E_All_Data_(Normalized).csv",
@@ -31,38 +31,38 @@ rm(list = ls())
 #     locale = locale(encoding = "utf8")) |>
 #     mutate_if(is.character, factor)
 # area_codes <- read_csv(
-#   "gears_db/data/faostat/faostat_area_codes.csv",
+#   "emdb/data/faostat/faostat_area_codes.csv",
 #   locale = locale(encoding = "latin1"))
 # flags <- read_csv(
-#   "gears_db/data/faostat/faostat_flags.csv",
+#   "emdb/data/faostat/faostat_flags.csv",
 #   locale = locale(encoding = "latin1"))
 # production <- read_csv(
 #   "D:/OneDrive/_WORK/2024-03-FAO/materials/FAOSTAT/Production_Crops_Livestock_E_All_Data_(Normalized)/Production_Crops_Livestock_E_All_Data_(Normalized).csv",
 #   locale = locale(encoding = "utf8")) |>
 #   mutate_if(is.character, factor)
-# saveRDS(total_emissions,"gears_db/data/faostat/total_emissions.rds")
-# saveRDS(crops,"gears_db/data/faostat/crops.rds")
-# saveRDS(drained_organic_soils,"gears_db/data/faostat/drained_organic_soils.rds")
-# saveRDS(flags,"gears_db/data/faostat/flags.rds")
-# saveRDS(livestock,"gears_db/data/faostat/livestock.rds")
-# saveRDS(production,"gears_db/data/faostat/production.rds")
-# saveRDS(area_codes,"gears_db/data/faostat/area_codes.rds")
-# save.image("gears_db/data/faostat/faostat.RData" )
-# load("gears_db/data/faostat/faostat.RData")
+# saveRDS(total_emissions,"emdb/data/faostat/total_emissions.rds")
+# saveRDS(crops,"emdb/data/faostat/crops.rds")
+# saveRDS(drained_organic_soils,"emdb/data/faostat/drained_organic_soils.rds")
+# saveRDS(flags,"emdb/data/faostat/flags.rds")
+# saveRDS(livestock,"emdb/data/faostat/livestock.rds")
+# saveRDS(production,"emdb/data/faostat/production.rds")
+# saveRDS(area_codes,"emdb/data/faostat/area_codes.rds")
+# save.image("emdb/data/faostat/faostat.RData" )
+# load("emdb/data/faostat/faostat.RData")
 
-total_emissions <- readRDS("gears_db/data/faostat/total_emissions.rds") |> 
+total_emissions <- readRDS("emdb/data/faostat/total_emissions.rds") |> 
   mutate(across(where(is.character), as.factor))
-crops <- readRDS("gears_db/data/faostat/crops.rds") |> 
+crops <- readRDS("emdb/data/faostat/crops.rds") |> 
   mutate(across(where(is.character), as.factor))
-drained_organic_soils <- readRDS("gears_db/data/faostat/drained_organic_soils.rds") |> 
+drained_organic_soils <- readRDS("emdb/data/faostat/drained_organic_soils.rds") |> 
   mutate(across(where(is.character), as.factor))
-flags <- readRDS("gears_db/data/faostat/flags.rds") |> 
+flags <- readRDS("emdb/data/faostat/flags.rds") |> 
   mutate(across(where(is.character), as.factor))
-livestock <- readRDS("gears_db/data/faostat/livestock.rds") |> 
+livestock <- readRDS("emdb/data/faostat/livestock.rds") |> 
   mutate(across(where(is.character), as.factor))
-production <- readRDS("gears_db/data/faostat/production.rds") |> 
+production <- readRDS("emdb/data/faostat/production.rds") |> 
   mutate(across(where(is.character), as.factor))
-area_codes <- readRDS("gears_db/data/faostat/area_codes.rds") |> 
+area_codes <- readRDS("emdb/data/faostat/area_codes.rds") |> 
   mutate(across(where(is.character), as.factor))
 elements <- unique(total_emissions$Element)
 items <- unique(total_emissions$Item)
@@ -300,7 +300,7 @@ items <- cbind(item1,item2)
 # Duck DB
 # con <- dbConnect(
 #   duckdb(), 
-#   dbdir = "gears_db/data/faostat/faostat_em_totals.duckdb", 
+#   dbdir = "emdb/data/faostat/faostat_em_totals.duckdb", 
 #   read_only = FALSE)
 # dbWriteTable(con, "emissions", emissions, overwrite = T)
 # dbWriteTable(con, "flags", flags, overwrite = T)
