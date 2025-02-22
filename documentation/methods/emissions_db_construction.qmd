@@ -12,6 +12,11 @@ author:
     email: martin.cicowiez@fao.org
     affiliation: 
       - name: Food and Agriculture Organization (FAO)
+format:
+  pdf:
+    toc: true
+    number-sections: false
+    colorlinks: true
 editor_options: 
   chunk_output_type: console
   render-on-save: true
@@ -209,6 +214,4 @@ data.frame(
 
 ## Emissions
 
-The resulting database reports GHG emissions in million metric tonnes (mmt) and 100-
-year global warming potentials (GWPs) from the IPCC’s Fifth Assessment
-Reports (AR5). We provide two formats for practitioners' convenience. A long format (what other efforts term "normalized"), where ISIC sectors are laid out in a single column, with a single column of values, and a pivot format, where ISIC sectors (including undetermined) are arranged in columns of data values. We provide a column named "Driver Category", which can take the values "intermediate input", "output", "endowment", "consumption".
+The resulting database reports GHG emissions in thousand metric tons CO~2~eq using the  100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5). We provide three formats for practitioners' convenience. A long format (what other efforts term "normalized"), where ISIC sectors are laid out in a single column, with a single column of values, a pivot format, where ISIC sectors (including undetermined) are arranged in columns of data values, and a raw long format with all fields disaggregated. 

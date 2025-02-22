@@ -1,4 +1,4 @@
-# Global Emissions Analysis for Resilient Systems (GEARS)
+# MAFAP Emissions Database (EMDB)
 
 The Emissions Database (EMDB) initiative is an effort of the Monitoring and Analysing Food and Agricultural Policies (MAFAP) programme of the Agrifood Economics and Policy Division (ESA) of the Food and Agriculture Organization of the United Nations (FAO), which aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with National Accounts data at different levels of aggregation by economic activity for use with environmentally extended structural analysis frameworks like Computable General Equilibrium and Input-Output models. Its main output is the GEARS Database of anthropogenic emissions of greenhouse gases and air pollution by economic activity.
 
