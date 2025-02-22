@@ -235,6 +235,13 @@
     "href": "download.html#complete-database",
     "title": "Data Downloads",
     "section": "Complete Database",
-    "text": "Complete Database\nWe provide annual time series data on emissions of the three main greenhouse gases (CO2, CH4, N2O) and fluorinated gases per sector, country, and driver where possible, expressed in CO2 teq for a 100-year horizon (AR5), in zipped Comma Separated Values (“.csv”) files, as well as much smaller R dataset files (“.rds”) for convenience.\n\n\n\n\n\n\n\n\nGWP Total Emissions ISIC Pivot provides a wide dataset with ISIC sectors and agriculture subsectors as columns.\n Download .csv \n Download .rds \n\n\nGWP Total Emissions ISIC Long provides a long version with sectors and agriculture subsectors concatenated into a single column.\n Download .csv \n Download .rds \n\n\nGWP Total Emissions provides all decriptor fields in disaggregated form for maximum flexibility.\n Download .csv \n Download .rds"
+    "text": "Complete Database\nWe provide annual time series data on emissions of the three main greenhouse gases (CO2, CH4, N2O) and fluorinated gases per sector, country, and driver where possible, expressed in CO2 teq for a 100-year horizon (AR5), in zipped Comma Separated Values (“.csv”) files, as well as much smaller R dataset files (“.rds”) for convenience.\n\n\n\n\n\n\n\n\nGWP Total Emissions ISIC Pivot provides a wide dataset with ISIC sectors and agriculture subsectors as columns.\n Download .csv \n Download .rds \n\n\nGWP Total Emissions ISIC Long provides a long version with sectors and agriculture subsectors concatenated into a single column.\n Download .csv \n Download .rds \n\n\nGWP Total Emissions provides all descriptive fields in disaggregated form for maximum flexibility.\n Download .csv \n Download .rds"
+  },
+  {
+    "objectID": "download.html#single-country-downloads",
+    "href": "download.html#single-country-downloads",
+    "title": "Data Downloads",
+    "section": "Single Country Downloads",
+    "text": "Single Country Downloads\nYou can filter and download the emissions data for a single country using the tool below."
   }
 ]

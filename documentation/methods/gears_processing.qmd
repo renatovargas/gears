@@ -1019,7 +1019,7 @@ gwp_total_emissions2 <- rbind(
     )
   ) |> 
   filter(
-  Year > 1989 &
+  Year > 1989 & Year <= 2023 &
   !(Driver %in% c("Charcoal", "Fuelwood", "Bagasse") & `Emission Type` == "Emissions (CO2)")
 ) |>  
   arrange(
@@ -1182,25 +1182,8 @@ saveRDS(
 
 ```
 
-### Smaller size tests for discussion.
 
-```{r}
-# test <- energy_total |>
-#   filter(
-#     Year %in% c(2018:2020))
-# write.xlsx(
-#   test,
-#   file = "emdb/data/outputs/un_energy_emissions_test.xlsx")
-
-# test <- data.frame(a = unique(gwp_total_emissions$Area), b = unique(gwp_total_emissions$ISO3) )
-# write.table(test, "clipboard-128", sep = "\t", row.names = F)
-# 
-# write.xlsx(
-#   test,
-#   file = "emdb/data/outputs/un_nigeria18_pivot_test.xlsx")
-```
-
-# End
+# References
 
 ```{r}
 
