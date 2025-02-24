@@ -2,21 +2,21 @@
 title: "Data Downloads"
 ---
 
-Here you can download different versions of the MAFAP Emissions Database. Please refer to the [MAFAP EMDB guide](documentation/guides/gears-user-guide.qmd) for details.
+Here you can download different versions of the MAFAP Emissions Database. 
 
 ## Complete Database
 
 We provide annual time series data on emissions of the three main greenhouse gases (CO2, CH4, N2O) and fluorinated gases per sector, country, and driver where possible, expressed in thousand metric tons CO~2~eq using the  100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5), in zipped Comma Separated Values (".csv") files, as well as much smaller R dataset files (".rds") for convenience.
 
 | | | |
-|:----------|:-:|:-:|
+|:------|:--:|:--:|
 |**GWP Total Emissions ISIC Pivot** provides a wide dataset with ISIC sectors and agriculture subsectors as columns.| <a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions_pivot.csv"> Download .csv </a> | <a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions_pivot.rds"> Download .rds </a> | 
 |**GWP Total Emissions ISIC Long** provides a long version with sectors and agriculture subsectors concatenated into a single column.| <a class="btn btn-primary btn-sm" href="https://raw.githubusercontent.com/renatovargas/embd/master/emdb/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions_long.csv"> Download .csv </a> | <a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions_long.rds" download="gwp_total_emissions.rds"> Download .rds </a> | 
 |**GWP Total Emissions** provides all descriptive fields in disaggregated form for maximum flexibility.| <a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions.csv" download="gwp_total_emissions.csv"> Download .csv </a> | <a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions.rds"> Download .rds </a> | 
 
 ## Single Country Downloads
 
-You can filter and download the emissions data for a single country using the tool below.
+You can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load.)
 
 ::: {.center}
 <iframe src="https://renatovargas.shinyapps.io/download-emdb/" 

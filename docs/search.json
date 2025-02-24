@@ -195,7 +195,7 @@
     "href": "download.html",
     "title": "Data Downloads",
     "section": "",
-    "text": "Here you can download different versions of the MAFAP Emissions Database. Please refer to the MAFAP EMDB guide for details."
+    "text": "Here you can download different versions of the MAFAP Emissions Database."
   },
   {
     "objectID": "download.html#complete-database",
@@ -209,6 +209,6 @@
     "href": "download.html#single-country-downloads",
     "title": "Data Downloads",
     "section": "Single Country Downloads",
-    "text": "Single Country Downloads\nYou can filter and download the emissions data for a single country using the tool below."
+    "text": "Single Country Downloads\nYou can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load.)"
   }
 ]
