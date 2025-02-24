@@ -33,12 +33,27 @@ bibliography: references.bib
 
 library(tidyverse)
 library(gt)
+library(ggtext)
+
+# Clean workspace
+rm(list = ls())
+
 gwp_total <- readRDS(
   "emdb/data/outputs/gwp_total_emissions.rds"
 )
 un_energy <- readRDS(
   "emdb/data/un_energy/un_energy.rds"
 )
+gwp_edgar <- readRDS(
+  "emdb/data/outputs/gwp_edgar_total.rds"
+)
+gwp_edgar_fao <- readRDS(
+  "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds"
+)
+energy_total <-  readRDS(
+  "emdb/data/outputs/energy_total_DO_NOT_USE.rds"
+)
+
 ```
 
 # Introduction
@@ -55,23 +70,18 @@ Emissions from combustion are estimated at the economic activity level using the
 
 ## Overview
 
-As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language [@Rcore2024][^1]. The original datasets, translated into the much smaller size RDS binary format, as well as the processing scripts, are included with the resulting emissions database repository[^3]. The flow of data follows the diagram in @fig-dataflow.
+As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language [@Rcore2024][^1]. The original datasets, translated into the much smaller size RDS binary format, as well as the processing scripts, are included with the resulting emissions database repository[^3]. 
 
 [^1]: R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.
 
-[^3]: The data is available at: [https://github.com/renatovargas/gears/tree/master/emdb/data](https://github.com/renatovargas/gears/tree/master/emdb/data)
-
-::: {#fig-dataflow}
-MAFAP Complementary Emissions Database Construction Process
-:::
-
+[^3]: The data is available at: [https://renatovargas.github.io/emdb/download.html](https://renatovargas.github.io/emdb/download.html)
 
 ## Total Emissions from EDGAR
 
  We start our methodological discussion with the sourcing of The Emissions Database for Global Atmospheric Research---EDGAR---(Crippa et al., 2023) datasets published by the European Commission because they are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in @tbl-edgar-domains, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen). This allows us to provide an overview of the coverage needed by our dataset. However, due to the form in which the data is presented in the EDGAR data and our database needs, we only take advantage of emissions data on industrial processes, waste, and "other" (which refers mainly to emissions from the atmospheric deposition of nitrogen). To avoid double counting, we replace emissions from the use of energy (Chapter 1A) with data from the UN Energy Database [@unsd2023] and emissions from agriculture, forestry, and other land use with data from FAOSTAT [@fao2024]. For comparison purposes, it is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are not covered in EDGAR, but are in FAOSTAT.
 
 | **Code** | **IPCC Greenhouse Gas Inventory domain** |
-| :----------------------------------| :----------------------------------|
+| :--| :--------|
 | **1.A.1.a** | Main Activity Electricity and Heat Production |
 | **1.A.1.bc** | Petroleum Refining - Manufacture of Solid Fuels and Other Energy Industries |
 | **1.A.2** | Manufacturing Industries and Construction |
@@ -117,7 +127,7 @@ Source: authors based on Crippa, et al. (2023).
  EDGAR datasets contain disaggregated information for the elements in the table above in Gigagrams for CO~2~, CO~2~ from biofuels, CH~4~, N~2~O, and Fluorinated greenhouse gases (F-Gases) PFC, HFC, HCFC, and NF~3~. However, while they provide a single dataset with aggregate GHG emissions expressed in CO~2~eq using the Global Warming Potential values of the Fifth Assessment Report of the IPCC, all gases are summed into a single figure for each element in @tbl-edgar-domains, not distinguished from the individual shares of CO~2~ tons equivalent contributed by each gas. For that reason, we used the individualized datasets per gas in Gigagrams and performed the Global Warming Potential AR5 calculation ourselves using coefficients from Myhre et al. @myhre2013, except for F-Gases, for which the conversion was made by EDGAR and kept separate as needed.
 
 | Gas                 | Global Warming Potential Values AR5 100-year horizon |
-| :--- | :--- |
+| :-- | :-------- |
 | Methane (CH4)       | 28 CO~2~ tons equivalent / Gigagram                  |
 | Nitrous Oxide (N2O) | 265 CO~2~ tons equivalent / Gigagram                 |
 
@@ -129,7 +139,7 @@ As explained above, while the Edgar dataset is very comprehensive, it lacks the 
 
 
 | IPCC Code | IPCC | ISIC Code | ISIC |
-| :---: | :--- | :---: | :--- |
+| :--: | :---- | :--: | :---- |
 | 2.A.1 | Cement production | 2394 | Manufacture of cement, lime and plaster |
 | 2.A.2 | Lime production | 2394 | Manufacture of cement, lime and plaster |
 | 2.A.3 | Glass Production | 2310 | Manufacture of glass and glass products |
@@ -160,15 +170,23 @@ FAOSTAT datasets go beyond the elements stipulated in the third category of an I
 #| label: tbl-faostat-domains
 #| tbl-cap: FAOSTAT domains sourced
 
-data.frame(Code = unique(gwp_total$`IPCC Code`[startsWith(as.character(gwp_total$`IPCC Code`), "3")]), Sector = unique(gwp_total$IPCC[startsWith(as.character(gwp_total$`IPCC Code`), "3")])) |> 
-  gt()
+data.frame(Code = unique(
+  gwp_total$`IPCC Code`[
+    startsWith(as.character(gwp_total$`IPCC Code`), "3")]),
+  Sector = unique(
+    gwp_total$IPCC[
+      startsWith(as.character(gwp_total$`IPCC Code`), "3")])) |>
+  gt() |>
+  cols_align(
+    align = c("left"),
+    columns = everything())
 ```
 
-More importantly, the reason why we replaced the data from EDGAR on agriculture emissions with FAOSTAT is because of the ability to differentiate the different drivers of those emissions, as well as the separate totals by gas. @tbl-faostat-drivers shows the different elements from FAOSTAT available for practitioners to map to inputs, outputs, endowments, or consumption. 
+More importantly, the reason why we replaced the data from EDGAR on agriculture emissions with FAOSTAT is because of the ability to differentiate the different drivers of those emissions, as well as the separate totals by gas. @tbl-faostat-subsectors shows the different elements from FAOSTAT available for practitioners to map to inputs, outputs, endowments, or consumption. 
 
 ```{r}
 #| echo: false
-#| label: tbl-faostat-drivers
+#| label: tbl-faostat-subsectors
 #| tbl-cap: FAOSTAT domains sourced
 
 data.frame(Code = unique(gwp_total$`Subsector Code`[startsWith(as.character(gwp_total$`IPCC Code`), "3")]), Driver = unique(gwp_total$Subsector[startsWith(as.character(gwp_total$`IPCC Code`), "3")])) |>
@@ -194,26 +212,142 @@ The UN dataset is organized according to the standard construction of Energy Bal
 
 ```{r}
 #| echo: false
-#| label: tbl-unenergy-commodities
-#| tbl-cap: "Energy Commodities"
+# data.frame(
+#   Commodity = 
+#     sort(
+#       unique(
+#         un_energy$Commodity[un_energy$Driver==1]))) |> 
+#   gt() |> 
+#   cols_align(
+#     align = "left",
+#     columns = everything()
+#   )
 
-data.frame(
-  Commodity = 
-    sort(
-      unique(
-        un_energy$Commodity[un_energy$Driver==1]))) |> 
-  gt() |> 
-  cols_align(
-    align = "left",
-    columns = everything()
-  )
+un_commodities <- as.character(unique(un_energy$Commodity[un_energy$Driver==1]))
+un_transactions <- as.character(unique(un_energy$Transaction[un_energy$OfInterest==1]))
 ```
+
+| Domain | Elements |
+| :- | :--------- |
+| Commodities | `{r} un_commodities`. |
+
+: Commodities sourced from the UN Energy Database {#tbl-unenergy-commodities}
 
 # Results
 
-## Database
+
+```{r}
+#| echo: false
+#| label: number-of-countries
+
+number_of_countries <- length(unique(gwp_total$Area))
+```
 
 
-## Emissions
+The resulting database reports GHG emissions in thousand metric tons (kt) of CO~2~eq using the  100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5) for `{r} number_of_countries` countries or territories. We provide three formats for practitioners' convenience. A long format (what other efforts term "normalized"), where ISIC sectors are laid out in a single column, with a single column of values, a pivot format, where ISIC sectors (including an "undetermined" category) are arranged in columns of data values. In these two datasets, ISIC codes, ISIC descriptions, subsector codes and subsector descriptions have been concatenated into a single field for convenience. We also provide a long format version with all possible fields disaggregated, which was used to create both the long and pivot versions. These fields are:
 
-The resulting database reports GHG emissions in thousand metric tons CO~2~eq using the  100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5). We provide three formats for practitioners' convenience. A long format (what other efforts term "normalized"), where ISIC sectors are laid out in a single column, with a single column of values, a pivot format, where ISIC sectors (including undetermined) are arranged in columns of data values, and a raw long format with all fields disaggregated. 
+- **Area:** Country or territory name.
+- **ISO3:** Three-digit ISO country/territory name.
+- **IPCC Code:** Greenhouse gas inventory code, according to IPCC Guidelines.
+- **IPCC:** Greenhouse gas inventory description, according to IPCC Guidelnines.
+- **Category:** Description of the emissions element within the larger IPCC Code.
+- **Emission Type:** While everything is presented in kilotons of CO~2~ equivalent, this field allows the user to identify the gas responsible for the emission, which can be CO~2~, CO~2~ from biofuels, N~2~O, CH~4~, HFC, HCFC, PFC, SF~6~, NF~3~.
+- **ISIC Code:** International Industrial Classification of All Economic Activities, Revision 4, code for observations where it is possible to assign a specific activity and "9999" for undetermined.
+- **ISIC:** International Industrial Classification of All Economic Activities, Revision 4, description for observations where it is possible to assign a specific activity and "Undetermined" where not.
+- **Subsector Code:** Some observations provide economic activity information at an aggregation which is smaller than the smallest ISIC level, specifically for specific crops and animal productions (FAOSTAT). We repeat the ISIC Code for those observations outside of agriculture that don't have this description for correct ordering of the pivot dataset.
+- **Subsector:** The description of the code above.
+- **Driver:** For the energy sector (those for which the `IPCC` column starts with 3.A) it is possible to identify the specific fuel that was combusted, which generated the emission and it is presented here[^4].
+- **Unit:** A single value "kt" as metadata for all observations. In a previous version, we included animal and land endowments as reference and these where identified as "An" for number of animals and "Ha" for hectares. This was removed to avoid confusion for users when calculating totals.
+- **Value:** The numeric value of the observation in thousand metric tons "kt" (Gigagrams).
+
+[^4]: Subsector and Driver both refer to individual products, but are laid out separately in our case, because of the specific needs of MAFAP Social Accounting Matrix structures that disaggregate agriculture activities with more detail. Other databases, such as GTAP [@aguiar2019; @chepeliev2024a], combine these into a single field where they are all identified as "drivers" and add a second field that describes which _type_ of driver it refers to (input, output, endowment, or final consumption). Creating such a structure is trivial here by removing the agricultural drivers from the `Driver` column (for those where IPCC code starts with 3) and copying over the elements from the `Subsector` column.
+
+
+@fig-total-emissions-by-year shows Greenhouse Gas emissions for the period 1990-2022 in the resulting database. For the last year, total emissions in the database are of about 66.3 million kt CO~2~eq. This is about 13.3 million kt CO~2~eq more than the 53.0 reported by Edgar [@ccrippa2023]. This is because we have data on GHG emissions for some non-sovereign territories, like American Samoa (USA) or Réunion (FRA), for example, that are also reported with their respective countries total.   
+
+```{r}
+#| echo: false
+#| label: fig-total-emissions-by-year
+#| fig-cap: "Greenhouse Gases for 220 countries and territories (Year 2022)"
+
+
+gwp_total |> 
+  filter(
+    ! startsWith(as.character(`IPCC Code`), "3.B") &
+      Year > 1990 & Year < 2023 &
+    `Emission Type` %in% c(
+          # `Element` %in% c(
+      "Emissions (CO2)",
+      "Emissions (CO2eq) from CH4 (AR5)",
+      "Emissions (CO2eq) from N2O (AR5)"
+    )
+  ) |> 
+  group_by(Year) |> 
+  summarise(total_value = sum(Value, na.rm = TRUE)) |> 
+  ggplot(aes(x = factor(Year), y = total_value)) +
+  geom_col(fill = "steelblue") +
+  scale_y_continuous(
+    breaks = seq(40, 70, by = 10) * 1e6,
+    labels = function(x) format(x/1e6, big.mark = ",", scientific = FALSE)
+  ) +
+  labs(x = "Year", 
+       y = "Total Value (million kt)", 
+       title = "Greenhouse Gases (CO~2~, CH~4~, N~2~O) in million kt of CO~2~eq (1990-2022)") +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    title = element_markdown())
+```
+
+We use the case of Nigeria to exemplify differences between datasets in @tbl-nigeria-dataset-comparison. The first column shows the result of our MAFAP Emissions Dabase, the second shows the original Edgar dataset values, the third one shows a modified version of EDGAR, in which the whole section of agriculture has been replaced with FAOSTAT data (although for this comparison we removed the LULUCF part from FAO), and the last column shows the values of the World Bank World Development Indicators (only for Greenhouse Gases CO~2~, CH~4~, and N~2~O in CO~2~eq). The rows show the different emission types. Variations between datasets range from less than 1% to more than 30%. While variations remain stable with CO~2~ and CH~4~, CH~4~ is more volatile and there is a complete discrepancy between our dataset and the Edgar based calculations of CO~2~bio, which at this  point we only can attribute to differences in elements considered for this sector, as EDGAR documentation regarding this matter appears vague in the main publication [@crippa2023]. In our case, the CO~2~ emissions of the combustion of bio jet kerosene, biodiesel, biogasoline, charcoal, biogases, bagasse, fuelwood, other liquid biofuels, animal waste, municipal waste, and vegetal waste were considered CO~2~bio, while their CH~4~ and N~2~O emissions were classified together with the emission of those gases of all other fuels.
+
+
+
+| Emission Type                     | MAFAP EMDB | EDGAR     | EDGAR + FAOSTAT | World Bank |
+| :---- | --: | --: | --: | --: |
+| Emissions (CO2)                   | 131,965.5  | 130,106.6 | 128,646.0       | 130,110.0 |
+| Emissions (CO2bio)                | 191,576.3  | 543,631.7 | 517,496.7       |           |
+| Emissions (CO2eq) from CH4 (AR5)  | 156,627.5  | 197,002.7 | 194,163.5       | 204,080.0 |
+| Emissions (CO2eq) from N2O (AR5)  | 33,692.3   | 35,333.4  | 37,630.8        | 35,330.0  |
+| Emissions (CO2eq) from HFC (AR5)  | 11,985.9   | 11,985.9  | 11,985.9        |           |
+| Emissions (CO2eq) from HCFC (AR5) | 46.5       | 46.5      | 46.5            |           |
+| Emissions (CO2eq) from PFC (AR5)  | 0.0        | 0.0       | 0.0             |           |
+| Emissions (CO2eq) from SF6 (AR5)  | 679.7      | 679.7     | 679.7           |           |
+| Total                             | 526,573.6  | 918,786.5 | 890,649.1       |           |
+| Only GHG                          | 322,285.2  | 362,442.7 | 360,440.3       | 369,520.0 |
+
+: Differences between datasets for individual emission types for Nigeria {#tbl-nigeria-dataset-comparison}
+
+An important value added to the underlying data sources of MAFAP Emissions Database is an initial classification of emissions according to ISIC sector. This is important, because it allows practitioners of Computable General Equilibrium analysis to bridge this data with Social Accounting Matrices (which are the databases for such analyses). We made the choice to disregard the information on energy intermediate and final consumption of industries outside the energy production and transformation sectors, since as per the conventions of energy balances, fuels consumed by any sector get aggregated into the transportation sector, but that does not coincide with the corresponding ISIC classification for road transportation. Because of that, we pooled together all consumption and classified it as "Undetermined" for practitioners to adjudicate it according to either input shares, endowment shares, or output shares. @tbl-total-emissions-by-isic shows this exercise for Nigeria in 2022.
+
+
+```{r}
+#| echo: false
+#| label: tbl-total-emissions-by-isic
+#| tbl-cap: "Total Emissions by Sector in Nigeria (Year 2022)"
+
+
+gwp_total |> 
+  filter(
+    !startsWith(as.character(`IPCC Code`), "3.B") &
+    Year == 2022 &
+    `Emission Type` %in% c(
+      "Emissions (CO2)",
+      "Emissions (CO2eq) from CH4 (AR5)",
+      "Emissions (CO2eq) from N2O (AR5)"
+    )
+  ) |> 
+  mutate(Sector = paste0(`ISIC Code`, ". ", ISIC)) |> 
+  group_by(Sector) |> 
+  summarise(Total = sum(Value, na.rm = TRUE)) |> 
+  arrange(as.character(Sector)) |> 
+  mutate(Total = formatC(Total, format = "f", big.mark = ",", digits = 1)) |>  # Format numbers
+  gt()
+  
+```
+
+
+# Conclusion
+
+As part of the Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program, we sourced data from EDGAR [@crippa2023], FAOSTAT [@fao2024], and the United Nations Energy Database [@unsd2023] to provide a bridge between emissions information and social accounting matrices for Computable General Equilibrium analysis. 
+
+# References

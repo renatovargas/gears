@@ -1,0 +1,1218 @@
+---
+title: "GEARS database preparation"
+author:
+  - name: "Renato Vargas"
+    id: rv
+    # email: renovargas@gmail.com
+    affiliation: 
+      - name: "Consultant for FAO"
+bibliography: references.bib
+---
+
+# Introduction
+
+In this session, we prepare a harmonized emissions dataset with inputs from FAOSTAT [@fao2024] and EDGAR [@crippa2023]. The objective is to have a single data lake from which we can extract data and make it compatible with any structure of economic activities. 
+
+## Preliminaries
+
+```{r}
+#| warning: false
+#| message: false
+#| label: libraries
+
+# Clean workspace
+rm(list = ls())
+
+# Load libraries
+library(tidyverse)
+library(haven)
+library(readxl)
+library(openxlsx)
+library(gt)
+# library(sf)
+# library(tmap)
+# library(raster)
+```
+
+## Datasets
+
+Note that some datasets have been converted to R rds files in a previous step for space considerations.
+
+### EDGAR
+
+```{r}
+#| warning: false
+#| message: false
+#| label: datasets-edgar
+
+# EDGAR
+edgar <- read_xlsx(
+  "emdb/data/edgar/EDGAR_AR5_GHG_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_co2 <- read_xlsx(
+  "emdb/data/edgar/IEA_EDGAR_CO2_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_co2bio  <- read_xlsx(
+  "emdb/data/edgar/EDGAR_CO2bio_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_ch4 <- read_xlsx(
+  "emdb/data/edgar/EDGAR_CH4_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_n2o <- read_xlsx(
+  "emdb/data/edgar/EDGAR_N2O_1970_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+
+edgar_f_gases <- read_xlsx(
+  "emdb/data/edgar/EDGAR_AR5g_F-gases_1990_2023.xlsx",
+  skip = 9,
+  sheet = "IPCC 2006")
+```
+
+### FAOSTAT
+
+```{r}
+#| warning: false
+#| message: false
+#| label: datasets-faostat
+
+# FAOSTAT
+faostat_total_emissions <- 
+  readRDS(
+    "emdb/data/faostat/total_emissions.rds")
+faostat_crops <- 
+  readRDS(
+    "emdb/data/faostat/crops.rds")
+faostat_drained_organic_soils <- 
+  readRDS(
+    "emdb/data/faostat/drained_organic_soils.rds")
+faostat_flags <- 
+  readRDS(
+    "emdb/data/faostat/flags.rds")
+faostat_livestock <- 
+  readRDS("emdb/data/faostat/livestock.rds")
+faostat_production <- 
+  readRDS(
+    "emdb/data/faostat/production.rds")
+faostat_area_codes <- 
+  readRDS(
+    "emdb/data/faostat/area_codes.rds")
+```
+
+### UN Energy Data
+
+```{r}
+un_energy <- readRDS(
+  "emdb/data/un_energy/un_energy.rds"
+)
+```
+
+
+### Equivalence tables
+
+```{r}
+fao_countries <- read_xlsx(
+  "emdb/data/classifications/equivalence.xlsx",
+  sheet = "FAOSTAT COUNTRIES")
+fao_ipcc <- read_xlsx(
+  "emdb/data/classifications/equivalence.xlsx",
+  sheet = "FAOSTAT IPCC")
+isic <- read_xlsx(
+  "emdb/data/classifications/equivalence.xlsx",
+  sheet = "GWP ISIC")
+full_isic4 <- read_xlsx(
+  "emdb/data/classifications/equivalence.xlsx",
+  sheet = "ISIC Rev 4")
+un_energy_ipcc_coef <- read_xlsx(
+  "emdb/data/coefficients/un_energy_ipcc_coefficients.xlsx",
+  sheet = "un_energy_coefficients"
+)
+```
+
+```{r}
+# Test to see units of measurement for each commodity
+# Fortunately no duplicates.
+# Use https://unstats.un.org/unsd/publication/SeriesF/SeriesF_44E.pdf
+# for conversions to TJ.
+# test <- un_energy |>
+#   group_by(Commodity, Unit) |>
+#   summarize(Total = sum(Quantity, na.rm = T)) |>
+#   ungroup()
+# # write.table(test, "clipboard", sep = "\t", row.names = F) # Windows
+# write.table(
+#   test,
+#   pipe("xclip -selection clipboard"),  # Unix
+#   sep = "\t",
+#   row.names = F)
+```
+
+
+# Initial processing
+
+## EDGAR databases
+
+The first thing that we do with EDGAR is see which domains from IPCC it covers.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: edgar-ipcc-domains
+
+edgar_ipcc_names <- 
+  data.frame(
+    code      = unique(
+      edgar$ipcc_code_2006_for_standard_report),
+    ipcc_name = unique(
+      edgar$ipcc_code_2006_for_standard_report_name)) |> 
+  arrange(code)
+
+edgar_ipcc_names |> 
+  gt()
+```
+
+The first thing that we see is that LULUCF is not included. We take note of this as we remove the domains that are covered in more detail in FAOSTAT (section 3). Originally, we estimated our own emissions for the energy part (section 1) from converting Energy Balances to the SEEA energy accounts format. However, this requires a Supply and Use table to distribute uses and applying TIER 1 coefficients. In this first version, we will take it as is from EDGAR. 
+
+Our concern is that EDGAR takes use outside energy transformer industries from energy balance (i.e. other industrial, residential, transportation) at face value and we believe that this distribution can be improved if National Accounts is used to distribute intermediate and final consumption of energy outside the energy transformation sectors.
+
+We could use total CO2 equivalent emissions aggregated from our `edgar` dataset, but full disaggregation by gas has been requested, so we perform our cleaning of the dataset for all of these and apply Tier 1 Global Warming Potential (GWP AR5) coefficients to individual datasets.
+
+But first we use custom function `transform_edgar_datasets` to extract the relevant IPCC items and normalize the years structure.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: custom-edgar-processing-functions
+
+# Requires library(tidyverse)
+# Recursive function with direct naming of outputs
+transform_edgar_datasets <- function(datasets, dataset_names) {
+  if (length(datasets) == 0) {
+    return(invisible(NULL)) # End recursion
+  }
+  if(length(datasets)== 1){
+    print("The transformed datasets have the prefix 'transformed_'")
+  }
+  # Process the first dataset
+  dataset <- datasets[[1]]
+  name <- dataset_names[[1]]
+  
+  # Apply the transformation
+  transformed <- dataset |> 
+    filter(grepl("^(1|2|3|4|5)", ipcc_code_2006_for_standard_report)) |> 
+    pivot_longer(
+      cols = starts_with("Y_"),
+      names_to = "Year",
+      values_to= "Value"
+    ) |> 
+    mutate(
+      Year = as.numeric(sub("^Y_", "", Year))
+    )
+  
+  # Assign the transformed dataset to the global environment
+  assign(paste0("transformed_", name), transformed, envir = .GlobalEnv)
+  
+  # Recursion with the rest of the datasets
+  transform_edgar_datasets(datasets[-1], dataset_names[-1])
+}
+```
+
+### Individual datasets
+
+```{r}
+#| warning: false
+#| message: false
+#| label: edgar-domain-filtering
+
+datasets <- list(
+  edgar_co2,
+  edgar_co2bio,
+  edgar_ch4,
+  edgar_n2o,
+  edgar_f_gases
+)
+dataset_names <- c("co2", "co2bio", "ch4", "n2o", "edgar_f_gases")
+
+transform_edgar_datasets(datasets, dataset_names)
+rm(datasets)
+```
+### Dataset binding and GWP calculation
+
+With the datasets transformed, we bind them together and transform to GWP.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: edgar-datasets-binding
+
+# Usage
+gwp_edgar_total2 <- rbind(
+  transformed_co2,
+  transformed_co2bio,
+  transformed_ch4,
+  transformed_n2o,
+  transformed_edgar_f_gases) |> 
+  mutate(
+    Value = case_when(
+      Substance == "CH4" ~ Value * 28 , # GWP CH4 AR5 100-year horizon
+      Substance == "N2O" ~ Value * 265, # GWP N2O AR5 100-year horizon
+      .default = Value
+    ),
+    Substance = case_when(
+      Substance == "CO2" ~ "Emissions (CO2)",
+      Substance == "CO2bio" ~ "Emissions (CO2bio)",
+      Substance == "CH4" ~ "Emissions (CO2eq) from CH4 (AR5)",
+      Substance == "N2O" ~ "Emissions (CO2eq) from N2O (AR5)",
+      Substance == "GWP_100_AR5_PFC" ~
+        "Emissions (CO2eq) from PFC (AR5)",
+      Substance == "GWP_100_AR5_HFC" ~
+        "Emissions (CO2eq) from HFC (AR5)",
+      Substance == "GWP_100_AR5_HCFC" ~
+        "Emissions (CO2eq) from HCFC (AR5)",
+      Substance == "GWP_100_AR5_SF6" ~
+        "Emissions (CO2eq) from SF6 (AR5)",
+      Substance == "GWP_100_AR5_NF3" ~
+        "Emissions (CO2eq) from NF3 (AR5)",
+      .default = Substance
+    ),
+    `Element Code` = case_when(
+      Substance == "Emissions (CO2)" ~ 7273,
+      Substance == "Emissions (CO2bio)" ~ 7279,
+      Substance == "Emissions (CO2eq) from CH4 (AR5)"  ~ 724413,
+      Substance == "Emissions (CO2eq) from N2O (AR5)"  ~ 724313,
+      Substance == "Emissions (CO2eq) from PFC (AR5)"  ~ 724995,
+      Substance == "Emissions (CO2eq) from HFC (AR5)"  ~ 724996,
+      Substance == "Emissions (CO2eq) from HCFC (AR5)" ~ 724997,
+      Substance == "Emissions (CO2eq) from SF6 (AR5)"  ~ 724998,
+      Substance == "Emissions (CO2eq) from NF3 (AR5)"  ~ 724999,
+      .default = NA
+    ),
+    Unit = "kt",
+    `Driver Code` =
+      ipcc_code_2006_for_standard_report,
+    Driver = 
+      ipcc_code_2006_for_standard_report_name,
+    `Sector Code` = ipcc_code_2006_for_standard_report,
+    Sector = ipcc_code_2006_for_standard_report_name,
+    Sector = if_else(
+      `Sector Code`== "1.A.5",
+      "Non-Specified from IPCC Energy Volume",
+      Sector),
+    # `Sector Code` = "",
+    # Sector = ""
+  ) |> 
+  mutate(across(where(is.character), as.factor)) |> 
+  rename(
+    Element = Substance,
+    ISO3 = Country_code_A3,
+    `IPCC Code` = ipcc_code_2006_for_standard_report,
+    IPCC = ipcc_code_2006_for_standard_report_name) |> 
+  left_join(
+    fao_countries,
+    join_by(ISO3)
+  ) |> 
+  select(
+    `Area Code`,
+    Area,
+    ISO3,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    `IPCC Code`, 
+    IPCC,
+    Year,
+    Unit,
+    Value )
+
+# Remove all EDGAR inputs
+rm(list = 
+  ls()[startsWith(ls(), "transformed_") |
+         startsWith(ls(), "edgar")])
+
+# And save to RDS
+saveRDS(gwp_edgar_total2, "emdb/data/outputs/gwp_edgar_total.rds")
+
+gwp_edgar_total <- gwp_edgar_total2 |>
+  filter(
+    ! startsWith(as.character(`IPCC Code`),"3")
+  )
+
+
+```
+
+## FAOSTAT databases
+
+### Total emissions
+
+Now we turn our attention to FAOSTAT. First we clean the totals dataset `faostat_total_emissions`.
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("elements", as.matrix(
+    unique(faostat_total_emissions$`Element Code`)
+  ), as.matrix(
+    unique(faostat_total_emissions$Element)
+  )),
+  cbind("items", as.matrix(
+    unique(faostat_total_emissions$`Item Code`)
+  ), as.matrix(unique(
+    faostat_total_emissions$`Item`
+  )))
+)) |>
+  gt()
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-total-emissions
+
+# Filter elements of interest
+transformed_faostat_total <- faostat_total_emissions |>
+  filter(
+    `Item Code` %in% c(
+      5061, 67292, 
+      67291, 6751, 6750, 
+      6795,  6993, 6992
+    ),
+    # `Item Code` %in% c(
+    #   5064,  5060, 5066, 
+    #   5058,  5059, 5063, 
+    #   5062,  5061, 67292, 
+    #   67291, 6751, 6750, 
+    #   6795,  6993, 6992
+    # ), 
+    `Element Code` %in% c(
+      724313, 724413,
+      7273, 717815)
+    ) |> 
+  rename(
+    `Driver Code` = `Item Code`,
+    Driver = Item
+  ) |> 
+  mutate(
+    `Sector Code` = 9999,
+    Sector = "Undetermined",
+    Sector = case_when(
+      `Driver Code`== 5061 ~
+      "Manufacture of fertilizers and nitrogen compounds",
+      `Driver Code` %in% c(67291, 6795) ~
+        "Undetermined from Agriculture",
+      `Driver Code` %in% c(67292, 6750, 6751, 6992, 6993) ~
+        "Undetermined from LULUCF",
+      .default = Sector),
+    `Sector Code` = case_when(
+      `Driver Code`== 5061 ~
+      2012,
+      `Driver Code` %in% c(67291, 6795) ~
+        9998,
+      `Driver Code` %in% c(67292, 6750, 6751, 6992, 6993) ~
+        9997,
+      .default = `Sector Code`)
+  ) |>
+  # Finally select in order to 
+  # bind to livestock and crops
+  select(
+    `Area Code`,
+    Area,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    Year,
+    Unit,
+    Value
+  )
+```
+
+Then the resulting items:
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("elements", as.matrix(
+    unique(transformed_faostat_total$`Element Code`)
+  ), as.matrix(
+    unique(transformed_faostat_total$Element)
+  )),
+  cbind("Drivers", as.matrix(
+    unique(transformed_faostat_total$`Driver Code`)
+  ), as.matrix(unique(
+    transformed_faostat_total$`Driver`
+  )))
+)) |>
+  gt()
+```
+
+Then we move to the detailed datasets.
+
+### Crops
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("elements", as.matrix(
+    unique(faostat_crops$`Element Code`)
+  ), as.matrix(
+    unique(faostat_crops$Element)
+  )),
+  cbind("items", as.matrix(
+    unique(faostat_crops$`Item Code`)
+  ), as.matrix(unique(
+    faostat_crops$`Item`
+  )))
+)) |>
+  gt()
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-crops
+
+# Filter elements of interest
+transformed_faostat_crops <- faostat_crops |> 
+  filter(
+    ! `Element Code` %in% c(
+      5312, 5162, 516201, 516202,
+      7245, 72303, 72430, 72440, 
+      72342, 72343, 72362,
+      723631, 723632, 72392
+    ),
+    `Item Code` != 1712
+    # ! `Element Code` %in% c(
+    #   5162, 516201, 516202,
+    #   7245, 72430, 72440,
+    #   72342, 72362,
+    #   723631, 723632, 72392
+    # )
+    ) |> 
+  # Global Warming Potential
+  mutate(
+    Value = case_when(
+      `Element Code` %in% c(
+        72255, 72257
+      ) ~ Value * 28, # GWP CH4 AR5 100-year horizon
+      `Element Code` %in% c(
+        72302,72307
+      ) ~ Value * 265 # GWP N2O AR5 100-year horizon
+    )
+  ) |> 
+  mutate(
+    temp_code = case_when(
+      `Element Code` %in% c(
+        72255, 72257
+      ) ~ 724413,
+      `Element Code` %in% c(
+        72307, 72302
+      ) ~ 724313,
+      .default = NA
+    ),
+    temp = case_when(
+      `Element Code` %in% c(
+        72255, 72257
+      ) ~ "Emissions (CO2eq) from CH4 (AR5)",
+      `Element Code` %in% c(
+        72307, 72302
+      ) ~ "Emissions (CO2eq) from N2O (AR5)",
+      .default = NA
+    )
+  ) |> 
+  rename(
+    `Sector Code` = `Item Code`,
+    `Sector` = Item,
+    `Driver Code` = `Element Code`,
+    Driver = Element,
+    `Element Code`= temp_code,
+    Element = temp
+  )|> 
+  mutate(
+    `Sector Code` = sprintf("%04d", `Sector Code`)
+  ) |> 
+  # Finally select in order to 
+  # bind to livestock and crops
+  select(
+    `Area Code`,
+    Area,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    Year,
+    Unit,
+    Value
+  )
+```
+
+The resulting items
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("Sectors", as.matrix(
+    unique(transformed_faostat_crops$`Sector Code`)
+  ), as.matrix(
+    unique(transformed_faostat_crops$Sector)
+  )),
+  cbind("Drivers", as.matrix(
+    unique(transformed_faostat_crops$`Driver Code`)
+  ), as.matrix(unique(
+    transformed_faostat_crops$`Driver`
+  )))
+)) |>
+  arrange(V1,V2) |> 
+  gt()
+```
+```{r}
+transformed_faostat_crops |> 
+  filter(
+    Year == 2018,
+    Area == "Nigeria"
+  ) |> 
+  group_by(
+    Driver,
+    Sector,
+    Unit
+  ) |> 
+  summarize(
+    Total = sum(Value, na.rm = T)
+  ) |> 
+  ungroup() |> 
+  gt()
+```
+
+
+### Livestock
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-livestock
+
+# Filter elements of interest
+transformed_faostat_livestock <- faostat_livestock |> 
+  filter(
+    ! `Element Code` %in% c(
+      72380,  72381, 72386, 
+      723601, 723602, 723611, 
+      723612, 723801, 723802, 
+      723811, 723812, 72340, 
+      72341, 72346, 72360, 
+      72361, 72366, 72431,
+      72441
+    ),
+    ! `Item Code` %in% c(
+      1757, 1759, 1760,
+      1054, 2029, 1749,
+      1048, 1755
+    )) |>
+  mutate(
+    Value = case_when(
+      `Element Code` %in% c(
+        72254, 72256
+      ) ~ Value * 28, # GWP CH4 AR5 100-year horizon
+      `Element Code` %in% c(
+        72300, 72301, 72306
+      ) ~ Value * 265, # GWP N2O AR5 100-year horizon
+      .default = Value
+    )
+  ) |> 
+  mutate(
+    temp_code = case_when(
+      `Element Code` %in% c(
+        72254, 72256
+      ) ~ 724413,
+      `Element Code` %in% c(
+        72300, 72301, 72306
+      ) ~ 724313,
+       `Element Code` == 5111 ~ 5111,
+      .default = NA
+    ),
+    temp = case_when(
+      `Element Code` %in% c(
+        72254, 72256
+      ) ~ "Emissions (CO2eq) from CH4 (AR5)",
+      `Element Code` %in% c(
+        72300, 72301, 72306
+      ) ~ "Emissions (CO2eq) from N2O (AR5)",
+      `Element Code` == 5111 ~ "Number of animals",
+      .default = NA
+    )
+  ) |> 
+  rename(
+    `Driver Code` = `Element Code`,
+    Driver = Element,
+    `Sector Code` = `Item Code`,
+    Sector = Item,
+    `Element Code`= temp_code,
+    Element = temp
+  )|>
+  mutate(
+    `Sector Code` = sprintf("%04d", `Sector Code`)
+  ) |> 
+  # Finally select in order to 
+  # bind to livestock and crops
+  select(
+    `Area Code`,
+    Area,
+    `Driver Code`,
+    Driver,
+    `Sector Code`,
+    Sector,
+    `Element Code`,
+    Element,
+    Year,
+    Unit,
+    Value
+  )
+```
+
+The resulting items
+
+```{r}
+# For reference
+as.data.frame(rbind(
+  cbind("Drivers", as.matrix(
+    unique(transformed_faostat_livestock$`Driver Code`)
+  ), as.matrix(
+    unique(transformed_faostat_livestock$Driver)
+  )),
+  cbind("Sectors", as.matrix(
+    unique(transformed_faostat_livestock$`Sector Code`)
+  ), as.matrix(unique(
+    transformed_faostat_livestock$`Sector`
+  )))
+)) |>
+  arrange(V1,V2) |> 
+  gt()
+```
+
+
+### Dataset binding
+
+```{r}
+#| warning: false
+#| message: false
+#| label: faostat-datasets-binding
+
+gwp_faostat_total <- rbind(
+  transformed_faostat_total,
+  transformed_faostat_crops,
+  transformed_faostat_livestock) |>
+  left_join(fao_countries[,c(1,3)], join_by(`Area Code`)) |>
+  left_join(fao_ipcc, join_by(Driver)) |> 
+  filter(! is.na(ISO3)) |> 
+  relocate(`IPCC Code`, `IPCC`, .before = Year) |> 
+  relocate(ISO3, .before = `Driver Code`)
+  
+
+# And save to RDS
+saveRDS(gwp_faostat_total, "emdb/data/outputs/gwp_faostat_total.rds")
+
+objects <- c(
+  "faostat_total_emissions", 
+  "faostat_crops", 
+  "faostat_livestock")
+
+# Remove only variables if they exist
+rm(list = objects[objects %in% ls()])
+```
+
+# UN Energy Data
+
+```{r}
+#| warning: false
+#| message: false
+#| label: energy-first-clean
+
+energy_total <- un_energy |> 
+  # We added Driver == 1 for products that are combustion
+  # We added OfInterest == for transactions that are of interest
+  filter(Driver == 1,
+         OfInterest == 1,
+         ! is.na(ISO3)) |> 
+  left_join(un_energy_ipcc_coef, join_by(Commodity)) |>
+  # Estimate emissions using IPCC 2006 Coefficients
+  mutate(
+    # Includes transformation from Kg to thousand metric tons
+    "Emissions (CO2)" = 
+      Quantity * to_TJ * CO2 * 10^(-6),
+    # GWP CH4 AR5 100-year horizon (* 28)
+    "Emissions (CO2eq) from CH4 (AR5)" = 
+      Quantity * to_TJ * CH4 * 10^(-6) * 28,
+    # GWP N2O AR5 100-year horizon (* 265)
+    "Emissions (CO2eq) from N2O (AR5)" = 
+      Quantity * to_TJ * N2O * 10^(-6) * 265
+  ) |> 
+  select(
+    `Area Code`,
+    Area,
+    ISO3,
+    `IPCC Code`,
+    IPCC,
+    `ISIC Code`,
+    ISIC,
+    Year,
+    Transaction,
+    Commodity,
+    `Emissions (CO2)`,
+    `Emissions (CO2eq) from CH4 (AR5)`,
+    `Emissions (CO2eq) from N2O (AR5)`
+  ) |> 
+  pivot_longer(
+    cols = c(
+      `Emissions (CO2)`,
+      `Emissions (CO2eq) from CH4 (AR5)`,
+      `Emissions (CO2eq) from N2O (AR5)`
+    ),
+    names_to = "Element",
+    values_to = "Value"
+  ) |>
+  mutate(
+    Element = case_when(
+      Commodity %in% c("Bio jet kerosene", 
+                       "Biodiesel", 
+                       "Biogasoline",
+                       "Charcoal",
+                       "Biogases",
+                       "Bagasse",
+                       "Fuelwood",
+                       "Other liquid biofuels",
+                       "Animal waste",
+                       "Municipal waste",
+                       "Vegetal waste"
+) & 
+        Element == "Emissions (CO2)" ~ 
+        "Emissions (CO2bio)",
+      .default = Element)
+  ) |> 
+  rename(
+    Sector = Transaction,
+    Driver = Commodity
+  ) |> 
+  arrange(
+    Area,
+    Year,
+    Sector,
+    Driver
+  )
+
+```
+
+# Bind Final Datasets
+
+```{r}
+#| warning: false
+#| message: false
+#| label: full-dataset-first-clean
+
+
+gwp_total_emissions4 <- rbind(
+  gwp_faostat_total,
+  gwp_edgar_total
+) |> 
+  left_join(
+    isic[,c(1,3,4)],
+    join_by(
+      `Driver Code`
+    )
+  ) |> 
+  relocate(`ISIC Code`, `ISIC`, .before = Year) |> 
+  filter(
+    ! is.na(Area)
+  ) |> 
+  # Add ISIC codes to animals and crops
+  mutate(
+    `ISIC Code` = case_when(
+      `Sector Code` %in% c(
+        "0946", "0960", "0961"
+      ) ~ "0141", # Raising of cattle and buffaloes
+      `Sector Code` %in% c(
+        "0976", "1016"
+      ) ~ "0144", # Raising of sheep and goats
+      `Sector Code` %in% c(
+        "1049", "1051"
+      ) ~ "0145", # Raising of swine/pigs
+      `Sector Code` %in% c(
+        "1096", "1107", "1110"
+      ) ~ "0142", # Raising of horses and other equines
+      `Sector Code` %in% c(
+        "1126", "1177"
+      ) ~ "0143", # Raising of camels and camelids
+      `Sector Code` %in% c(
+        "1052", "1053", "1068", "1079"
+      ) ~ "0146", # Raising of poultry
+      `Sector Code` == "0027" ~ "0112", # Growing of rice
+      `Sector Code` %in% c(
+        "0015", "0044", "0071", 
+        "0075", "0056", "0079", 
+        "0083", "0176", "0236"
+        ) ~ "0111", # Growing of cereals (except rice), leguminous crops and oil seeds
+      `Sector Code` == "0116" ~ "0113", # Growing of vegetables and melons, roots and tubers
+      `Sector Code` == "0156" ~ "0114", # Growing of sugar cane
+      .default = `ISIC Code`
+    ),
+    `ISIC` = case_when(
+      `Sector Code` %in% c(
+        "0946", "0960", "0961"
+      ) ~ "Raising of cattle and buffaloes",
+      `Sector Code` %in% c(
+        "0976", "1016"
+      ) ~ "Raising of sheep and goats",
+      `Sector Code` %in% c(
+        "1049", "1051"
+      ) ~ "Raising of swine/pigs",
+      `Sector Code` %in% c(
+        "1096", "1107", "1110"
+      ) ~ "Raising of horses and other equines",
+      `Sector Code` %in% c(
+        "1126", "1177"
+      ) ~ "Raising of camels and camelids",
+      `Sector Code` %in% c(
+        "1052", "1053", "1068", "1079"
+      ) ~ "Raising of poultry",
+      `Sector Code` == "0027" ~ "Growing of rice",
+      `Sector Code` %in% c(
+        "0015", "0044", "0071", 
+        "0075", "0056", "0079", 
+        "0083", "0176", "0236"
+        ) ~ "Growing of cereals (except rice), leguminous crops and oil seeds",
+      `Sector Code` == "0116" ~ "Growing of vegetables and melons, roots and tubers", # 
+      `Sector Code` == "0156" ~ "Growing of sugar cane",
+      .default = `ISIC`
+    )
+  ) |> 
+  mutate(
+    Driver = "",
+    Category = ""
+  ) |> 
+  arrange(
+    Unit,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    `ISIC Code`,
+    `Sector Code`
+  ) |>
+  rename(
+    `Subsector Code` = `Sector Code`,
+    Subsector = Sector,
+    `Emission Type` = Element) |> 
+  select(
+    Area,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    IPCC,
+    Category,
+    `Emission Type`,
+    `ISIC Code`,
+    ISIC,
+    `Subsector Code`,
+    Subsector,
+    Driver,
+    Unit,
+    Value
+  ) |> 
+  filter(
+    Unit != "An"
+  )
+
+# We don't add it above to save intermediate steps
+gwp_total_emissions3 <- gwp_total_emissions4 |> 
+filter(
+  ! startsWith(`IPCC Code`, "1.A."),
+)
+```
+
+At this point, we introduce the UN Energy dataset and replace the energy part of EDGAR. First, we need to mimmick the structure. In a second step, we change the ISIC sector for all non-transformative industries' consumption to "9999 Undetermined". This is because, we noticed that Households are not consuming a lot of fuels that they normally do consume in the UN Energy dataset. We pool that again and redistribute it according to input consumption from all non- transformative sectors including households.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: energy-addition
+
+energy_addition <- energy_total |> 
+  mutate(
+    Sector = 
+      if_else(
+        Sector == "Consumption by electricity, chp and heat plants", "Electricity, chp and heat plants",
+        Sector),
+    `ISIC Code` = 
+      if_else(
+        startsWith(as.character(Sector), "Consumption"),
+        "9999",
+        `ISIC Code`),
+    ISIC = if_else(
+      startsWith(as.character(Sector), "Consumption"),
+      "Undetermined",
+      ISIC
+    ),
+    Category = if_else(
+      startsWith(as.character(Sector), "Consumption"),
+      "Intermediate or final Consumption",
+      Sector
+    ),
+    Unit = "kt"
+  ) |>
+  mutate(
+    `ISIC Code` = if_else(
+      Driver %in% c("Aviation gasoline", "Kerosene-type jet fuel"),
+      "5110",
+      `ISIC Code`
+    ),
+    ISIC = if_else(
+      Driver %in% c("Aviation gasoline", "Kerosene-type jet fuel"),
+      "Passenger air transport",
+      ISIC
+    ),
+    `Subsector Code` = `ISIC Code`,
+    Subsector = ISIC,
+  ) |> 
+  rename(
+    `Emission Type` = Element
+  ) |> 
+  select(
+    Area,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    IPCC,
+    Category,
+    `Emission Type`,
+    `ISIC Code`,
+    ISIC,
+    `Subsector Code`,
+    Subsector,
+    Driver,
+    Unit, 
+    Value
+  )
+  
+```
+
+And we bind them together.
+
+```{r}
+#| warning: false
+#| message: false
+#| label: gwptotal-energy-bind
+
+gwp_total_emissions2 <- rbind(
+  energy_addition,
+  gwp_total_emissions3) |>
+  mutate(
+    `ISIC Code` = factor(
+      `ISIC Code`,
+      levels = full_isic4$Code
+    ),
+    ISIC = factor(
+      ISIC,
+      levels = full_isic4$Description
+    ),
+    `IPCC Code` = factor(
+      `IPCC Code`,
+      levels = sort(unique(as.character(`IPCC Code`)))
+    ),
+    Category = case_when(
+      startsWith(as.character(`IPCC Code`), "1.B") ~ "Fugitive Emissions",
+      startsWith(as.character(`IPCC Code`), "2") ~ "Industrial Processes",
+      startsWith(as.character(`IPCC Code`), "3.A") ~ "Livestock",
+      startsWith(as.character(`IPCC Code`), "3.B") ~ "Land",
+      startsWith(as.character(`IPCC Code`), "3.C") ~ "Aggregate Sources on Land",
+      startsWith(as.character(`IPCC Code`), "4") ~ "Waste",
+      startsWith(as.character(`IPCC Code`), "5") ~ "Other",
+      .default = Category
+    )
+  ) |> 
+  filter(
+  Year > 1989 & Year <= 2022 &
+    !(Driver %in% c("Charcoal", "Fuelwood", "Bagasse") & `Emission Type` == "Emissions (CO2)")
+) |>  
+  arrange(
+    ISO3,
+    Year,
+    `IPCC Code`,
+    # Category,
+    Driver
+  )
+  
+```
+
+One thing that we want to do is keep only those countries that have the whole set of IPCC codes, we accomplish that with:
+
+```{r}
+# Create a reference set of required IPCC codes
+required_ipcc <- c("1.", "3.", "4.")
+
+# Identify countries that have all required IPCC codes
+valid_countries <- with(gwp_total_emissions2, tapply(`IPCC Code`, ISO3, function(codes) {
+  all(sapply(required_ipcc, function(prefix) any(grepl(paste0("^", prefix), codes))))
+}))
+
+# Filter dataset to keep only valid countries
+gwp_total_emissions <- gwp_total_emissions2[gwp_total_emissions2$ISO3 %in% names(valid_countries[valid_countries]), ]
+
+number_of_countries <- length(unique(gwp_total_emissions$Area))
+
+```
+
+And we establish that we have `{r} number_of_countries` available in the dataset.
+
+### Final Pivot
+
+```{r}
+#| warning: false
+#| message: false
+#| label: isic-long-and-pivot-dbs
+
+isic_pivot <- 
+  gwp_total_emissions |>
+  pivot_wider(
+    names_from = c(
+      `ISIC Code`,
+      ISIC,
+      `Subsector Code`,
+      Subsector),
+    values_from = Value,
+    id_cols = c(
+      Area,
+      ISO3,
+      Year,
+      `IPCC Code`,
+      IPCC,
+      Category,
+      Driver,
+      `Emission Type`,
+      Unit
+    ),
+    values_fn = sum,
+    names_sort = T) |> 
+  mutate(
+  Total = rowSums(across(where(is.numeric) & -3), na.rm = TRUE)
+)
+
+isic_long <- gwp_total_emissions |> 
+  mutate(
+    `ISIC Detail` = paste(
+      `ISIC Code`, ISIC, 
+      `Subsector Code`, Subsector, 
+      sep = "_")
+  ) |> 
+  select(
+    Area,
+    ISO3,
+    Year,
+    `IPCC Code`,
+    IPCC,
+    Category,
+    Driver,
+    `Emission Type`,
+    `ISIC Detail`,
+    Unit,
+    Value
+  )
+```
+
+### Saving to RDS
+
+```{r}
+# # And save to RDS
+# saveRDS(
+#   gwp_total_emissions,
+#   "emdb/data/outputs/gwp_total_emissions.rds")
+# saveRDS(
+#   isic_long,
+#   "emdb/data/outputs/gwp_total_emissions_long.rds")
+# saveRDS(
+#   isic_pivot,
+#   "emdb/data/outputs/gwp_total_emissions_pivot.rds")
+# # For comparisons we keep EDGAR + FAOSTAT
+# saveRDS(
+#   gwp_total_emissions4,
+#   "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
+# saveRDS(
+#   energy_total,
+#   "emdb/data/outputs/energy_total_DO_NOT_USE.rds")
+```
+
+### Saving to ZIP and compress
+
+```{r}
+#| warning: false
+#| message: false
+#| label: save-compress-csv
+
+# # Total Emissions
+# write.csv(
+#   gwp_total_emissions,
+#   "emdb/data/outputs/gwp_total_emissions.csv")
+# 
+# # Create ZIP without preserving the full folder structure
+# zip::zip(
+#   zipfile = "emdb/data/outputs/gwp_total_emissions.zip",
+#   files = "emdb/data/outputs/gwp_total_emissions.csv",
+#   mode = "cherry-pick"
+# )
+# 
+# # Remove the uncompressed CSV file
+# unlink("emdb/data/outputs/gwp_total_emissions.csv")
+# 
+# # Total with ISIC Long Version
+# 
+# write.csv(
+#   isic_long,
+#   "emdb/data/outputs/gwp_total_emissions_long.csv")
+# 
+# # Create ZIP without preserving the full folder structure
+# zip::zip(
+#   zipfile = "emdb/data/outputs/gwp_total_emissions_long.zip",
+#   files = "emdb/data/outputs/gwp_total_emissions_long.csv",
+#   mode = "cherry-pick"
+# )
+# 
+# # Remove the uncompressed CSV file
+# unlink("emdb/data/outputs/gwp_total_emissions_long.csv")
+# 
+# # Total with ISIC Pivot Version
+# 
+# write.csv(
+#   isic_long,
+#   "emdb/data/outputs/gwp_total_emissions_pivot.csv")
+# 
+# # Create ZIP without preserving the full folder structure
+# zip::zip(
+#   zipfile = "emdb/data/outputs/gwp_total_emissions_pivot.zip",
+#   files = "emdb/data/outputs/gwp_total_emissions_pivot.csv",
+#   mode = "cherry-pick"
+# )
+# 
+# # Remove the uncompressed CSV file
+# unlink("emdb/data/outputs/gwp_total_emissions_pivot.csv")
+
+```
+
+
+# References
+
+```{r}
+
+```
+
+

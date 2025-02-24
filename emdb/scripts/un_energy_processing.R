@@ -4,7 +4,7 @@ library(readxl)
 rm(list = ls())
 
 # Set the working directory to the folder containing the CSV files
-path <- "D:/_work/UN_ENERGY"
+path <- "/VAULT/_work/UN_ENERGY"
 
 # List all CSV files in the directory
 file_list <- list.files(path = path, pattern = "*.csv")

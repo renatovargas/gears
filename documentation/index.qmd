@@ -2,3 +2,6 @@
 title: "Documentation"
 ---
 
+
+- [Database Preparation](methods/emissions_db_construction.qmd) describes the steps followed to create the database.
+- [Processing code](methods/emdb_processing.qmd) provides a commented description of the R code used to process the MAFAP Emissions Database.

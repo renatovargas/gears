@@ -147,7 +147,7 @@ window.Quarto = {
 <span class="menu-text">Download</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../documentation/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../documentation/index.html"> 
 <span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
@@ -177,38 +177,15 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../documentation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Documentation</span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Guides</span></a>
+ <span class="menu-text">Methods</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../documentation/guides/gears-user-guide.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">GEARS User Guide</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Methods</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../documentation/methods/emissions_db_construction.html" class="sidebar-item-text sidebar-link active">
@@ -217,7 +194,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../documentation/methods/gears_processing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../documentation/methods/emdb_processing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Processing code</span></a>
   </div>
 </li>
@@ -241,11 +218,9 @@ window.Quarto = {
   <li><a href="#emissions-from-agriculture-and-lulucf" id="toc-emissions-from-agriculture-and-lulucf" class="nav-link" data-scroll-target="#emissions-from-agriculture-and-lulucf">Emissions from Agriculture and LULUCF</a></li>
   <li><a href="#greenhouse-gas-emissions-from-stationary-and-mobile-combustion" id="toc-greenhouse-gas-emissions-from-stationary-and-mobile-combustion" class="nav-link" data-scroll-target="#greenhouse-gas-emissions-from-stationary-and-mobile-combustion">Greenhouse Gas Emissions from Stationary and Mobile Combustion</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
-  <ul class="collapse">
-  <li><a href="#database" id="toc-database" class="nav-link" data-scroll-target="#database">Database</a></li>
-  <li><a href="#emissions" id="toc-emissions" class="nav-link" data-scroll-target="#emissions">Emissions</a></li>
-  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/documentation/methods/emissions_db_construction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="emissions_db_construction.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -304,17 +279,7 @@ window.Quarto = {
 <h1>Methodology</h1>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language <span class="citation" data-cites="Rcore2024">(<a href="#ref-Rcore2024" role="doc-biblioref">R Core Team 2024</a>)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The original datasets, translated into the much smaller size RDS binary format, as well as the processing scripts, are included with the resulting emissions database repository<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The flow of data follows the diagram in <a href="#fig-dataflow" class="quarto-xref">Figure&nbsp;1</a>.</p>
-<div id="fig-dataflow" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dataflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<p>MAFAP Complementary Emissions Database Construction Process</p>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dataflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1
-</figcaption>
-</figure>
-</div>
+<p>As our goal is to leverage valuable emissions data from different sources, we have scripted data processing routines to ingest original datasets in tabular format (mainly Excel Files and Comma Separated Values) and manipulate them to conform to a single flat file structure, using the R programming language <span class="citation" data-cites="Rcore2024">(<a href="#ref-Rcore2024" role="doc-biblioref">R Core Team 2024</a>)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The original datasets, translated into the much smaller size RDS binary format, as well as the processing scripts, are included with the resulting emissions database repository<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 </section>
 <section id="total-emissions-from-edgar" class="level2">
 <h2 class="anchored" data-anchor-id="total-emissions-from-edgar">Total Emissions from EDGAR</h2>
@@ -327,8 +292,8 @@ Table&nbsp;1: EDGAR greenhouse gas inventory domain coverage
 <div aria-describedby="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 25%">
+<col style="width: 75%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -500,8 +465,8 @@ Table&nbsp;2: Conversion coefficients for methane and nitrous oxide
 <div aria-describedby="tbl-conversion-ar5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 25%">
+<col style="width: 75%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -533,10 +498,10 @@ Table&nbsp;3: Mapping from EDGAR to individual ISIC economic activities
 <div aria-describedby="tbl-edgar-isic-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 27%">
 <col style="width: 22%">
 <col style="width: 27%">
 <col style="width: 22%">
+<col style="width: 27%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -643,23 +608,23 @@ Table&nbsp;4: FAOSTAT domains sourced
 </figcaption>
 <div aria-describedby="tbl-faostat-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="efyvnnjtrb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#efyvnnjtrb table {
+<div id="tiwvmflksw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tiwvmflksw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#efyvnnjtrb thead, #efyvnnjtrb tbody, #efyvnnjtrb tfoot, #efyvnnjtrb tr, #efyvnnjtrb td, #efyvnnjtrb th {
+#tiwvmflksw thead, #tiwvmflksw tbody, #tiwvmflksw tfoot, #tiwvmflksw tr, #tiwvmflksw td, #tiwvmflksw th {
   border-style: none;
 }
 
-#efyvnnjtrb p {
+#tiwvmflksw p {
   margin: 0;
   padding: 0;
 }
 
-#efyvnnjtrb .gt_table {
+#tiwvmflksw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -685,12 +650,12 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-left-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_caption {
+#tiwvmflksw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#efyvnnjtrb .gt_title {
+#tiwvmflksw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -702,7 +667,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-width: 0;
 }
 
-#efyvnnjtrb .gt_subtitle {
+#tiwvmflksw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -714,7 +679,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-top-width: 0;
 }
 
-#efyvnnjtrb .gt_heading {
+#tiwvmflksw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -726,13 +691,13 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_bottom_border {
+#tiwvmflksw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_col_headings {
+#tiwvmflksw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -747,7 +712,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_col_heading {
+#tiwvmflksw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -767,7 +732,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#efyvnnjtrb .gt_column_spanner_outer {
+#tiwvmflksw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -779,15 +744,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 4px;
 }
 
-#efyvnnjtrb .gt_column_spanner_outer:first-child {
+#tiwvmflksw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#efyvnnjtrb .gt_column_spanner_outer:last-child {
+#tiwvmflksw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#efyvnnjtrb .gt_column_spanner {
+#tiwvmflksw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -799,11 +764,11 @@ Table&nbsp;4: FAOSTAT domains sourced
   width: 100%;
 }
 
-#efyvnnjtrb .gt_spanner_row {
+#tiwvmflksw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#efyvnnjtrb .gt_group_heading {
+#tiwvmflksw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -829,7 +794,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   text-align: left;
 }
 
-#efyvnnjtrb .gt_empty_group_heading {
+#tiwvmflksw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -844,15 +809,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   vertical-align: middle;
 }
 
-#efyvnnjtrb .gt_from_md > :first-child {
+#tiwvmflksw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#efyvnnjtrb .gt_from_md > :last-child {
+#tiwvmflksw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#efyvnnjtrb .gt_row {
+#tiwvmflksw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -871,7 +836,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#efyvnnjtrb .gt_stub {
+#tiwvmflksw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -884,7 +849,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#efyvnnjtrb .gt_stub_row_group {
+#tiwvmflksw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -898,15 +863,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   vertical-align: top;
 }
 
-#efyvnnjtrb .gt_row_group_first td {
+#tiwvmflksw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#efyvnnjtrb .gt_row_group_first th {
+#tiwvmflksw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#efyvnnjtrb .gt_summary_row {
+#tiwvmflksw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -916,16 +881,16 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#efyvnnjtrb .gt_first_summary_row {
+#tiwvmflksw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_first_summary_row.thick {
+#tiwvmflksw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#efyvnnjtrb .gt_last_summary_row {
+#tiwvmflksw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -935,7 +900,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_grand_summary_row {
+#tiwvmflksw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -945,7 +910,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#efyvnnjtrb .gt_first_grand_summary_row {
+#tiwvmflksw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -955,7 +920,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-top-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_last_grand_summary_row_top {
+#tiwvmflksw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -965,11 +930,11 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_striped {
+#tiwvmflksw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#efyvnnjtrb .gt_table_body {
+#tiwvmflksw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -978,7 +943,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_footnotes {
+#tiwvmflksw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -992,7 +957,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_footnote {
+#tiwvmflksw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1001,7 +966,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#efyvnnjtrb .gt_sourcenotes {
+#tiwvmflksw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1015,7 +980,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#efyvnnjtrb .gt_sourcenote {
+#tiwvmflksw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1023,72 +988,72 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#efyvnnjtrb .gt_left {
+#tiwvmflksw .gt_left {
   text-align: left;
 }
 
-#efyvnnjtrb .gt_center {
+#tiwvmflksw .gt_center {
   text-align: center;
 }
 
-#efyvnnjtrb .gt_right {
+#tiwvmflksw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#efyvnnjtrb .gt_font_normal {
+#tiwvmflksw .gt_font_normal {
   font-weight: normal;
 }
 
-#efyvnnjtrb .gt_font_bold {
+#tiwvmflksw .gt_font_bold {
   font-weight: bold;
 }
 
-#efyvnnjtrb .gt_font_italic {
+#tiwvmflksw .gt_font_italic {
   font-style: italic;
 }
 
-#efyvnnjtrb .gt_super {
+#tiwvmflksw .gt_super {
   font-size: 65%;
 }
 
-#efyvnnjtrb .gt_footnote_marks {
+#tiwvmflksw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#efyvnnjtrb .gt_asterisk {
+#tiwvmflksw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#efyvnnjtrb .gt_indent_1 {
+#tiwvmflksw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#efyvnnjtrb .gt_indent_2 {
+#tiwvmflksw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#efyvnnjtrb .gt_indent_3 {
+#tiwvmflksw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#efyvnnjtrb .gt_indent_4 {
+#tiwvmflksw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#efyvnnjtrb .gt_indent_5 {
+#tiwvmflksw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#efyvnnjtrb .katex-display {
+#tiwvmflksw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#efyvnnjtrb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#tiwvmflksw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1096,78 +1061,78 @@ Table&nbsp;4: FAOSTAT domains sourced
 <table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings header">
-<th id="Code" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Code</th>
-<th id="Sector" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Sector</th>
+<th id="Code" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Code</th>
+<th id="Sector" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Sector</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.B.1.a</td>
-<td class="gt_row gt_center" headers="Sector">LULUCF - Forestland</td>
+<td class="gt_row gt_left" headers="Code">3.B.1.a</td>
+<td class="gt_row gt_left" headers="Sector">LULUCF - Forestland</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.B.1.b</td>
-<td class="gt_row gt_center" headers="Sector">LULUCF - Net Forest conversion</td>
+<td class="gt_row gt_left" headers="Code">3.B.1.b</td>
+<td class="gt_row gt_left" headers="Sector">LULUCF - Net Forest conversion</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.B.2</td>
-<td class="gt_row gt_center" headers="Sector">LULUCF - Drained organic soils (CO2)</td>
+<td class="gt_row gt_left" headers="Code">3.B.2</td>
+<td class="gt_row gt_left" headers="Sector">LULUCF - Drained organic soils (CO2)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.B.6.a</td>
-<td class="gt_row gt_center" headers="Sector">LULUCF - Fires in organic soils</td>
+<td class="gt_row gt_left" headers="Code">3.B.6.a</td>
+<td class="gt_row gt_left" headers="Sector">LULUCF - Fires in organic soils</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.B.6.b</td>
-<td class="gt_row gt_center" headers="Sector">LULUCF - Forest fires</td>
+<td class="gt_row gt_left" headers="Code">3.B.6.b</td>
+<td class="gt_row gt_left" headers="Sector">LULUCF - Forest fires</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.C.1.c</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Savanna fires</td>
+<td class="gt_row gt_left" headers="Code">3.C.1.c</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Savanna fires</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.C.5</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Drained organic soils (N2O)</td>
+<td class="gt_row gt_left" headers="Code">3.C.5</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Drained organic soils (N2O)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.A.1</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Enteric fermentation (Emissions CH4)</td>
+<td class="gt_row gt_left" headers="Code">3.A.1</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Enteric fermentation (Emissions CH4)</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.A.2.a</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Emissions (N2O) (Manure applied)</td>
+<td class="gt_row gt_left" headers="Code">3.A.2.a</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Emissions (N2O) (Manure applied)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.A.2.b</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Manure management (Emissions N2O)</td>
+<td class="gt_row gt_left" headers="Code">3.A.2.b</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Manure management (Emissions N2O)</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.A.2.c</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Manure management (Emissions CH4)</td>
+<td class="gt_row gt_left" headers="Code">3.A.2.c</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Manure management (Emissions CH4)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.C.6</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Manure left on pasture (Emissions N2O)</td>
+<td class="gt_row gt_left" headers="Code">3.C.6</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Manure left on pasture (Emissions N2O)</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.C.4</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Synthetic Fertilizers</td>
+<td class="gt_row gt_left" headers="Code">3.C.4</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Synthetic Fertilizers</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.C.1.a</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Burning crop residues (Emissions CH4)</td>
+<td class="gt_row gt_left" headers="Code">3.C.1.a</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Burning crop residues (Emissions CH4)</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.C.1.b</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Burning crop residues (Emissions N2O)</td>
+<td class="gt_row gt_left" headers="Code">3.C.1.b</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Burning crop residues (Emissions N2O)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_center" headers="Code">3.C.7</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Rice cultivation (Emissions CH4)</td>
+<td class="gt_row gt_left" headers="Code">3.C.7</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Rice cultivation (Emissions CH4)</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_center" headers="Code">3.C.8</td>
-<td class="gt_row gt_center" headers="Sector">Agriculture - Crop residues (Emissions N2O)</td>
+<td class="gt_row gt_left" headers="Code">3.C.8</td>
+<td class="gt_row gt_left" headers="Sector">Agriculture - Crop residues (Emissions N2O)</td>
 </tr>
 </tbody>
 </table>
@@ -1178,32 +1143,32 @@ Table&nbsp;4: FAOSTAT domains sourced
 </figure>
 </div>
 </div>
-<p>More importantly, the reason why we replaced the data from EDGAR on agriculture emissions with FAOSTAT is because of the ability to differentiate the different drivers of those emissions, as well as the separate totals by gas. <a href="#tbl-faostat-drivers" class="quarto-xref">Table&nbsp;5</a> shows the different elements from FAOSTAT available for practitioners to map to inputs, outputs, endowments, or consumption.</p>
+<p>More importantly, the reason why we replaced the data from EDGAR on agriculture emissions with FAOSTAT is because of the ability to differentiate the different drivers of those emissions, as well as the separate totals by gas. <a href="#tbl-faostat-subsectors" class="quarto-xref">Table&nbsp;5</a> shows the different elements from FAOSTAT available for practitioners to map to inputs, outputs, endowments, or consumption.</p>
 <div class="cell">
-<div id="tbl-faostat-drivers" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-faostat-subsectors" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-faostat-drivers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-faostat-subsectors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;5: FAOSTAT domains sourced
 </figcaption>
-<div aria-describedby="tbl-faostat-drivers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-faostat-subsectors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="ogkhckjbxi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ogkhckjbxi table {
+<div id="blnagsktob" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#blnagsktob table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ogkhckjbxi thead, #ogkhckjbxi tbody, #ogkhckjbxi tfoot, #ogkhckjbxi tr, #ogkhckjbxi td, #ogkhckjbxi th {
+#blnagsktob thead, #blnagsktob tbody, #blnagsktob tfoot, #blnagsktob tr, #blnagsktob td, #blnagsktob th {
   border-style: none;
 }
 
-#ogkhckjbxi p {
+#blnagsktob p {
   margin: 0;
   padding: 0;
 }
 
-#ogkhckjbxi .gt_table {
+#blnagsktob .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1229,12 +1194,12 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-left-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_caption {
+#blnagsktob .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ogkhckjbxi .gt_title {
+#blnagsktob .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1246,7 +1211,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-width: 0;
 }
 
-#ogkhckjbxi .gt_subtitle {
+#blnagsktob .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1258,7 +1223,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-top-width: 0;
 }
 
-#ogkhckjbxi .gt_heading {
+#blnagsktob .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1270,13 +1235,13 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_bottom_border {
+#blnagsktob .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_col_headings {
+#blnagsktob .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1291,7 +1256,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_col_heading {
+#blnagsktob .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1311,7 +1276,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#ogkhckjbxi .gt_column_spanner_outer {
+#blnagsktob .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1323,15 +1288,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 4px;
 }
 
-#ogkhckjbxi .gt_column_spanner_outer:first-child {
+#blnagsktob .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ogkhckjbxi .gt_column_spanner_outer:last-child {
+#blnagsktob .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ogkhckjbxi .gt_column_spanner {
+#blnagsktob .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1343,11 +1308,11 @@ Table&nbsp;5: FAOSTAT domains sourced
   width: 100%;
 }
 
-#ogkhckjbxi .gt_spanner_row {
+#blnagsktob .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ogkhckjbxi .gt_group_heading {
+#blnagsktob .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1373,7 +1338,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   text-align: left;
 }
 
-#ogkhckjbxi .gt_empty_group_heading {
+#blnagsktob .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1388,15 +1353,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   vertical-align: middle;
 }
 
-#ogkhckjbxi .gt_from_md > :first-child {
+#blnagsktob .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ogkhckjbxi .gt_from_md > :last-child {
+#blnagsktob .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ogkhckjbxi .gt_row {
+#blnagsktob .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1415,7 +1380,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#ogkhckjbxi .gt_stub {
+#blnagsktob .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1428,7 +1393,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#ogkhckjbxi .gt_stub_row_group {
+#blnagsktob .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1442,15 +1407,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   vertical-align: top;
 }
 
-#ogkhckjbxi .gt_row_group_first td {
+#blnagsktob .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ogkhckjbxi .gt_row_group_first th {
+#blnagsktob .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ogkhckjbxi .gt_summary_row {
+#blnagsktob .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1460,16 +1425,16 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#ogkhckjbxi .gt_first_summary_row {
+#blnagsktob .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_first_summary_row.thick {
+#blnagsktob .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ogkhckjbxi .gt_last_summary_row {
+#blnagsktob .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1479,7 +1444,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_grand_summary_row {
+#blnagsktob .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1489,7 +1454,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#ogkhckjbxi .gt_first_grand_summary_row {
+#blnagsktob .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1499,7 +1464,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-top-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_last_grand_summary_row_top {
+#blnagsktob .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1509,11 +1474,11 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_striped {
+#blnagsktob .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ogkhckjbxi .gt_table_body {
+#blnagsktob .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1522,7 +1487,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_footnotes {
+#blnagsktob .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1536,7 +1501,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_footnote {
+#blnagsktob .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1545,7 +1510,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#ogkhckjbxi .gt_sourcenotes {
+#blnagsktob .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1559,7 +1524,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#ogkhckjbxi .gt_sourcenote {
+#blnagsktob .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1567,72 +1532,72 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#ogkhckjbxi .gt_left {
+#blnagsktob .gt_left {
   text-align: left;
 }
 
-#ogkhckjbxi .gt_center {
+#blnagsktob .gt_center {
   text-align: center;
 }
 
-#ogkhckjbxi .gt_right {
+#blnagsktob .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ogkhckjbxi .gt_font_normal {
+#blnagsktob .gt_font_normal {
   font-weight: normal;
 }
 
-#ogkhckjbxi .gt_font_bold {
+#blnagsktob .gt_font_bold {
   font-weight: bold;
 }
 
-#ogkhckjbxi .gt_font_italic {
+#blnagsktob .gt_font_italic {
   font-style: italic;
 }
 
-#ogkhckjbxi .gt_super {
+#blnagsktob .gt_super {
   font-size: 65%;
 }
 
-#ogkhckjbxi .gt_footnote_marks {
+#blnagsktob .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ogkhckjbxi .gt_asterisk {
+#blnagsktob .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ogkhckjbxi .gt_indent_1 {
+#blnagsktob .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ogkhckjbxi .gt_indent_2 {
+#blnagsktob .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ogkhckjbxi .gt_indent_3 {
+#blnagsktob .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ogkhckjbxi .gt_indent_4 {
+#blnagsktob .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ogkhckjbxi .gt_indent_5 {
+#blnagsktob .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ogkhckjbxi .katex-display {
+#blnagsktob .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ogkhckjbxi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#blnagsktob div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1792,31 +1757,194 @@ E_{GHG,fuel} =  C_{fuel} * F_{GHG, fuel}
 <li><span class="math inline">\(F_{GHG, fuel}=\)</span> default emission factor of a given GHG by type of fuel (kg gas/TJ).</li>
 </ul>
 <p>The UN dataset is organized according to the standard construction of Energy Balances and it features transactions related to supply, imports, stock variation, exports, transformation, industrial, and final use of all energy resources. In order to estimate emissions we focused on 39 energy resources subject to combustion or fugitive emissions (shown in <a href="#tbl-unenergy-commodities" class="quarto-xref">Table&nbsp;6</a>) and 88 transactions.</p>
-<div class="cell">
-<div id="tbl-unenergy-commodities" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-unenergy-commodities" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;6: Energy Commodities
+Table&nbsp;6: Commodities sourced from the UN Energy Database
 </figcaption>
 <div aria-describedby="tbl-unenergy-commodities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Domain</th>
+<th style="text-align: left;">Elements</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Commodities</td>
+<td style="text-align: left;">Animal waste, Anthracite, Aviation gasoline, Bagasse, Bio jet kerosene, Biodiesel, Biogases, Biogasoline, Black liquor, Blast furnace gas, Brown coal, Lignite brown coal, Lignite brown coal- recoverable resources, Brown coal briquettes, Charcoal, Coke-oven coke, Coke oven gas, Coking coal, Ethane, Fuel oil, Fuelwood, Gas coke, Gas oil/diesel oil, Gasoline-type jet fuel, Gasworks gas, Hard coal, Coal, Kerosene-type jet fuel, Lignite, Liquefied petroleum gas (lpg), Motor gasoline, Municipal waste, Naphtha, Natural gas (including lng), Natural gas, Other bituminous coal, Other coal products, Other hydrocarbons, Other liquid biofuels, Vegetal waste, Peat (for fuel use), Petroleum coke, Refinery gas.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>The resulting database reports GHG emissions in thousand metric tons (kt) of CO<sub>2</sub>eq using the 100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5) for 220 countries or territories. We provide three formats for practitioners’ convenience. A long format (what other efforts term “normalized”), where ISIC sectors are laid out in a single column, with a single column of values, a pivot format, where ISIC sectors (including an “undetermined” category) are arranged in columns of data values. In these two datasets, ISIC codes, ISIC descriptions, subsector codes and subsector descriptions have been concatenated into a single field for convenience. We also provide a long format version with all possible fields disaggregated, which was used to create both the long and pivot versions. These fields are:</p>
+<ul>
+<li><strong>Area:</strong> Country or territory name.</li>
+<li><strong>ISO3:</strong> Three-digit ISO country/territory name.</li>
+<li><strong>IPCC Code:</strong> Greenhouse gas inventory code, according to IPCC Guidelines.</li>
+<li><strong>IPCC:</strong> Greenhouse gas inventory description, according to IPCC Guidelnines.</li>
+<li><strong>Category:</strong> Description of the emissions element within the larger IPCC Code.</li>
+<li><strong>Emission Type:</strong> While everything is presented in kilotons of CO<sub>2</sub> equivalent, this field allows the user to identify the gas responsible for the emission, which can be CO<sub>2</sub>, CO<sub>2</sub> from biofuels, N<sub>2</sub>O, CH<sub>4</sub>, HFC, HCFC, PFC, SF<sub>6</sub>, NF<sub>3</sub>.</li>
+<li><strong>ISIC Code:</strong> International Industrial Classification of All Economic Activities, Revision 4, code for observations where it is possible to assign a specific activity and “9999” for undetermined.</li>
+<li><strong>ISIC:</strong> International Industrial Classification of All Economic Activities, Revision 4, description for observations where it is possible to assign a specific activity and “Undetermined” where not.</li>
+<li><strong>Subsector Code:</strong> Some observations provide economic activity information at an aggregation which is smaller than the smallest ISIC level, specifically for specific crops and animal productions (FAOSTAT). We repeat the ISIC Code for those observations outside of agriculture that don’t have this description for correct ordering of the pivot dataset.</li>
+<li><strong>Subsector:</strong> The description of the code above.</li>
+<li><strong>Driver:</strong> For the energy sector (those for which the <code>IPCC</code> column starts with 3.A) it is possible to identify the specific fuel that was combusted, which generated the emission and it is presented here<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</li>
+<li><strong>Unit:</strong> A single value “kt” as metadata for all observations. In a previous version, we included animal and land endowments as reference and these where identified as “An” for number of animals and “Ha” for hectares. This was removed to avoid confusion for users when calculating totals.</li>
+<li><strong>Value:</strong> The numeric value of the observation in thousand metric tons “kt” (Gigagrams).</li>
+</ul>
+<p><a href="#fig-total-emissions-by-year" class="quarto-xref">Figure&nbsp;1</a> shows Greenhouse Gas emissions for the period 1990-2022 in the resulting database. For the last year, total emissions in the database are of about 66.3 million kt CO<sub>2</sub>eq. This is about 13.3 million kt CO<sub>2</sub>eq more than the 53.0 reported by Edgar <span class="citation" data-cites="ccrippa2023">(<a href="#ref-ccrippa2023" role="doc-biblioref"><strong>ccrippa2023?</strong></a>)</span>. This is because we have data on GHG emissions for some non-sovereign territories, like American Samoa (USA) or Réunion (FRA), for example, that are also reported with their respective countries total.</p>
+<div class="cell">
 <div class="cell-output-display">
-<div id="qskuwymdzm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qskuwymdzm table {
+<div id="fig-total-emissions-by-year" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-total-emissions-by-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="emissions_db_construction_files/figure-html/fig-total-emissions-by-year-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-total-emissions-by-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Greenhouse Gases for 220 countries and territories (Year 2022)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We use the case of Nigeria to exemplify differences between datasets in <a href="#tbl-nigeria-dataset-comparison" class="quarto-xref">Table&nbsp;7</a>. The first column shows the result of our MAFAP Emissions Dabase, the second shows the original Edgar dataset values, the third one shows a modified version of EDGAR, in which the whole section of agriculture has been replaced with FAOSTAT data (although for this comparison we removed the LULUCF part from FAO), and the last column shows the values of the World Bank World Development Indicators (only for Greenhouse Gases CO<sub>2</sub>, CH<sub>4</sub>, and N<sub>2</sub>O in CO<sub>2</sub>eq). The rows show the different emission types. Variations between datasets range from less than 1% to more than 30%. While variations remain stable with CO<sub>2</sub> and CH<sub>4</sub>, CH<sub>4</sub> is more volatile and there is a complete discrepancy between our dataset and the Edgar based calculations of CO<sub>2</sub>bio, which at this point we only can attribute to differences in elements considered for this sector, as EDGAR documentation regarding this matter appears vague in the main publication <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span>. In our case, the CO<sub>2</sub> emissions of the combustion of bio jet kerosene, biodiesel, biogasoline, charcoal, biogases, bagasse, fuelwood, other liquid biofuels, animal waste, municipal waste, and vegetal waste were considered CO<sub>2</sub>bio, while their CH<sub>4</sub> and N<sub>2</sub>O emissions were classified together with the emission of those gases of all other fuels.</p>
+<div id="tbl-nigeria-dataset-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nigeria-dataset-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;7: Differences between datasets for individual emission types for Nigeria
+</figcaption>
+<div aria-describedby="tbl-nigeria-dataset-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Emission Type</th>
+<th style="text-align: right;">MAFAP EMDB</th>
+<th style="text-align: right;">EDGAR</th>
+<th style="text-align: right;">EDGAR + FAOSTAT</th>
+<th style="text-align: right;">World Bank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Emissions (CO2)</td>
+<td style="text-align: right;">131,965.5</td>
+<td style="text-align: right;">130,106.6</td>
+<td style="text-align: right;">128,646.0</td>
+<td style="text-align: right;">130,110.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Emissions (CO2bio)</td>
+<td style="text-align: right;">191,576.3</td>
+<td style="text-align: right;">543,631.7</td>
+<td style="text-align: right;">517,496.7</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Emissions (CO2eq) from CH4 (AR5)</td>
+<td style="text-align: right;">156,627.5</td>
+<td style="text-align: right;">197,002.7</td>
+<td style="text-align: right;">194,163.5</td>
+<td style="text-align: right;">204,080.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Emissions (CO2eq) from N2O (AR5)</td>
+<td style="text-align: right;">33,692.3</td>
+<td style="text-align: right;">35,333.4</td>
+<td style="text-align: right;">37,630.8</td>
+<td style="text-align: right;">35,330.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Emissions (CO2eq) from HFC (AR5)</td>
+<td style="text-align: right;">11,985.9</td>
+<td style="text-align: right;">11,985.9</td>
+<td style="text-align: right;">11,985.9</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Emissions (CO2eq) from HCFC (AR5)</td>
+<td style="text-align: right;">46.5</td>
+<td style="text-align: right;">46.5</td>
+<td style="text-align: right;">46.5</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Emissions (CO2eq) from PFC (AR5)</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Emissions (CO2eq) from SF6 (AR5)</td>
+<td style="text-align: right;">679.7</td>
+<td style="text-align: right;">679.7</td>
+<td style="text-align: right;">679.7</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total</td>
+<td style="text-align: right;">526,573.6</td>
+<td style="text-align: right;">918,786.5</td>
+<td style="text-align: right;">890,649.1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Only GHG</td>
+<td style="text-align: right;">322,285.2</td>
+<td style="text-align: right;">362,442.7</td>
+<td style="text-align: right;">360,440.3</td>
+<td style="text-align: right;">369,520.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>An important value added to the underlying data sources of MAFAP Emissions Database is an initial classification of emissions according to ISIC sector. This is important, because it allows practitioners of Computable General Equilibrium analysis to bridge this data with Social Accounting Matrices (which are the databases for such analyses). We made the choice to disregard the information on energy intermediate and final consumption of industries outside the energy production and transformation sectors, since as per the conventions of energy balances, fuels consumed by any sector get aggregated into the transportation sector, but that does not coincide with the corresponding ISIC classification for road transportation. Because of that, we pooled together all consumption and classified it as “Undetermined” for practitioners to adjudicate it according to either input shares, endowment shares, or output shares. <a href="#tbl-total-emissions-by-isic" class="quarto-xref">Table&nbsp;8</a> shows this exercise for Nigeria in 2022.</p>
+<div class="cell">
+<div id="tbl-total-emissions-by-isic" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-total-emissions-by-isic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
+</figcaption>
+<div aria-describedby="tbl-total-emissions-by-isic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="ofnyxheojj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ofnyxheojj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qskuwymdzm thead, #qskuwymdzm tbody, #qskuwymdzm tfoot, #qskuwymdzm tr, #qskuwymdzm td, #qskuwymdzm th {
+#ofnyxheojj thead, #ofnyxheojj tbody, #ofnyxheojj tfoot, #ofnyxheojj tr, #ofnyxheojj td, #ofnyxheojj th {
   border-style: none;
 }
 
-#qskuwymdzm p {
+#ofnyxheojj p {
   margin: 0;
   padding: 0;
 }
 
-#qskuwymdzm .gt_table {
+#ofnyxheojj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1842,12 +1970,12 @@ Table&nbsp;6: Energy Commodities
   border-left-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_caption {
+#ofnyxheojj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qskuwymdzm .gt_title {
+#ofnyxheojj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1859,7 +1987,7 @@ Table&nbsp;6: Energy Commodities
   border-bottom-width: 0;
 }
 
-#qskuwymdzm .gt_subtitle {
+#ofnyxheojj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1871,7 +1999,7 @@ Table&nbsp;6: Energy Commodities
   border-top-width: 0;
 }
 
-#qskuwymdzm .gt_heading {
+#ofnyxheojj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1883,13 +2011,13 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_bottom_border {
+#ofnyxheojj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_col_headings {
+#ofnyxheojj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1904,7 +2032,7 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_col_heading {
+#ofnyxheojj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1924,7 +2052,7 @@ Table&nbsp;6: Energy Commodities
   overflow-x: hidden;
 }
 
-#qskuwymdzm .gt_column_spanner_outer {
+#ofnyxheojj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1936,15 +2064,15 @@ Table&nbsp;6: Energy Commodities
   padding-right: 4px;
 }
 
-#qskuwymdzm .gt_column_spanner_outer:first-child {
+#ofnyxheojj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qskuwymdzm .gt_column_spanner_outer:last-child {
+#ofnyxheojj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qskuwymdzm .gt_column_spanner {
+#ofnyxheojj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1956,11 +2084,11 @@ Table&nbsp;6: Energy Commodities
   width: 100%;
 }
 
-#qskuwymdzm .gt_spanner_row {
+#ofnyxheojj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qskuwymdzm .gt_group_heading {
+#ofnyxheojj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1986,7 +2114,7 @@ Table&nbsp;6: Energy Commodities
   text-align: left;
 }
 
-#qskuwymdzm .gt_empty_group_heading {
+#ofnyxheojj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2001,15 +2129,15 @@ Table&nbsp;6: Energy Commodities
   vertical-align: middle;
 }
 
-#qskuwymdzm .gt_from_md > :first-child {
+#ofnyxheojj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qskuwymdzm .gt_from_md > :last-child {
+#ofnyxheojj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qskuwymdzm .gt_row {
+#ofnyxheojj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2028,7 +2156,7 @@ Table&nbsp;6: Energy Commodities
   overflow-x: hidden;
 }
 
-#qskuwymdzm .gt_stub {
+#ofnyxheojj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2041,7 +2169,7 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#qskuwymdzm .gt_stub_row_group {
+#ofnyxheojj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2055,15 +2183,15 @@ Table&nbsp;6: Energy Commodities
   vertical-align: top;
 }
 
-#qskuwymdzm .gt_row_group_first td {
+#ofnyxheojj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qskuwymdzm .gt_row_group_first th {
+#ofnyxheojj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qskuwymdzm .gt_summary_row {
+#ofnyxheojj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2073,16 +2201,16 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#qskuwymdzm .gt_first_summary_row {
+#ofnyxheojj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_first_summary_row.thick {
+#ofnyxheojj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qskuwymdzm .gt_last_summary_row {
+#ofnyxheojj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2092,7 +2220,7 @@ Table&nbsp;6: Energy Commodities
   border-bottom-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_grand_summary_row {
+#ofnyxheojj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2102,7 +2230,7 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#qskuwymdzm .gt_first_grand_summary_row {
+#ofnyxheojj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2112,7 +2240,7 @@ Table&nbsp;6: Energy Commodities
   border-top-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_last_grand_summary_row_top {
+#ofnyxheojj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2122,11 +2250,11 @@ Table&nbsp;6: Energy Commodities
   border-bottom-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_striped {
+#ofnyxheojj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qskuwymdzm .gt_table_body {
+#ofnyxheojj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2135,7 +2263,7 @@ Table&nbsp;6: Energy Commodities
   border-bottom-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_footnotes {
+#ofnyxheojj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2149,7 +2277,7 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_footnote {
+#ofnyxheojj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2158,7 +2286,7 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#qskuwymdzm .gt_sourcenotes {
+#ofnyxheojj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2172,7 +2300,7 @@ Table&nbsp;6: Energy Commodities
   border-right-color: #D3D3D3;
 }
 
-#qskuwymdzm .gt_sourcenote {
+#ofnyxheojj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2180,72 +2308,72 @@ Table&nbsp;6: Energy Commodities
   padding-right: 5px;
 }
 
-#qskuwymdzm .gt_left {
+#ofnyxheojj .gt_left {
   text-align: left;
 }
 
-#qskuwymdzm .gt_center {
+#ofnyxheojj .gt_center {
   text-align: center;
 }
 
-#qskuwymdzm .gt_right {
+#ofnyxheojj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qskuwymdzm .gt_font_normal {
+#ofnyxheojj .gt_font_normal {
   font-weight: normal;
 }
 
-#qskuwymdzm .gt_font_bold {
+#ofnyxheojj .gt_font_bold {
   font-weight: bold;
 }
 
-#qskuwymdzm .gt_font_italic {
+#ofnyxheojj .gt_font_italic {
   font-style: italic;
 }
 
-#qskuwymdzm .gt_super {
+#ofnyxheojj .gt_super {
   font-size: 65%;
 }
 
-#qskuwymdzm .gt_footnote_marks {
+#ofnyxheojj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qskuwymdzm .gt_asterisk {
+#ofnyxheojj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qskuwymdzm .gt_indent_1 {
+#ofnyxheojj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qskuwymdzm .gt_indent_2 {
+#ofnyxheojj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qskuwymdzm .gt_indent_3 {
+#ofnyxheojj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qskuwymdzm .gt_indent_4 {
+#ofnyxheojj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qskuwymdzm .gt_indent_5 {
+#ofnyxheojj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qskuwymdzm .katex-display {
+#ofnyxheojj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qskuwymdzm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ofnyxheojj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2253,129 +2381,134 @@ Table&nbsp;6: Energy Commodities
 <table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings header">
-<th id="Commodity" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Commodity</th>
+<th id="Sector" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Sector</th>
+<th id="Total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Anthracite</td>
+<td class="gt_row gt_left" headers="Sector">0111. Growing of cereals (except rice), leguminous crops and oil seeds</td>
+<td class="gt_row gt_right" headers="Total">198,849.0</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Aviation gasoline</td>
+<td class="gt_row gt_left" headers="Sector">0112. Growing of rice</td>
+<td class="gt_row gt_right" headers="Total">896,700.4</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Bagasse</td>
+<td class="gt_row gt_left" headers="Sector">0113. Growing of vegetables and melons, roots and tubers</td>
+<td class="gt_row gt_right" headers="Total">4,962.2</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Bio jet kerosene</td>
+<td class="gt_row gt_left" headers="Sector">0114. Growing of sugar cane</td>
+<td class="gt_row gt_right" headers="Total">1,672.5</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Biodiesel</td>
+<td class="gt_row gt_left" headers="Sector">0141. Raising of cattle and buffaloes</td>
+<td class="gt_row gt_right" headers="Total">3,346,015.8</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Biogases</td>
+<td class="gt_row gt_left" headers="Sector">0142. Raising of horses and other equines</td>
+<td class="gt_row gt_right" headers="Total">77,396.6</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Biogasoline</td>
+<td class="gt_row gt_left" headers="Sector">0143. Raising of camels and camelids</td>
+<td class="gt_row gt_right" headers="Total">75,022.2</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Black liquor</td>
+<td class="gt_row gt_left" headers="Sector">0144. Raising of sheep and goats</td>
+<td class="gt_row gt_right" headers="Total">648,522.9</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Blast furnace gas</td>
+<td class="gt_row gt_left" headers="Sector">0145. Raising of swine/pigs</td>
+<td class="gt_row gt_right" headers="Total">259,291.5</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Brown coal</td>
+<td class="gt_row gt_left" headers="Sector">0146. Raising of poultry</td>
+<td class="gt_row gt_right" headers="Total">158,453.0</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Brown coal briquettes</td>
+<td class="gt_row gt_left" headers="Sector">0220. Logging</td>
+<td class="gt_row gt_right" headers="Total">14,038.8</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Charcoal</td>
+<td class="gt_row gt_left" headers="Sector">0510. Mining of hard coal</td>
+<td class="gt_row gt_right" headers="Total">263,922.3</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Coal</td>
+<td class="gt_row gt_left" headers="Sector">0610. Extraction of crude petroleum</td>
+<td class="gt_row gt_right" headers="Total">1,953,433.9</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Coke oven gas</td>
+<td class="gt_row gt_left" headers="Sector">0620. Extraction of natural gas</td>
+<td class="gt_row gt_right" headers="Total">523,127.9</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Coke-oven coke</td>
+<td class="gt_row gt_left" headers="Sector">0910. Support activities for petroleum and natural gas extraction</td>
+<td class="gt_row gt_right" headers="Total">100,474.7</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Coking coal</td>
+<td class="gt_row gt_left" headers="Sector">1910. Manufacture of coke oven products</td>
+<td class="gt_row gt_right" headers="Total">3,507,043.8</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Ethane</td>
+<td class="gt_row gt_left" headers="Sector">1920. Manufacture of refined petroleum products</td>
+<td class="gt_row gt_right" headers="Total">1,505,629.4</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Fuel oil</td>
+<td class="gt_row gt_left" headers="Sector">2011. Manufacture of basic chemicals</td>
+<td class="gt_row gt_right" headers="Total">1,094,095.5</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Fuelwood</td>
+<td class="gt_row gt_left" headers="Sector">2029. Manufacture of other chemical products n.e.c.</td>
+<td class="gt_row gt_right" headers="Total">1.4</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Gas coke</td>
+<td class="gt_row gt_left" headers="Sector">2310. Manufacture of glass and glass products</td>
+<td class="gt_row gt_right" headers="Total">12,762.8</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Gas oil/diesel oil</td>
+<td class="gt_row gt_left" headers="Sector">2394. Manufacture of cement, lime and plaster</td>
+<td class="gt_row gt_right" headers="Total">2,813,460.8</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Gasoline-type jet fuel</td>
+<td class="gt_row gt_left" headers="Sector">2410. Manufacture of basic iron and steel</td>
+<td class="gt_row gt_right" headers="Total">2,394,064.8</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Gasworks gas</td>
+<td class="gt_row gt_left" headers="Sector">3510. Electric power generation, transmission and distribution</td>
+<td class="gt_row gt_right" headers="Total">23,065,891.4</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Hard coal</td>
+<td class="gt_row gt_left" headers="Sector">3520. Manufacture of gas; distribution of gaseous fuels through mains</td>
+<td class="gt_row gt_right" headers="Total">197,802.2</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Kerosene-type jet fuel</td>
+<td class="gt_row gt_left" headers="Sector">3530. Steam and air conditioning supply</td>
+<td class="gt_row gt_right" headers="Total">115,526.4</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Lignite</td>
+<td class="gt_row gt_left" headers="Sector">3600. Water collection, treatment and supply</td>
+<td class="gt_row gt_right" headers="Total">989,345.6</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Lignite brown coal</td>
+<td class="gt_row gt_left" headers="Sector">3821. Treatment and disposal of non-hazardous waste</td>
+<td class="gt_row gt_right" headers="Total">1,246,392.3</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Lignite brown coal- recoverable resources</td>
+<td class="gt_row gt_left" headers="Sector">3822. Treatment and disposal of hazardous waste</td>
+<td class="gt_row gt_right" headers="Total">106,145.5</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Liquefied petroleum gas (lpg)</td>
+<td class="gt_row gt_left" headers="Sector">4661. Wholesale of solid, liquid and gaseous fuels and related products</td>
+<td class="gt_row gt_right" headers="Total">2,941,353.6</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Motor gasoline</td>
+<td class="gt_row gt_left" headers="Sector">5110. Passenger air transport</td>
+<td class="gt_row gt_right" headers="Total">345,567.2</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Naphtha</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Natural gas</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Natural gas (including lng)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Other bituminous coal</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Other coal products</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Other hydrocarbons</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Other liquid biofuels</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Peat (for fuel use)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Commodity">Petroleum coke</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Commodity">Refinery gas</td>
+<td class="gt_row gt_left" headers="Sector">9999. Undetermined</td>
+<td class="gt_row gt_right" headers="Total">17,404,528.9</td>
 </tr>
 </tbody>
 </table>
@@ -2387,19 +2520,15 @@ Table&nbsp;6: Energy Commodities
 </div>
 </div>
 </section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>As part of the Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program, we sourced data from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span>, FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>, and the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> to provide a bridge between emissions information and social accounting matrices for Computable General Equilibrium analysis.</p>
 </section>
-<section id="results" class="level1">
-<h1>Results</h1>
-<section id="database" class="level2">
-<h2 class="anchored" data-anchor-id="database">Database</h2>
-</section>
-<section id="emissions" class="level2">
-<h2 class="anchored" data-anchor-id="emissions">Emissions</h2>
-<p>The resulting database reports GHG emissions in thousand metric tons CO<sub>2</sub>eq using the 100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5). We provide three formats for practitioners’ convenience. A long format (what other efforts term “normalized”), where ISIC sectors are laid out in a single column, with a single column of values, a pivot format, where ISIC sectors (including undetermined) are arranged in columns of data values, and a raw long format with all fields disaggregated.</p>
+<section id="references" class="level1">
 
 
 
-</section>
+
 </section>
 
 
@@ -2453,8 +2582,9 @@ UNSD. 2023. <span>“Energy Statistics Database 2021: Notes on Sources.”</span
 
 <ol>
 <li id="fn1"><p>R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>The data is available at: <a href="https://github.com/renatovargas/gears/tree/master/emdb/data">https://github.com/renatovargas/gears/tree/master/emdb/data</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The data is available at: <a href="https://renatovargas.github.io/emdb/download.html">https://renatovargas.github.io/emdb/download.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Datasets are available at <a href="https://www.fao.org/faostat/en/#data">https://www.fao.org/faostat/en/#data</a> under the heading “Climate Change: Agrifood systems emissions”.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Subsector and Driver both refer to individual products, but are laid out separately in our case, because of the specific needs of MAFAP Social Accounting Matrix structures that disaggregate agriculture activities with more detail. Other databases, such as GTAP <span class="citation" data-cites="aguiar2019 chepeliev2024a">(<a href="#ref-aguiar2019" role="doc-biblioref">Aguiar et al. 2019</a>; <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024</a>)</span>, combine these into a single field where they are all identified as “drivers” and add a second field that describes which <em>type</em> of driver it refers to (input, output, endowment, or final consumption). Creating such a structure is trivial here by removing the agricultural drivers from the <code>Driver</code> column (for those where IPCC code starts with 3) and copying over the elements from the <code>Subsector</code> column.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

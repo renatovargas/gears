@@ -23,18 +23,12 @@ website:
     - title: "Documentation"
       style: "docked"
       contents:
-        - text: "Documentation"
-          href: documentation/index.qmd
-        - section: "Guides"
-          contents:
-            - text: "GEARS User Guide"
-              href: documentation/guides/gears-user-guide.qmd
         - section: "Methods"
           contents:
             - text: "Database peparation"
               href: documentation/methods/emissions_db_construction.qmd
             - text: "Processing code"
-              href: documentation/methods/gears_processing.qmd
+              href: documentation/methods/emdb_processing.qmd
           
 format:
   html:
