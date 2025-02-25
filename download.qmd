@@ -2,7 +2,7 @@
 title: "Data Downloads"
 ---
 
-Here you can download different versions of the MAFAP Emissions Database. 
+Here you can download different versions of the PolOpT Emissions Database. 
 
 ## Complete Database
 

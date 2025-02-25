@@ -9,7 +9,7 @@
 <meta name="author" content="Renato Vargas">
 <meta name="author" content="Martin Cicowiez">
 
-<title>MAFAP Emissions Database Construction – MAFAP EMDB</title>
+<title>PolOpT Emissions Database Construction – PolOpT EMDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,7 +129,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">MAFAP EMDB</span>
+    <span class="navbar-title">PolOpT EMDB</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -229,8 +229,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../documentation/methods/emissions_db_construction.html">Methods</a></li><li class="breadcrumb-item"><a href="../../documentation/methods/emissions_db_construction.html">Database peparation</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">MAFAP Emissions Database Construction</h1>
-<p class="subtitle lead">Datasets and approaches</p>
+<h1 class="title">PolOpT Emissions Database Construction</h1>
+<p class="subtitle lead">Datasets and approaches (DRAFT FOR DISCUSSION)</p>
 </div>
 
 
@@ -263,6 +263,12 @@ window.Quarto = {
     
   </div>
   
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>Through a series of reproducible data processing routines, different sources are combined into a single database that aims to lower the barrier of entry to emissions analysis for Computable General Equilibrium and Input-Output practitioners who work with national macroeconomic datasets that lack this dimension (social accounting matrices or supply and use tables). While this efforts is initially intended to provide ESA’s <a href="https://openknowledge.fao.org/items/a9b06566-1128-4032-9c6e-203211f1d288">Policy Optimization Modelling Tool (PolOpT)</a> with emissions data, other analysts, officers and initiatives from the environmental accounting space can benefit from it.</p>
+  </div>
+</div>
 
 
 </header>
@@ -270,7 +276,7 @@ window.Quarto = {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, MAFAP tools are particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.</p>
+<p>The Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program seeks to establish country owned and sustainable systems to monitor, analyze, and reform food and agricultural policies to enable more effective, efficient and inclusive policy frameworks. Since policies are only enacted when they are properly funded, FAO’s Policy Optimization Tool (PolOpT) <span class="citation" data-cites="sanchez_cicowiez_2022 sanchez_cicowiez_2023">(<a href="#ref-sanchez_cicowiez_2022" role="doc-biblioref">Sánchez and Cicowiez 2022</a>, <a href="#ref-sanchez_cicowiez_2023" role="doc-biblioref">2023</a>)</span> is particularly geared towards helping countries—the agricultural public sector, in particular—optimize public budgets in the face of competing objectives, like economic growth, poverty reduction, better nutrition, or increasing yields, for example.</p>
 <p>In the face of increasing vulnerability, climate risk mitigation and adaptation objectives have also become a part of the policy dialogue, as different international commitments (e.g.&nbsp;the Paris Agreement) present new demands and challenges to governments. To be able to provide objective functions within MAFAP tools, it has become necessary to extend its socioeconomic reach to include environmental objectives. As an extension of the MAFAP CGE modelling tool, the Global Emissions Database aims to provide a seamless integration of data on anthropogenic emissions of greenhouse gases and air pollution with structural analysis frameworks like Computable General Equilibrium and Input-Output models.</p>
 <p>Here we describe the approach used to construct an anthropogenic emissions accounting satellite framework by economic activity and driver, using globally available datasets. We aim to maintain compatibility with the System of National Accounts (SNA) with which economic performance is measured <span class="citation" data-cites="europeancommission2009">(<a href="#ref-europeancommission2009" role="doc-biblioref">European Commission et al. 2009</a>)</span>. Where possible, we adopt approaches suggested by previous efforts at harmonization between Greenhouse Gas Inventories and SEEA pilot implementations <span class="citation" data-cites="eurostat2015 flachenecker2018 gutman2024">(<a href="#ref-eurostat2015" role="doc-biblioref">Eurostat 2015</a>; <a href="#ref-flachenecker2018" role="doc-biblioref">Flachenecker, Guidetti, and Pionnier 2018</a>; <a href="#ref-gutman2024" role="doc-biblioref">Gutman et al. 2024</a>)</span>.</p>
 <p>Emissions from combustion are estimated at the economic activity level using the International Industrial Standard Classification—ISIC—<span class="citation" data-cites="united_nations_international_2008">(<a href="#ref-united_nations_international_2008" role="doc-biblioref">United Nations 2008</a>)</span> and driver, using the Tier 1 method of the Intergovernmental Panel on Climate Change—IPCC—<span class="citation" data-cites="ipcc1996 ipcc2006">(<a href="#ref-ipcc1996" role="doc-biblioref">IPCC 1996</a>, <a href="#ref-ipcc2006" role="doc-biblioref">2006</a>)</span> and energy use information from the Energy Statistics Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span>. Emissions from Industrial Processes and Waste come from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span> and are mapped to economic activities following a broadly tested global approach that facilitates use with CGE frameworks; i.e.&nbsp;that of the Global Trade Analysis Project—GTAP—<span class="citation" data-cites="aguiar2019 chepeliev2024a">(<a href="#ref-aguiar2019" role="doc-biblioref">Aguiar et al. 2019</a>; <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024</a>)</span>. Emissions from Agriculture are sourced from FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span> and mapped to ISIC economic activities. Individual drivers are left for the practitioner to map to their own structure (i.e.&nbsp;output by industries, endowment by industries, input use by industries, and consumption by households).</p>
@@ -283,7 +289,7 @@ window.Quarto = {
 </section>
 <section id="total-emissions-from-edgar" class="level2">
 <h2 class="anchored" data-anchor-id="total-emissions-from-edgar">Total Emissions from EDGAR</h2>
-<p>We start our methodological discussion with the sourcing of The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) datasets published by the European Commission because they are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;1</a>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen). This allows us to provide an overview of the coverage needed by our dataset. However, due to the form in which the data is presented in the EDGAR data and our database needs, we only take advantage of emissions data on industrial processes, waste, and “other” (which refers mainly to emissions from the atmospheric deposition of nitrogen). To avoid double counting, we replace emissions from the use of energy (Chapter 1A) with data from the UN Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> and emissions from agriculture, forestry, and other land use with data from FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>. For comparison purposes, it is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are not covered in EDGAR, but are in FAOSTAT.</p>
+<p>We start with the sourcing of The Emissions Database for Global Atmospheric Research—EDGAR—(Crippa et al., 2023) datasets published by the European Commission because they are comprehensive, covering most of the greenhouse gas emissions inventories domains as shown in <a href="#tbl-edgar-domains" class="quarto-xref">Table&nbsp;1</a>, belonging to 1) energy; 2) Industrial processes and product use; 3) Agriculture, forestry, and other land use; 4) Waste; and 5) Other (mainly indirect emissions from deposition of Nitrogen). This allows us to provide an overview of the coverage needed by our dataset. However, due to the form in which the data is presented in the EDGAR data and our database needs, we only take advantage of emissions data on industrial processes, waste, and “other” (which refers mainly to emissions from the atmospheric deposition of nitrogen). To avoid double counting, we replace emissions from the use of energy (Chapter 1A) with data from the UN Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> and emissions from agriculture, forestry, and other land use with data from FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>. For comparison purposes, it is important to note that large scale biomass burning with Savannah burning, forest fires, and sources and sinks from land-use, land-use change and forestry (LULUCF) are not covered in EDGAR, but are in FAOSTAT.</p>
 <div id="tbl-edgar-domains" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-edgar-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -608,23 +614,23 @@ Table&nbsp;4: FAOSTAT domains sourced
 </figcaption>
 <div aria-describedby="tbl-faostat-domains-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="arroukbtwv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#arroukbtwv table {
+<div id="iixqsnxyym" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iixqsnxyym table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#arroukbtwv thead, #arroukbtwv tbody, #arroukbtwv tfoot, #arroukbtwv tr, #arroukbtwv td, #arroukbtwv th {
+#iixqsnxyym thead, #iixqsnxyym tbody, #iixqsnxyym tfoot, #iixqsnxyym tr, #iixqsnxyym td, #iixqsnxyym th {
   border-style: none;
 }
 
-#arroukbtwv p {
+#iixqsnxyym p {
   margin: 0;
   padding: 0;
 }
 
-#arroukbtwv .gt_table {
+#iixqsnxyym .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -650,12 +656,12 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-left-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_caption {
+#iixqsnxyym .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#arroukbtwv .gt_title {
+#iixqsnxyym .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -667,7 +673,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-width: 0;
 }
 
-#arroukbtwv .gt_subtitle {
+#iixqsnxyym .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -679,7 +685,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-top-width: 0;
 }
 
-#arroukbtwv .gt_heading {
+#iixqsnxyym .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -691,13 +697,13 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_bottom_border {
+#iixqsnxyym .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_col_headings {
+#iixqsnxyym .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -712,7 +718,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_col_heading {
+#iixqsnxyym .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -732,7 +738,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#arroukbtwv .gt_column_spanner_outer {
+#iixqsnxyym .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -744,15 +750,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 4px;
 }
 
-#arroukbtwv .gt_column_spanner_outer:first-child {
+#iixqsnxyym .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#arroukbtwv .gt_column_spanner_outer:last-child {
+#iixqsnxyym .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#arroukbtwv .gt_column_spanner {
+#iixqsnxyym .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -764,11 +770,11 @@ Table&nbsp;4: FAOSTAT domains sourced
   width: 100%;
 }
 
-#arroukbtwv .gt_spanner_row {
+#iixqsnxyym .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#arroukbtwv .gt_group_heading {
+#iixqsnxyym .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -794,7 +800,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   text-align: left;
 }
 
-#arroukbtwv .gt_empty_group_heading {
+#iixqsnxyym .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -809,15 +815,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   vertical-align: middle;
 }
 
-#arroukbtwv .gt_from_md > :first-child {
+#iixqsnxyym .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#arroukbtwv .gt_from_md > :last-child {
+#iixqsnxyym .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#arroukbtwv .gt_row {
+#iixqsnxyym .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -836,7 +842,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#arroukbtwv .gt_stub {
+#iixqsnxyym .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -849,7 +855,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#arroukbtwv .gt_stub_row_group {
+#iixqsnxyym .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -863,15 +869,15 @@ Table&nbsp;4: FAOSTAT domains sourced
   vertical-align: top;
 }
 
-#arroukbtwv .gt_row_group_first td {
+#iixqsnxyym .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#arroukbtwv .gt_row_group_first th {
+#iixqsnxyym .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#arroukbtwv .gt_summary_row {
+#iixqsnxyym .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -881,16 +887,16 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#arroukbtwv .gt_first_summary_row {
+#iixqsnxyym .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_first_summary_row.thick {
+#iixqsnxyym .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#arroukbtwv .gt_last_summary_row {
+#iixqsnxyym .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -900,7 +906,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_grand_summary_row {
+#iixqsnxyym .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -910,7 +916,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#arroukbtwv .gt_first_grand_summary_row {
+#iixqsnxyym .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -920,7 +926,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-top-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_last_grand_summary_row_top {
+#iixqsnxyym .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -930,11 +936,11 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_striped {
+#iixqsnxyym .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#arroukbtwv .gt_table_body {
+#iixqsnxyym .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -943,7 +949,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_footnotes {
+#iixqsnxyym .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -957,7 +963,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_footnote {
+#iixqsnxyym .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -966,7 +972,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#arroukbtwv .gt_sourcenotes {
+#iixqsnxyym .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -980,7 +986,7 @@ Table&nbsp;4: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#arroukbtwv .gt_sourcenote {
+#iixqsnxyym .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -988,72 +994,72 @@ Table&nbsp;4: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#arroukbtwv .gt_left {
+#iixqsnxyym .gt_left {
   text-align: left;
 }
 
-#arroukbtwv .gt_center {
+#iixqsnxyym .gt_center {
   text-align: center;
 }
 
-#arroukbtwv .gt_right {
+#iixqsnxyym .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#arroukbtwv .gt_font_normal {
+#iixqsnxyym .gt_font_normal {
   font-weight: normal;
 }
 
-#arroukbtwv .gt_font_bold {
+#iixqsnxyym .gt_font_bold {
   font-weight: bold;
 }
 
-#arroukbtwv .gt_font_italic {
+#iixqsnxyym .gt_font_italic {
   font-style: italic;
 }
 
-#arroukbtwv .gt_super {
+#iixqsnxyym .gt_super {
   font-size: 65%;
 }
 
-#arroukbtwv .gt_footnote_marks {
+#iixqsnxyym .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#arroukbtwv .gt_asterisk {
+#iixqsnxyym .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#arroukbtwv .gt_indent_1 {
+#iixqsnxyym .gt_indent_1 {
   text-indent: 5px;
 }
 
-#arroukbtwv .gt_indent_2 {
+#iixqsnxyym .gt_indent_2 {
   text-indent: 10px;
 }
 
-#arroukbtwv .gt_indent_3 {
+#iixqsnxyym .gt_indent_3 {
   text-indent: 15px;
 }
 
-#arroukbtwv .gt_indent_4 {
+#iixqsnxyym .gt_indent_4 {
   text-indent: 20px;
 }
 
-#arroukbtwv .gt_indent_5 {
+#iixqsnxyym .gt_indent_5 {
   text-indent: 25px;
 }
 
-#arroukbtwv .katex-display {
+#iixqsnxyym .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#arroukbtwv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#iixqsnxyym div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1152,23 +1158,23 @@ Table&nbsp;5: FAOSTAT domains sourced
 </figcaption>
 <div aria-describedby="tbl-faostat-subsectors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="qdcjdeztoy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qdcjdeztoy table {
+<div id="msrlfhthbm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#msrlfhthbm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qdcjdeztoy thead, #qdcjdeztoy tbody, #qdcjdeztoy tfoot, #qdcjdeztoy tr, #qdcjdeztoy td, #qdcjdeztoy th {
+#msrlfhthbm thead, #msrlfhthbm tbody, #msrlfhthbm tfoot, #msrlfhthbm tr, #msrlfhthbm td, #msrlfhthbm th {
   border-style: none;
 }
 
-#qdcjdeztoy p {
+#msrlfhthbm p {
   margin: 0;
   padding: 0;
 }
 
-#qdcjdeztoy .gt_table {
+#msrlfhthbm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1194,12 +1200,12 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-left-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_caption {
+#msrlfhthbm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qdcjdeztoy .gt_title {
+#msrlfhthbm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1211,7 +1217,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-width: 0;
 }
 
-#qdcjdeztoy .gt_subtitle {
+#msrlfhthbm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1223,7 +1229,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-top-width: 0;
 }
 
-#qdcjdeztoy .gt_heading {
+#msrlfhthbm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1235,13 +1241,13 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_bottom_border {
+#msrlfhthbm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_col_headings {
+#msrlfhthbm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1256,7 +1262,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_col_heading {
+#msrlfhthbm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1276,7 +1282,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#qdcjdeztoy .gt_column_spanner_outer {
+#msrlfhthbm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1288,15 +1294,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 4px;
 }
 
-#qdcjdeztoy .gt_column_spanner_outer:first-child {
+#msrlfhthbm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qdcjdeztoy .gt_column_spanner_outer:last-child {
+#msrlfhthbm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qdcjdeztoy .gt_column_spanner {
+#msrlfhthbm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1308,11 +1314,11 @@ Table&nbsp;5: FAOSTAT domains sourced
   width: 100%;
 }
 
-#qdcjdeztoy .gt_spanner_row {
+#msrlfhthbm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qdcjdeztoy .gt_group_heading {
+#msrlfhthbm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1338,7 +1344,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   text-align: left;
 }
 
-#qdcjdeztoy .gt_empty_group_heading {
+#msrlfhthbm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1353,15 +1359,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   vertical-align: middle;
 }
 
-#qdcjdeztoy .gt_from_md > :first-child {
+#msrlfhthbm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qdcjdeztoy .gt_from_md > :last-child {
+#msrlfhthbm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qdcjdeztoy .gt_row {
+#msrlfhthbm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1380,7 +1386,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   overflow-x: hidden;
 }
 
-#qdcjdeztoy .gt_stub {
+#msrlfhthbm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1393,7 +1399,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#qdcjdeztoy .gt_stub_row_group {
+#msrlfhthbm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1407,15 +1413,15 @@ Table&nbsp;5: FAOSTAT domains sourced
   vertical-align: top;
 }
 
-#qdcjdeztoy .gt_row_group_first td {
+#msrlfhthbm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qdcjdeztoy .gt_row_group_first th {
+#msrlfhthbm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qdcjdeztoy .gt_summary_row {
+#msrlfhthbm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1425,16 +1431,16 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#qdcjdeztoy .gt_first_summary_row {
+#msrlfhthbm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_first_summary_row.thick {
+#msrlfhthbm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qdcjdeztoy .gt_last_summary_row {
+#msrlfhthbm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1444,7 +1450,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_grand_summary_row {
+#msrlfhthbm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1454,7 +1460,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#qdcjdeztoy .gt_first_grand_summary_row {
+#msrlfhthbm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1464,7 +1470,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-top-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_last_grand_summary_row_top {
+#msrlfhthbm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1474,11 +1480,11 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_striped {
+#msrlfhthbm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qdcjdeztoy .gt_table_body {
+#msrlfhthbm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1487,7 +1493,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-bottom-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_footnotes {
+#msrlfhthbm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1501,7 +1507,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_footnote {
+#msrlfhthbm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1510,7 +1516,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#qdcjdeztoy .gt_sourcenotes {
+#msrlfhthbm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1524,7 +1530,7 @@ Table&nbsp;5: FAOSTAT domains sourced
   border-right-color: #D3D3D3;
 }
 
-#qdcjdeztoy .gt_sourcenote {
+#msrlfhthbm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1532,72 +1538,72 @@ Table&nbsp;5: FAOSTAT domains sourced
   padding-right: 5px;
 }
 
-#qdcjdeztoy .gt_left {
+#msrlfhthbm .gt_left {
   text-align: left;
 }
 
-#qdcjdeztoy .gt_center {
+#msrlfhthbm .gt_center {
   text-align: center;
 }
 
-#qdcjdeztoy .gt_right {
+#msrlfhthbm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qdcjdeztoy .gt_font_normal {
+#msrlfhthbm .gt_font_normal {
   font-weight: normal;
 }
 
-#qdcjdeztoy .gt_font_bold {
+#msrlfhthbm .gt_font_bold {
   font-weight: bold;
 }
 
-#qdcjdeztoy .gt_font_italic {
+#msrlfhthbm .gt_font_italic {
   font-style: italic;
 }
 
-#qdcjdeztoy .gt_super {
+#msrlfhthbm .gt_super {
   font-size: 65%;
 }
 
-#qdcjdeztoy .gt_footnote_marks {
+#msrlfhthbm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qdcjdeztoy .gt_asterisk {
+#msrlfhthbm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qdcjdeztoy .gt_indent_1 {
+#msrlfhthbm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qdcjdeztoy .gt_indent_2 {
+#msrlfhthbm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qdcjdeztoy .gt_indent_3 {
+#msrlfhthbm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qdcjdeztoy .gt_indent_4 {
+#msrlfhthbm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qdcjdeztoy .gt_indent_5 {
+#msrlfhthbm .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qdcjdeztoy .katex-display {
+#msrlfhthbm .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qdcjdeztoy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#msrlfhthbm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1819,7 +1825,7 @@ Figure&nbsp;1: Greenhouse Gases for 220 countries and territories (Year 2022)
 </div>
 </div>
 </div>
-<p>We use the case of Nigeria to exemplify differences between datasets in <a href="#tbl-nigeria-dataset-comparison" class="quarto-xref">Table&nbsp;7</a>. The first column shows the result of our MAFAP Emissions Dabase, the second shows the original Edgar dataset values, the third one shows a modified version of EDGAR, in which the whole section of agriculture has been replaced with FAOSTAT data (although for this comparison we removed the LULUCF part from FAO), and the last column shows the values of the World Bank World Development Indicators (only for Greenhouse Gases CO<sub>2</sub>, CH<sub>4</sub>, and N<sub>2</sub>O in CO<sub>2</sub>eq). The rows show the different emission types. Variations between datasets range from less than 1% to more than 30%. While variations remain stable with CO<sub>2</sub> and N<sub>2</sub>O, CH<sub>4</sub> is more volatile. At the same time, there is a complete discrepancy between our dataset and the Edgar based calculations of CO<sub>2</sub>bio, which at this point we only can attribute to differences in elements considered for this sector, as EDGAR documentation regarding this matter appears vague in the main publication <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span>. In our case, the CO<sub>2</sub> emissions of the combustion of bio jet kerosene, biodiesel, biogasoline, charcoal, biogases, bagasse, fuelwood, other liquid biofuels, animal waste, municipal waste, and vegetal waste were considered CO<sub>2</sub>bio, while their CH<sub>4</sub> and N<sub>2</sub>O emissions were classified together with the emission of those gases of all other fuels. It is important to note that the confidence intervals for Tier 1 coefficients leave room for ample variation, and can vary up to +/- 30% and +/- 60%. This means that our estimates are still in the range of uncertainty when compared to other efforts.</p>
+<p>We use the case of Nigeria to exemplify differences between datasets in <a href="#tbl-nigeria-dataset-comparison" class="quarto-xref">Table&nbsp;7</a>. The first column shows the result of our PolOpT Emissions Dabase, the second shows the original Edgar dataset values, the third one shows a modified version of EDGAR, in which the whole section of agriculture has been replaced with FAOSTAT data (although for this comparison we removed the LULUCF part from FAO), and the last column shows the values of the World Bank World Development Indicators (only for Greenhouse Gases CO<sub>2</sub>, CH<sub>4</sub>, and N<sub>2</sub>O in CO<sub>2</sub>eq). The rows show the different emission types. Variations between datasets range from less than 1% to more than 30%. While variations remain stable with CO<sub>2</sub> and N<sub>2</sub>O, CH<sub>4</sub> is more volatile. At the same time, there is a complete discrepancy between our dataset and the Edgar based calculations of CO<sub>2</sub>bio, which at this point we only can attribute to differences in elements considered for this sector, as EDGAR documentation regarding this matter appears vague in the main publication <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span>. In our case, the CO<sub>2</sub> emissions of the combustion of bio jet kerosene, biodiesel, biogasoline, charcoal, biogases, bagasse, fuelwood, other liquid biofuels, animal waste, municipal waste, and vegetal waste were considered CO<sub>2</sub>bio, while their CH<sub>4</sub> and N<sub>2</sub>O emissions were classified together with the emission of those gases of all other fuels. It is important to note that the confidence intervals for Tier 1 coefficients leave room for ample variation, and can vary up to +/- 30% and +/- 60%. This means that our estimates are still in the range of uncertainty when compared to other efforts.</p>
 <div id="tbl-nigeria-dataset-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nigeria-dataset-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1837,7 +1843,7 @@ Table&nbsp;7: Differences between datasets for individual emission types for Nig
 <thead>
 <tr class="header">
 <th style="text-align: left;">Emission Type</th>
-<th style="text-align: right;">MAFAP EMDB</th>
+<th style="text-align: right;">PolOpT EMDB</th>
 <th style="text-align: right;">EDGAR</th>
 <th style="text-align: right;">EDGAR + FAOSTAT</th>
 <th style="text-align: right;">World Bank</th>
@@ -1919,7 +1925,7 @@ Table&nbsp;7: Differences between datasets for individual emission types for Nig
 </div>
 </figure>
 </div>
-<p>An important value added to the underlying data sources of MAFAP Emissions Database is an initial classification of emissions according to ISIC sector. This is important, because it allows practitioners of Computable General Equilibrium analysis to bridge this data with Social Accounting Matrices (which are the databases for such analyses). We made the choice to disregard the information on intermediate and final consumption of energy of industries outside the energy production and transformation sectors found in energy balances, because in the conventions of those instruments, fuels consumed by any sector for transportation purposes gets aggregated into the road sector, but that does not coincide with the corresponding ISIC classification for road transportation. Because of that, we pooled together all consumption and classified it as “Undetermined” for practitioners to assign it according to input shares of fuels by economic activities. <a href="#tbl-total-emissions-by-isic" class="quarto-xref">Table&nbsp;8</a> shows this exercise for Nigeria in 2022.</p>
+<p>An important value added to the underlying data sources of PolOpT Emissions Database is an initial classification of emissions according to ISIC sector. This is important, because it allows practitioners of Computable General Equilibrium analysis to bridge this data with Social Accounting Matrices (which are the databases for such analyses). We made the choice to disregard the information on intermediate and final consumption of energy of industries outside the energy production and transformation sectors found in energy balances, because in the conventions of those instruments, fuels consumed by any sector for transportation purposes gets aggregated into the road sector, but that does not coincide with the corresponding ISIC classification for road transportation. Because of that, we pooled together all consumption and classified it as “Undetermined” for practitioners to assign it according to input shares of fuels by economic activities. <a href="#tbl-total-emissions-by-isic" class="quarto-xref">Table&nbsp;8</a> shows this exercise for Nigeria in 2022.</p>
 <div class="cell">
 <div id="tbl-total-emissions-by-isic" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -1928,23 +1934,23 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
 </figcaption>
 <div aria-describedby="tbl-total-emissions-by-isic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="hgxablnxee" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hgxablnxee table {
+<div id="savhlifajf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#savhlifajf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hgxablnxee thead, #hgxablnxee tbody, #hgxablnxee tfoot, #hgxablnxee tr, #hgxablnxee td, #hgxablnxee th {
+#savhlifajf thead, #savhlifajf tbody, #savhlifajf tfoot, #savhlifajf tr, #savhlifajf td, #savhlifajf th {
   border-style: none;
 }
 
-#hgxablnxee p {
+#savhlifajf p {
   margin: 0;
   padding: 0;
 }
 
-#hgxablnxee .gt_table {
+#savhlifajf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1970,12 +1976,12 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-left-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_caption {
+#savhlifajf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hgxablnxee .gt_title {
+#savhlifajf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1987,7 +1993,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-bottom-width: 0;
 }
 
-#hgxablnxee .gt_subtitle {
+#savhlifajf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1999,7 +2005,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-top-width: 0;
 }
 
-#hgxablnxee .gt_heading {
+#savhlifajf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2011,13 +2017,13 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-right-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_bottom_border {
+#savhlifajf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_col_headings {
+#savhlifajf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2032,7 +2038,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-right-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_col_heading {
+#savhlifajf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2052,7 +2058,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   overflow-x: hidden;
 }
 
-#hgxablnxee .gt_column_spanner_outer {
+#savhlifajf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2064,15 +2070,15 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   padding-right: 4px;
 }
 
-#hgxablnxee .gt_column_spanner_outer:first-child {
+#savhlifajf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hgxablnxee .gt_column_spanner_outer:last-child {
+#savhlifajf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hgxablnxee .gt_column_spanner {
+#savhlifajf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2084,11 +2090,11 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   width: 100%;
 }
 
-#hgxablnxee .gt_spanner_row {
+#savhlifajf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hgxablnxee .gt_group_heading {
+#savhlifajf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2114,7 +2120,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   text-align: left;
 }
 
-#hgxablnxee .gt_empty_group_heading {
+#savhlifajf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2129,15 +2135,15 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   vertical-align: middle;
 }
 
-#hgxablnxee .gt_from_md > :first-child {
+#savhlifajf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hgxablnxee .gt_from_md > :last-child {
+#savhlifajf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hgxablnxee .gt_row {
+#savhlifajf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2156,7 +2162,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   overflow-x: hidden;
 }
 
-#hgxablnxee .gt_stub {
+#savhlifajf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2169,7 +2175,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   padding-right: 5px;
 }
 
-#hgxablnxee .gt_stub_row_group {
+#savhlifajf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2183,15 +2189,15 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   vertical-align: top;
 }
 
-#hgxablnxee .gt_row_group_first td {
+#savhlifajf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hgxablnxee .gt_row_group_first th {
+#savhlifajf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hgxablnxee .gt_summary_row {
+#savhlifajf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2201,16 +2207,16 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   padding-right: 5px;
 }
 
-#hgxablnxee .gt_first_summary_row {
+#savhlifajf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_first_summary_row.thick {
+#savhlifajf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hgxablnxee .gt_last_summary_row {
+#savhlifajf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2220,7 +2226,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-bottom-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_grand_summary_row {
+#savhlifajf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2230,7 +2236,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   padding-right: 5px;
 }
 
-#hgxablnxee .gt_first_grand_summary_row {
+#savhlifajf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2240,7 +2246,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-top-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_last_grand_summary_row_top {
+#savhlifajf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2250,11 +2256,11 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-bottom-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_striped {
+#savhlifajf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hgxablnxee .gt_table_body {
+#savhlifajf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2263,7 +2269,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-bottom-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_footnotes {
+#savhlifajf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2277,7 +2283,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-right-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_footnote {
+#savhlifajf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2286,7 +2292,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   padding-right: 5px;
 }
 
-#hgxablnxee .gt_sourcenotes {
+#savhlifajf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2300,7 +2306,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   border-right-color: #D3D3D3;
 }
 
-#hgxablnxee .gt_sourcenote {
+#savhlifajf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2308,72 +2314,72 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
   padding-right: 5px;
 }
 
-#hgxablnxee .gt_left {
+#savhlifajf .gt_left {
   text-align: left;
 }
 
-#hgxablnxee .gt_center {
+#savhlifajf .gt_center {
   text-align: center;
 }
 
-#hgxablnxee .gt_right {
+#savhlifajf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hgxablnxee .gt_font_normal {
+#savhlifajf .gt_font_normal {
   font-weight: normal;
 }
 
-#hgxablnxee .gt_font_bold {
+#savhlifajf .gt_font_bold {
   font-weight: bold;
 }
 
-#hgxablnxee .gt_font_italic {
+#savhlifajf .gt_font_italic {
   font-style: italic;
 }
 
-#hgxablnxee .gt_super {
+#savhlifajf .gt_super {
   font-size: 65%;
 }
 
-#hgxablnxee .gt_footnote_marks {
+#savhlifajf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hgxablnxee .gt_asterisk {
+#savhlifajf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hgxablnxee .gt_indent_1 {
+#savhlifajf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hgxablnxee .gt_indent_2 {
+#savhlifajf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hgxablnxee .gt_indent_3 {
+#savhlifajf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hgxablnxee .gt_indent_4 {
+#savhlifajf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hgxablnxee .gt_indent_5 {
+#savhlifajf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hgxablnxee .katex-display {
+#savhlifajf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hgxablnxee div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#savhlifajf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2522,7 +2528,7 @@ Table&nbsp;8: Total Emissions by Sector in Nigeria (Year 2022)
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>As part of the Monitoring and Analyzing Food and Agricultural Policies (MAFAP) program, we sourced data from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span>, FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>, and the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> to provide a bridge between emissions information and social accounting matrices for Computable General Equilibrium analysis. We have created a consistent database, that allows practitioners to extend their studies to include environmental tradeoffs of economic and social policies.</p>
+<p>As part of FAO’s Policy Optimization Tool (PolOpT) <span class="citation" data-cites="sanchez_cicowiez_2022 sanchez_cicowiez_2023">(<a href="#ref-sanchez_cicowiez_2022" role="doc-biblioref">Sánchez and Cicowiez 2022</a>, <a href="#ref-sanchez_cicowiez_2023" role="doc-biblioref">2023</a>)</span>, we sourced data from EDGAR <span class="citation" data-cites="crippa2023">(<a href="#ref-crippa2023" role="doc-biblioref">Crippa et al. 2023</a>)</span>, FAOSTAT <span class="citation" data-cites="fao2024">(<a href="#ref-fao2024" role="doc-biblioref">FAO 2024</a>)</span>, and the United Nations Energy Database <span class="citation" data-cites="unsd2023">(<a href="#ref-unsd2023" role="doc-biblioref">UNSD 2023</a>)</span> to provide a bridge between emissions information and social accounting matrices for Computable General Equilibrium analysis. We have created a consistent database, that allows practitioners to extend their studies to include environmental tradeoffs of economic and social policies.</p>
 </section>
 <section id="references" class="level1">
 
@@ -2569,6 +2575,12 @@ Myhre, Gunnar, Drew Shindell, Francois-Marie Bréon, William Collins, Jan Fugles
 <div id="ref-Rcore2024" class="csl-entry" role="listitem">
 R Core Team. 2024. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
+<div id="ref-sanchez_cicowiez_2022" class="csl-entry" role="listitem">
+Sánchez, Marco V., and Martín Cicowiez. 2022. <span>“Optimising Policies to Achieve Agricultural Transformation Objectives: An Application for <span>Ethiopia</span>.”</span> <em>Journal of Applied Economics</em> 25 (1): 765–83. <a href="https://doi.org/10.1080/15140326.2022.2056407">https://doi.org/10.1080/15140326.2022.2056407</a>.
+</div>
+<div id="ref-sanchez_cicowiez_2023" class="csl-entry" role="listitem">
+———. 2023. <span>“Optimal Allocation of Agriculture’s Public Budget Can Improve Transformation and Healthy Diets Access in <span>Ethiopia</span>.”</span> <em>Journal of Policy Modeling</em> 45 (6): 1262–80. <a href="https://doi.org/10.1016/j.jpolmod.2023.09.005">https://doi.org/10.1016/j.jpolmod.2023.09.005</a>.
+</div>
 <div id="ref-united_nations_energy_1987" class="csl-entry" role="listitem">
 United Nations. 1987. <span>“Energy <span>Statistics</span>: <span>Definitions</span>, <span>Units</span> of <span>Measure</span> and <span>Conversion</span> <span>Factors</span>.”</span> Studies in {Methods} 44. New York: United Nations Department of Economic; Social Affairs, Statistical Office. <a href="https://unstats.un.org/unsd/publication/SeriesF/SeriesF_44E.pdf">https://unstats.un.org/unsd/publication/SeriesF/SeriesF_44E.pdf</a>.
 </div>
@@ -2584,7 +2596,7 @@ UNSD. 2023. <span>“Energy Statistics Database 2021: Notes on Sources.”</span
 <li id="fn1"><p>R was chosen for its information management and data compression facilities. However, the principles used can be easily implemented in Python, Stata, or any other language with similar affordances.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>The data is available at: <a href="https://renatovargas.github.io/emdb/download.html">https://renatovargas.github.io/emdb/download.html</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Datasets are available at <a href="https://www.fao.org/faostat/en/#data">https://www.fao.org/faostat/en/#data</a> under the heading “Climate Change: Agrifood systems emissions”.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Subsector and Driver both refer to individual products, but are laid out separately in our case, because of the specific needs of MAFAP Social Accounting Matrix structures that disaggregate agriculture activities with more detail. Other databases, such as GTAP <span class="citation" data-cites="aguiar2019 chepeliev2024a">(<a href="#ref-aguiar2019" role="doc-biblioref">Aguiar et al. 2019</a>; <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024</a>)</span>, combine these into a single field where they are all identified as “drivers” and add a second field that describes which <em>type</em> of driver it refers to (input, output, endowment, or final consumption). Creating such a structure is trivial here by removing the agricultural drivers from the <code>Driver</code> column (for those where IPCC code starts with 3) and copying over the elements from the <code>Subsector</code> column.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Subsector and Driver both refer to individual products, but are laid out separately in our case, because of the specific needs of PolOpT Social Accounting Matrix structures that disaggregate agriculture activities with more detail. Other databases, such as GTAP <span class="citation" data-cites="aguiar2019 chepeliev2024a">(<a href="#ref-aguiar2019" role="doc-biblioref">Aguiar et al. 2019</a>; <a href="#ref-chepeliev2024a" role="doc-biblioref">Chepeliev 2024</a>)</span>, combine these into a single field where they are all identified as “drivers” and add a second field that describes which <em>type</em> of driver it refers to (input, output, endowment, or final consumption). Creating such a structure is trivial here by removing the agricultural drivers from the <code>Driver</code> column (for those where IPCC code starts with 3) and copying over the elements from the <code>Subsector</code> column.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
