@@ -1162,6 +1162,7 @@ saveRDS(
 # Total Emissions
 write.csv(
   gwp_total_emissions,
+  na = "",
   "emdb/data/outputs/gwp_total_emissions.csv")
 
 # Create ZIP without preserving the full folder structure
@@ -1178,6 +1179,7 @@ unlink("emdb/data/outputs/gwp_total_emissions.csv")
 
 write.csv(
   isic_long,
+  na = "",
   "emdb/data/outputs/gwp_total_emissions_long.csv")
 
 # Create ZIP without preserving the full folder structure
@@ -1194,6 +1196,7 @@ unlink("emdb/data/outputs/gwp_total_emissions_long.csv")
 
 write.csv(
   isic_pivot,
+  na = "",
   "emdb/data/outputs/gwp_total_emissions_pivot.csv")
 
 # Create ZIP without preserving the full folder structure
