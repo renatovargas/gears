@@ -1133,23 +1133,23 @@ isic_long <- gwp_total_emissions |>
 ### Saving to RDS
 
 ```{r}
-# # And save to RDS
-# saveRDS(
-#   gwp_total_emissions,
-#   "emdb/data/outputs/gwp_total_emissions.rds")
-# saveRDS(
-#   isic_long,
-#   "emdb/data/outputs/gwp_total_emissions_long.rds")
-# saveRDS(
-#   isic_pivot,
-#   "emdb/data/outputs/gwp_total_emissions_pivot.rds")
-# # For comparisons we keep EDGAR + FAOSTAT
-# saveRDS(
-#   gwp_total_emissions4,
-#   "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
-# saveRDS(
-#   energy_total,
-#   "emdb/data/outputs/energy_total_DO_NOT_USE.rds")
+# And save to RDS
+saveRDS(
+  gwp_total_emissions,
+  "emdb/data/outputs/gwp_total_emissions.rds")
+saveRDS(
+  isic_long,
+  "emdb/data/outputs/gwp_total_emissions_long.rds")
+saveRDS(
+  isic_pivot,
+  "emdb/data/outputs/gwp_total_emissions_pivot.rds")
+# For comparisons we keep EDGAR + FAOSTAT
+saveRDS(
+  gwp_total_emissions4,
+  "emdb/data/outputs/gwp_emi_edgar_fao_DO_NOT_USE.rds")
+saveRDS(
+  energy_total,
+  "emdb/data/outputs/energy_total_DO_NOT_USE.rds")
 ```
 
 ### Saving to ZIP and compress
@@ -1159,52 +1159,52 @@ isic_long <- gwp_total_emissions |>
 #| message: false
 #| label: save-compress-csv
 
-# # Total Emissions
-# write.csv(
-#   gwp_total_emissions,
-#   "emdb/data/outputs/gwp_total_emissions.csv")
-# 
-# # Create ZIP without preserving the full folder structure
-# zip::zip(
-#   zipfile = "emdb/data/outputs/gwp_total_emissions.zip",
-#   files = "emdb/data/outputs/gwp_total_emissions.csv",
-#   mode = "cherry-pick"
-# )
-# 
-# # Remove the uncompressed CSV file
-# unlink("emdb/data/outputs/gwp_total_emissions.csv")
-# 
-# # Total with ISIC Long Version
-# 
-# write.csv(
-#   isic_long,
-#   "emdb/data/outputs/gwp_total_emissions_long.csv")
-# 
-# # Create ZIP without preserving the full folder structure
-# zip::zip(
-#   zipfile = "emdb/data/outputs/gwp_total_emissions_long.zip",
-#   files = "emdb/data/outputs/gwp_total_emissions_long.csv",
-#   mode = "cherry-pick"
-# )
-# 
-# # Remove the uncompressed CSV file
-# unlink("emdb/data/outputs/gwp_total_emissions_long.csv")
-# 
-# # Total with ISIC Pivot Version
-# 
-# write.csv(
-#   isic_long,
-#   "emdb/data/outputs/gwp_total_emissions_pivot.csv")
-# 
-# # Create ZIP without preserving the full folder structure
-# zip::zip(
-#   zipfile = "emdb/data/outputs/gwp_total_emissions_pivot.zip",
-#   files = "emdb/data/outputs/gwp_total_emissions_pivot.csv",
-#   mode = "cherry-pick"
-# )
-# 
-# # Remove the uncompressed CSV file
-# unlink("emdb/data/outputs/gwp_total_emissions_pivot.csv")
+# Total Emissions
+write.csv(
+  gwp_total_emissions,
+  "emdb/data/outputs/gwp_total_emissions.csv")
+
+# Create ZIP without preserving the full folder structure
+zip::zip(
+  zipfile = "emdb/data/outputs/gwp_total_emissions.zip",
+  files = "emdb/data/outputs/gwp_total_emissions.csv",
+  mode = "cherry-pick"
+)
+
+# Remove the uncompressed CSV file
+unlink("emdb/data/outputs/gwp_total_emissions.csv")
+
+# Total with ISIC Long Version
+
+write.csv(
+  isic_long,
+  "emdb/data/outputs/gwp_total_emissions_long.csv")
+
+# Create ZIP without preserving the full folder structure
+zip::zip(
+  zipfile = "emdb/data/outputs/gwp_total_emissions_long.zip",
+  files = "emdb/data/outputs/gwp_total_emissions_long.csv",
+  mode = "cherry-pick"
+)
+
+# Remove the uncompressed CSV file
+unlink("emdb/data/outputs/gwp_total_emissions_long.csv")
+
+# Total with ISIC Pivot Version
+
+write.csv(
+  isic_pivot,
+  "emdb/data/outputs/gwp_total_emissions_pivot.csv")
+
+# Create ZIP without preserving the full folder structure
+zip::zip(
+  zipfile = "emdb/data/outputs/gwp_total_emissions_pivot.zip",
+  files = "emdb/data/outputs/gwp_total_emissions_pivot.csv",
+  mode = "cherry-pick"
+)
+
+# Remove the uncompressed CSV file
+unlink("emdb/data/outputs/gwp_total_emissions_pivot.csv")
 
 ```
 
