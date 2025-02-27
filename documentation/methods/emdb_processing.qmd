@@ -1145,7 +1145,7 @@ isic_long <- gwp_total_emissions |>
   )
 ```
 
-We save versions in R's RDS format which allows for very small file downloads, but we are aware that the most common format is CSV, which due to the repetition of strings can be very large and surpass our repository's limitations. However, the code provided in @save-compress-csv allows us to compress before uploading and make it available in our downloads page. Note that both saves code windows below are commented out so that Quarto doesn't perform these computations every time we make changes to the documentation or website. However, if you make any changes to the code above, you need to uncomment these so that your results are reflected in the final downloads.
+We save versions in R's RDS format which allows for very small file downloads, but we are aware that the most common format is CSV, which due to the repetition of strings can be very large and surpass our repository's limitations. However, the code provided in @lst-save-compress-csv allows us to compress before uploading and make it available in our downloads page. Note that both saves code windows below are commented out so that Quarto doesn't perform these computations every time we make changes to the documentation or website. However, if you make any changes to the code above, you need to uncomment these so that your results are reflected in the final downloads.
 
 ### Saving to RDS
 
@@ -1174,7 +1174,7 @@ We save versions in R's RDS format which allows for very small file downloads, b
 ```{r}
 #| warning: false
 #| message: false
-#| lst-label: save-compress-csv
+#| lst-label: lst-save-compress-csv
 #| lst-cap: Save CSV and compress to ZIP
 
 # # Total Emissions
