@@ -39,54 +39,54 @@ library(openxlsx)
 
 # Emissions long data
 total_emissions <- readRDS("emdb/data/outputs/gwp_total_emissions_long.rds")
-total_emissions_pivot <- readRDS("emdb/data/outputs/gwp_total_emissions_pivot.rds")
 
 # SAM Equivalence table
-sam_equivalence <- read_xlsx(
-  "emdb/data/sam/nga/SAM-Nigeria-2018-Equivalence.xlsx",
-  sheet = "sam-equivalence")
+equivalence <- read_xlsx(
+  "emdb/data/sam/nga/map-emdb.xlsx",
+  sheet = "Equivalence")
 
 # SAM elements
-sam_names <- read_xlsx(
-  "emdb/data/sam/nga/SAM-Nigeria-2018.xlsx",
-  range = "B9:B224",
-  sheet = "SAM-names",
-  col_names = F)
-
-colnames(sam_names) <- "SAM Name"
+user_structure <- read_xlsx(
+  "emdb/data/sam/nga/map-emdb.xlsx",
+  sheet = "User Structure")
 
 # Add Undetermined to SAM elements
-undetermined_list <- sam_equivalence[startsWith(sam_equivalence$`ISIC Detail`, "9999"), 1]
-colnames(undetermined_list) <- "SAM Name"
-sam_names <- rbind(sam_names, undetermined_list)
+undetermined_list <- as.data.frame(
+  sort(unique(total_emissions$`ISIC Detail`))[
+    startsWith(sort(unique(total_emissions$`ISIC Detail`)), "9999")])
+colnames(undetermined_list) <- "User Structure (without total)"
+
+user_structure <- rbind(user_structure, undetermined_list)
 ```
 
 ## Matching to SAM Structure
 
-We ask for an equivalence structure `sam_equivalence` in this case, between the `ISIC Detail` and the SAM. Through the use of R factors, we can make sure that the joined structure of the SAM is in the final product.
+We ask for an equivalence structure `equivalence` in this case, between the `ISIC Detail` and the SAM. Through the use of R factors, we can make sure that the joined structure of the SAM is in the final product.
 
 ```{r}
-nigeria_sam_emissions_2021 <- total_emissions |> 
+user_selected_area = "Nigeria"
+user_selected_year = 2018
+
+final_product <- total_emissions |> 
   filter(
-    ISO3 == "NGA",
-    Year == 2018,
-    #Unit == "kt"
+    Area == user_selected_area,
+    Year == user_selected_year
   ) |> 
   left_join(
-    sam_equivalence,
+    equivalence,
     join_by(`ISIC Detail`)
   ) |> 
   mutate(
-    `SAM Name` = if_else(
-      is.na(`SAM Name`), 
+    `User Equivalent` = if_else(
+      is.na(`User Equivalent`), 
       `ISIC Detail`,
-      `SAM Name`
+      `User Equivalent`
     )
   ) |>
   mutate(
-    `SAM Name` = factor(
-      `SAM Name`,
-      levels = sam_names$`SAM Name`
+    `User Equivalent` = factor(
+      `User Equivalent`,
+      levels = user_structure[[1]]
     )
   ) |> 
   pivot_wider(
@@ -101,7 +101,7 @@ nigeria_sam_emissions_2021 <- total_emissions |>
       `Emission Type`,
       Unit
     ),
-    names_from = c(`SAM Name`),
+    names_from = c(`User Equivalent`),
     values_from = Value,
     values_fn = sum,
     names_expand = T
@@ -109,31 +109,13 @@ nigeria_sam_emissions_2021 <- total_emissions |>
   arrange(Unit) |> 
   mutate(
     Total = rowSums(across(where(is.numeric) & -3), na.rm = TRUE)
-  )
-
+  ) |> 
+  relocate( starts_with("9999"), .after = Total)
+  
 # and save to file
 
-write.xlsx(
-  nigeria_sam_emissions_2021,
-  file = "emdb/data/outputs/emissions_nigeria_2018.xlsx")
+# write.xlsx(
+#   final_product,
+#   file = "emdb/data/outputs/emissions_nigeria_2018.xlsx"
+#   )
 ```
-
-
-### End
-
-```{r}
-test_nigeria18 <- total_emissions |> 
-  filter(Year == 2018,
-         Area =="Nigeria")
-test_nigeria18_pivot <- total_emissions_pivot |> 
-  filter(Year == 2018,
-         Area =="Nigeria")
-write.xlsx(
-  test_nigeria18,
-  file = "emdb/data/outputs/test_nigeria18.xlsx")
-write.xlsx(
-  test_nigeria18_pivot,
-  file = "emdb/data/outputs/test_nigeria18_pivot.xlsx")
-
-```
-
