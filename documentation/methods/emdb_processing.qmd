@@ -1,6 +1,6 @@
 ---
 title: "PolOpT Emissions Database (EMDB)"
-subtitle: "Data Sourcing and Transformation R Code"
+subtitle: "Data Sourcing and Processing R Code"
 author:
   - name: "Renato Vargas"
     id: rv
@@ -30,14 +30,11 @@ library(haven)
 library(readxl)
 library(openxlsx)
 library(gt)
-# library(sf)
-# library(tmap)
-# library(raster)
 ```
 
 ## Datasets
 
-Note that some datasets have been converted to R rds files in a previous step for space considerations.
+Note that some large CSV datasets have been converted to much smaller R rds files in a previous step, so that they can be included with this self contained repository. The code for this transformation is also included in the folder `emdb/scripts`.
 
 ### EDGAR
 
@@ -116,6 +113,7 @@ un_energy <- readRDS(
 )
 ```
 
+During the various data cleaning steps, several equivalence tables allow us to better describe each observation. They have been created in an iterative process in which raw data is extracted, and either cleaned or linked to other data in the worksheets below.
 
 ### Equivalence tables
 
@@ -137,6 +135,8 @@ un_energy_ipcc_coef <- read_xlsx(
   sheet = "un_energy_coefficients"
 )
 ```
+
+This commented out portion was used interactively to evaluate UN energy statistics' units of measurements, because we needed to create a conversion table from volume to TJ in a separate spreadsheet. However, some commodities are already expressed in TJ and we needed to know which, so that we could give them a conversion factor of 1. 
 
 ```{r}
 # Test to see units of measurement for each commodity
@@ -179,11 +179,10 @@ edgar_ipcc_names |>
   gt()
 ```
 
-The first thing that we see is that LULUCF is not included. We take note of this as we remove the domains that are covered in more detail in FAOSTAT (section 3). Originally, we estimated our own emissions for the energy part (section 1) from converting Energy Balances to the SEEA energy accounts format. However, this requires a Supply and Use table to distribute uses and applying TIER 1 coefficients. In this first version, we will take it as is from EDGAR. 
-
+We see is that LULUCF is not included. We take note of this as we remove the domains that are covered in more detail in FAOSTAT (section 3). Originally, we estimated our own emissions for the energy part (section 1) from converting Energy Balances to the SEEA energy accounts format. However, this requires a Supply and Use table to distribute uses and applying TIER 1 coefficients. In this first version, we will take it as is from EDGAR. 
 Our concern is that EDGAR takes use outside energy transformer industries from energy balance (i.e. other industrial, residential, transportation) at face value and we believe that this distribution can be improved if National Accounts is used to distribute intermediate and final consumption of energy outside the energy transformation sectors.
 
-We could use total CO2 equivalent emissions aggregated from our `edgar` dataset, but full disaggregation by gas has been requested, so we perform our cleaning of the dataset for all of these and apply Tier 1 Global Warming Potential (GWP AR5) coefficients to individual datasets.
+We could use total CO~2~ equivalent emissions aggregated from our `edgar` dataset, but full disaggregation by gas has been requested, so we perform our cleaning of the dataset for all of these and apply Tier 1 Global Warming Potential (GWP AR5) coefficients to individual datasets.
 
 But first we use custom function `transform_edgar_datasets` to extract the relevant IPCC items and normalize the years structure.
 
@@ -355,7 +354,7 @@ gwp_edgar_total <- gwp_edgar_total2 |>
 
 ### Total emissions
 
-Now we turn our attention to FAOSTAT. First we clean the totals dataset `faostat_total_emissions`.
+Now we turn our attention to FAOSTAT. First we clean the totals dataset `faostat_total_emissions`. This is because FAOSTAT includes subtotals and totals within the dataset, and we need to filter out data elements to avoid double counting.
 
 ```{r}
 # For reference
@@ -459,7 +458,7 @@ as.data.frame(rbind(
   gt()
 ```
 
-Then we move to the detailed datasets.
+Then we move to the individual crops and animals datasets. In this case, not only do we need to clean subtotals and totals to avoid duplication, we also need to estimate GWP, because emissions are expressed in volume units of each gas. This is done in lines 505 to 514 below for crops and 625 to 635 for animals.
 
 ### Crops
 
@@ -580,6 +579,8 @@ as.data.frame(rbind(
   arrange(V1,V2) |> 
   gt()
 ```
+For reference
+
 ```{r}
 transformed_faostat_crops |> 
   filter(
@@ -735,6 +736,8 @@ objects <- c(
 rm(list = objects[objects %in% ls()])
 ```
 
+Originally, we only sourced data from EDGAR and FAOSTAT, but early tests showed that the way in which emissions from energy (specifically fuel combustion) are expressed in EDGAR, does not allow CGE analysts to link to specific drivers. That means that we know how many tons of CO~2~ are emitted from electricity generation, for example, but not whether they come from the burning of coal or from diesel. An early test to overcome this limitation allowed us to use nergy balances [@afrec_african_2024] to expand this dimension in the case of Nigeria. However, since we needed a source with information for countries outside that continent, we turned to the UN Energy Statistics Database [@unsd2023] for global coverage. The publicly available individual commodity datasets were cleaned from duplicates and combined into the single product used below, but the code to conduct those first steps is also included in our repository [here](https://github.com/renatovargas/emdb/blob/master/emdb/scripts/un_energy_processing.R) and [here](https://github.com/renatovargas/emdb/blob/master/emdb/scripts/un_energy_original_datasets_to_RDS.R).
+
 # UN Energy Data
 
 ```{r}
@@ -817,6 +820,8 @@ energy_total <- un_energy |>
 ```
 
 # Bind Final Datasets
+
+This is the original bind between the cleaned and processed EDGAR and FAOSTAT tables. We save a version of this stage (`gwp_total_emissions4`) for later comparisons. However, this section has been expanded to include UN Energy Statistics [@unsd2023].
 
 ```{r}
 #| warning: false
@@ -942,7 +947,7 @@ filter(
 )
 ```
 
-At this point, we introduce the UN Energy dataset and replace the energy part of EDGAR. First, we need to mimmick the structure. In a second step, we change the ISIC sector for all non-transformative industries' consumption to "9999 Undetermined". This is because, we noticed that Households are not consuming a lot of fuels that they normally do consume in the UN Energy dataset. We pool that again and redistribute it according to input consumption from all non- transformative sectors including households.
+At this point, we introduce the UN Energy dataset and replace the energy part of EDGAR. First, we need to mimmick the structure. In a second step, we change the ISIC sector for all non-transformative industries' consumption to "9999 Undetermined". This is because, we noticed that Households are not consuming a lot of fuels that they normally do consume in the UN Energy dataset. We pool that again and redistribute it according to input consumption from all non- transformative sectors including households. Edit: during a revision, we realized that aviation fuel is mainly used by the aviation industry (except for niche applications) so we assigned all of it as inputs from "5110. Passenger air transport". 
 
 ```{r}
 #| warning: false
@@ -1008,7 +1013,7 @@ energy_addition <- energy_total |>
   
 ```
 
-And we bind them together.
+This is where we perform the final bind between the cleaned and processed UN Energy Statistics data and the previous bind between EDGAR and FAOSTAT.
 
 ```{r}
 #| warning: false
@@ -1078,6 +1083,8 @@ And we establish that we have `{r} number_of_countries` available in the dataset
 
 ### Final Pivot
 
+As a request from CGE practitioners, we provide a version of the dataset where we pivot the ISIC information to the columns. However, since social accounting matrices intended for agricultural sector analysis disaggregate crops and animals at a finer detail than 4-digit ISIC, we concatenate ISIC sectors with individual animal or crop elements and pivot that into columns. We make the original disaggregated dataset, as well as the concatenated and its pivot [available for download](https://renatovargas.github.io/emdb/download.html) for practitioners' convenience.
+
 ```{r}
 #| warning: false
 #| message: false
@@ -1131,6 +1138,8 @@ isic_long <- gwp_total_emissions |>
   )
 ```
 
+We save versions in R's RDS format which allows for very small file downloads, but we are aware that the most common format is CSV, which due to the repetition of strings can be very large and surpass our repository's limitations. However, the code provided in `lst-save-compress-csv` (lines 1170 onwards) allows us to compress before uploading and make it available in our downloads page. Note that both saves code windows below are commented out so that Quarto doesn't perform these computations every time we make changes to the documentation or website. However, if you make any changes to the code above, you need to uncomment these so that your results are reflected in the final downloads.
+
 ### Saving to RDS
 
 ```{r}
@@ -1158,7 +1167,7 @@ isic_long <- gwp_total_emissions |>
 ```{r}
 #| warning: false
 #| message: false
-#| label: save-compress-csv
+#| label: lst-save-compress-csv
 
 # # Total Emissions
 # write.csv(

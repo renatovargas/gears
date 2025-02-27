@@ -3,7 +3,7 @@
 rm(list = ls())
 
 # Path to CSV files
-path <- "/home/renato/Documents/UNSD_Energy"
+path <- "/VAULT/_work/UN_ENERGY"
 
 # Create RDS folder if it doesn't exist
 if (!dir.exists("emdb/data/un_energy/original_datasets")) {
