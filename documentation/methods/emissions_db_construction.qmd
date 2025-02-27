@@ -4,16 +4,14 @@ subtitle: "Datasets and approaches (DRAFT FOR DISCUSSION)"
 author:
   - name: "Renato Vargas"
     id: rv
-    email: hugo.vargasaldana@fao.org
     affiliation: 
       - name: Food and Agriculture Organization (FAO)
   - name: "Martin Cicowiez"
     id: mc
-    email: martin.cicowiez@fao.org
     affiliation: 
       - name: Food and Agriculture Organization (FAO)
 abstract: |
-  Through a series of reproducible data processing routines, different sources are combined into a single database that aims to lower the barrier of entry to emissions analysis for Computable General Equilibrium and Input-Output practitioners who work with national macroeconomic datasets that lack this dimension (social accounting matrices or supply and use tables). While this efforts is initially intended to provide ESA’s [Policy Optimization Modelling Tool (PolOpT)](https://openknowledge.fao.org/items/a9b06566-1128-4032-9c6e-203211f1d288) with emissions data, other analysts, officers and initiatives from the environmental accounting space can benefit from it. 
+  Through a series of reproducible data processing routines, different sources are combined into a single database that aims to lower the barrier of entry to emissions analysis for Computable General Equilibrium and Input-Output practitioners who work with national macroeconomic datasets that lack this dimension (social accounting matrices or supply and use tables). While this effort is initially intended to provide ESA’s [Policy Optimization Modelling Tool (PolOpT)](https://openknowledge.fao.org/items/a9b06566-1128-4032-9c6e-203211f1d288) with emissions data, other analysts, officers and initiatives from the environmental accounting space can benefit from it. 
 
 format:
   html:
