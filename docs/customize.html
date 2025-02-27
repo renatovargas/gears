@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Downloads – PolOpT EMDB</title>
+<title>Customize – PolOpT EMDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -92,11 +92,11 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./download.html" aria-current="page"> 
+    <a class="nav-link" href="./download.html"> 
 <span class="menu-text">Download</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./customize.html"> 
+    <a class="nav-link active" href="./customize.html" aria-current="page"> 
 <span class="menu-text">Customize</span></a>
   </li>  
   <li class="nav-item">
@@ -118,22 +118,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#complete-database" id="toc-complete-database" class="nav-link active" data-scroll-target="#complete-database">Complete Database</a></li>
-  <li><a href="#single-country-downloads" id="toc-single-country-downloads" class="nav-link" data-scroll-target="#single-country-downloads">Single Country Downloads</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/download.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Downloads</h1>
+<h1 class="title">Customize</h1>
 </div>
 
 
@@ -150,45 +143,15 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Here you can download different versions of the PolOpT Emissions Database.</p>
-<section id="complete-database" class="level2">
-<h2 class="anchored" data-anchor-id="complete-database">Complete Database</h2>
-<p>We provide annual time series data on emissions of the three main greenhouse gases (CO2, CH4, N2O) and fluorinated gases per sector, country, and driver where possible, expressed in thousand metric tons CO<sub>2</sub>eq using the 100-year Global Warming Potential (GWP) of the IPCC’s Fifth Assessment Report (AR5), in zipped Comma Separated Values (“.csv”) files, as well as much smaller R dataset files (“.rds”) for convenience.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 46%">
-<col style="width: 26%">
-<col style="width: 26%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>GWP Total Emissions ISIC Pivot</strong> provides a wide dataset with ISIC sectors and agriculture subsectors as columns.</td>
-<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions_pivot.zip" download="gwp_total_emissions_pivot.zip"> Download .csv </a></td>
-<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions_pivot.rds" download="gwp_total_emissions_pivot.rds"> Download .rds </a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>GWP Total Emissions ISIC Long</strong> provides a long version with sectors and agriculture subsectors concatenated into a single column.</td>
-<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions_long.zip" download="gwp_total_emissions_long.zip"> Download .csv </a></td>
-<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions_long.rds" download="gwp_total_emissions_long.rds"> Download .rds </a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>GWP Total Emissions</strong> provides all descriptive fields in disaggregated form for maximum flexibility.</td>
-<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions.zip" download="gwp_total_emissions.zip"> Download .csv </a></td>
-<td style="text-align: center;"><a class="btn btn-primary btn-sm" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/outputs/gwp_total_emissions.rds" download="gwp_total_emissions.rds"> Download .rds </a></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="single-country-downloads" class="level2">
-<h2 class="anchored" data-anchor-id="single-country-downloads">Single Country Downloads</h2>
-<p>You can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load.)</p>
+<p>The tool below allows you to map data for a single country and one year to your Social Accounting Matrix or Input-Output table structure. It requires you to fill out the Excel file download with your data, without changing column names on either sheet or the data under the ISIC Detail column in the “Equivalence” sheet. The example file has the information for Nigeria 2018. The resulting download will have as many columns as your own structure and in the order you specify them in the “User Structure” sheet instead of ISIC sectors. The data will be filled out in the appropriate columns according to your mapping in the “Equivalence” sheet and after the <code>Total</code> column it will feature a series of columns marked “9999. This is as far as we’ll take you. You can then distribute those columns among your structure with your choice of input, output, endowment shares as your data allows. Make sure to distribute excluding those sectors that are already populated within your data structure.</p>
+<p><a class="btn btn-primary btn-sm btn-center" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/sam/nga/map-emdb.xlsx" download="map-emdb.xlsx"> Download Example </a></p>
+<p>The example is tailored to Nigeria’s 2018 SAM, which you can <a href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/sam/nga/SAM-Nigeria-2018.xlsx">download here</a> for reference.</p>
 <div class="center">
-<iframe src="https://renatovargas.shinyapps.io/download-emdb/" width="100%" height="600px" style="border:none;">
+<iframe src="https://renatovargas.shinyapps.io/map_emdb/" width="100%" height="600px" style="border:none;">
 </iframe>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -613,4 +576,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/download.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/gears/blob/master/customize.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div></div></footer></body></html>

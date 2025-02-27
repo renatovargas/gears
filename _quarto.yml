@@ -15,6 +15,8 @@ website:
         href: index.qmd
       - text: "Download"
         href: download.qmd
+      - text: "Customize"
+        href: customize.qmd
       - text: "Documentation"
         href: documentation/index.qmd
       - about.qmd
