@@ -15,7 +15,7 @@ Upload the equivalence file above adapted to your own structure using the tool[^
 ::: {.center}
 <iframe src="https://renatovargas.shinyapps.io/map_emdb/" 
         width="100%" 
-        height="600px" 
+        height="475px" 
         style="border:none;">
 </iframe>
 :::
