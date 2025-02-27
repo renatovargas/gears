@@ -12,7 +12,7 @@ bibliography: references.bib
 
 # Introduction
 
-For replicability purposes we describe the data sourcing, cleaning, and combination steps to creat a harmonized emissions dataset with inputs from FAOSTAT [@fao2024], EDGAR [@crippa2023], and the UN Energy Statistics Database [@unsd2023]. The objective is to have a single data source, which can be readily linked with any social accounting matrix or input-output table. 
+For replicability purposes we describe the data sourcing, cleaning, and combination steps to create a harmonized emissions dataset with inputs from FAOSTAT [@fao2024], EDGAR [@crippa2023], and the UN Energy Statistics Database [@unsd2023]. The objective is to have a single data source, which can be readily linked with any social accounting matrix or input-output table. 
 
 ## Preliminaries
 
