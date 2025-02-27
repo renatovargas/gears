@@ -736,7 +736,7 @@ objects <- c(
 rm(list = objects[objects %in% ls()])
 ```
 
-Originally, we only sourced data from EDGAR and FAOSTAT, but early tests showed that the way in which emissions from energy (specifically fuel combustion) are expressed in EDGAR, does not allow CGE analysts to link to specific drivers. That means that we know how many tons of CO~2~ are emitted from electricity generation, for example, but not whether they come from the burning of coal or from diesel. An early test to overcome this limitation allowed us to use nergy balances [@afrec_african_2024] to expand this dimension in the case of Nigeria. However, since we needed a source with information for countries outside that continent, we turned to the UN Energy Statistics Database [@unsd2023] for global coverage. The publicly available individual commodity datasets were cleaned from duplicates and combined into the single product used below, but the code to conduct those first steps is also included in our repository [here](https://github.com/renatovargas/emdb/blob/master/emdb/scripts/un_energy_processing.R) and [here](https://github.com/renatovargas/emdb/blob/master/emdb/scripts/un_energy_original_datasets_to_RDS.R).
+Originally, we only sourced data from EDGAR and FAOSTAT, but early tests showed that the way in which emissions from energy (specifically fuel combustion) are expressed in EDGAR, does not allow CGE analysts to link to specific drivers. That means that we know how many tons of CO~2~ are emitted from electricity generation, for example, but not whether they come from the burning of coal or from diesel. An early test to overcome this limitation allowed us to use energy balances [@afrec_african_2024] to expand this dimension in the case of Nigeria. However, since we needed a source with information for countries outside that continent, we turned to the UN Energy Statistics Database [@unsd2023] for global coverage. The publicly available individual commodity datasets were cleaned from duplicates and combined into the single product used below, but the code to conduct those first steps is also included in our repository [here](https://github.com/renatovargas/emdb/blob/master/emdb/scripts/un_energy_processing.R) and [here](https://github.com/renatovargas/emdb/blob/master/emdb/scripts/un_energy_original_datasets_to_RDS.R).
 
 # UN Energy Data
 
@@ -1068,12 +1068,19 @@ One thing that we want to do is keep only those countries that have the whole se
 required_ipcc <- c("1.", "3.", "4.")
 
 # Identify countries that have all required IPCC codes
-valid_countries <- with(gwp_total_emissions2, tapply(`IPCC Code`, ISO3, function(codes) {
-  all(sapply(required_ipcc, function(prefix) any(grepl(paste0("^", prefix), codes))))
+valid_countries <- with(
+  gwp_total_emissions2, 
+  tapply(`IPCC Code`, ISO3, function(codes) {
+  all(sapply(
+    required_ipcc, 
+    function(prefix) any(grepl(paste0("^", prefix), codes))))
 }))
 
 # Filter dataset to keep only valid countries
-gwp_total_emissions <- gwp_total_emissions2[gwp_total_emissions2$ISO3 %in% names(valid_countries[valid_countries]), ]
+gwp_total_emissions <- 
+  gwp_total_emissions2[
+    gwp_total_emissions2$ISO3 %in% 
+      names(valid_countries[valid_countries]), ]
 
 number_of_countries <- length(unique(gwp_total_emissions$Area))
 
@@ -1138,7 +1145,7 @@ isic_long <- gwp_total_emissions |>
   )
 ```
 
-We save versions in R's RDS format which allows for very small file downloads, but we are aware that the most common format is CSV, which due to the repetition of strings can be very large and surpass our repository's limitations. However, the code provided in `lst-save-compress-csv` (lines 1170 onwards) allows us to compress before uploading and make it available in our downloads page. Note that both saves code windows below are commented out so that Quarto doesn't perform these computations every time we make changes to the documentation or website. However, if you make any changes to the code above, you need to uncomment these so that your results are reflected in the final downloads.
+We save versions in R's RDS format which allows for very small file downloads, but we are aware that the most common format is CSV, which due to the repetition of strings can be very large and surpass our repository's limitations. However, the code provided in @save-compress-csv allows us to compress before uploading and make it available in our downloads page. Note that both saves code windows below are commented out so that Quarto doesn't perform these computations every time we make changes to the documentation or website. However, if you make any changes to the code above, you need to uncomment these so that your results are reflected in the final downloads.
 
 ### Saving to RDS
 
@@ -1167,7 +1174,8 @@ We save versions in R's RDS format which allows for very small file downloads, b
 ```{r}
 #| warning: false
 #| message: false
-#| label: lst-save-compress-csv
+#| lst-label: save-compress-csv
+#| lst-cap: Save CSV and compress to ZIP
 
 # # Total Emissions
 # write.csv(
