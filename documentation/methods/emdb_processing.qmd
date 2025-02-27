@@ -458,7 +458,7 @@ as.data.frame(rbind(
   gt()
 ```
 
-Then we move to the individual crops and animals datasets. In this case, not only do we need to clean subtotals and totals to avoid duplication, we also need to estimate GWP, because emissions are expressed in volume units of each gas. This is done in lines 505 to 514 below for crops and 625 to 635 for animals.
+Then we move to the individual crops and animals datasets. In this case, not only do we need to clean subtotals and totals to avoid duplication, we also need to estimate GWP, because emissions are expressed in volume units of each gas. This is done in @lst-gwp-crops for crops below and @lst-gwp-animals for animals.
 
 ### Crops
 
@@ -482,7 +482,8 @@ as.data.frame(rbind(
 ```{r}
 #| warning: false
 #| message: false
-#| label: faostat-crops
+#| lst-label: lst-gwp-crops
+#| lst-cap: GWP calculation for crops
 
 # Filter elements of interest
 transformed_faostat_crops <- faostat_crops |> 
@@ -605,7 +606,8 @@ transformed_faostat_crops |>
 ```{r}
 #| warning: false
 #| message: false
-#| label: faostat-livestock
+#| lst-label: lst-gwp-animals
+#| lst-cap: GWP calculation for animals
 
 # Filter elements of interest
 transformed_faostat_livestock <- faostat_livestock |> 
