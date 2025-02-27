@@ -2,12 +2,12 @@
 title: "Customize"
 ---
 
-The tool below allows you to map data for a single country and one year to your Social Accounting Matrix or Input-Output table structure. It requires you to fill out the Excel file download with your data, without changing column names on either sheet or the data under the ISIC Detail column in the "Equivalence" sheet. The example file has the information for Nigeria 2018. The resulting download will have as many columns as your own structure and in the order you specify them in the "User Structure" sheet instead of ISIC sectors. The data will be filled out in the appropriate columns according to your mapping in the "Equivalence" sheet and after the `Total` column it will feature a series of columns marked "9999. This is as far as we'll take you. You can then distribute those columns among your structure with your choice of input, output, endowment shares as your data allows. Make sure to distribute excluding those sectors that are already populated within your data structure.
+The tool below allows you to map data for a single country and one year to your Social Accounting Matrix or Input-Output table structure. It requires you to fill out the Excel file download with your data, without changing column names on either sheet or the data under the ISIC Detail column in the "Equivalence" sheet. The example file has the information for Nigeria in the year 2018. The resulting download will have as many columns as your own structure and in the order you specify them in the "User Structure" sheet instead of ISIC sectors. The data will be filled out in the appropriate columns according to your mapping in the "Equivalence" sheet and after the `Total` column it will feature a series of columns beginning with "9999". This is as far as we can take you. You can then distribute those columns among your own structure columns using your choice of input, output, endowment shares, as allowed by your data. Make sure to distribute excluding those sectors that are already populated within your data structure.
 
 
-<a class="btn btn-primary btn-sm btn-center" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/sam/nga/map-emdb.xlsx" download="map-emdb.xlsx"> Download Example </a>
+<a class="btn btn-primary btn-sm btn-center" href="https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/sam/nga/map-emdb.xlsx" download="map-emdb.xlsx"> Example Equivalence File</a>
 
-The example is tailored to Nigeria's 2018 SAM, which you can [download here](https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/sam/nga/SAM-Nigeria-2018.xlsx) for reference.
+Upload the equivalence file above adapted to your own structure using the tool (depending on your connection, it might take a few seconds to load) and download your customized file.
 
 ::: {.center}
 <iframe src="https://renatovargas.shinyapps.io/map_emdb/" 
@@ -16,3 +16,5 @@ The example is tailored to Nigeria's 2018 SAM, which you can [download here](htt
         style="border:none;">
 </iframe>
 :::
+
+The example is tailored to Nigeria's 2018 SAM, which you can [download here](https://github.com/renatovargas/emdb/raw/refs/heads/master/emdb/data/sam/nga/SAM-Nigeria-2018.xlsx) for reference.
