@@ -2,7 +2,7 @@
 title: "Data Downloads"
 ---
 
-Here you can download different versions of the PolOpT Emissions Database. 
+Here you can download different versions of the PolOpT Emissions Database. As an experimental feature, we also offer data downloads for a single year and country customized to your own accounting structure, which you can [access here](customize.qmd).
 
 ## Complete Database
 
@@ -16,7 +16,7 @@ We provide annual time series data on emissions of the three main greenhouse gas
 
 ## Single Country Downloads
 
-You can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load.)
+You can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load).
 
 ::: {.center}
 <iframe src="https://renatovargas.shinyapps.io/download-emdb/" 

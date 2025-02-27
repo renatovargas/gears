@@ -4,14 +4,21 @@
     "href": "customize.html",
     "title": "Customize",
     "section": "",
-    "text": "The tool below allows you to map data for a single country and one year to your Social Accounting Matrix or Input-Output table structure. It requires you to fill out the Excel file download with your data, without changing column names on either sheet or the data under the ISIC Detail column in the “Equivalence” sheet. The example file has the information for Nigeria in the year 2018. The resulting download will have as many columns as your own structure and in the order you specify them in the “User Structure” sheet instead of ISIC sectors. The data will be filled out in the appropriate columns according to your mapping in the “Equivalence” sheet and after the Total column it will feature a series of columns beginning with “9999”. This is as far as we can take you. You can then distribute those columns among your own structure columns using your choice of input, output, endowment shares, as allowed by your data. Make sure to distribute excluding those sectors that are already populated within your data structure.\n Example Equivalence File\nUpload the equivalence file above adapted to your own structure using the tool (depending on your connection, it might take a few seconds to load) and download your customized file.\n\n\n\n\nThe example is tailored to Nigeria’s 2018 SAM, which you can download here for reference."
+    "text": "The tool below allows you to map data for a single country and one year to your Social Accounting Matrix or Input-Output table structure. It requires you to fill out the Excel file download with your data, without changing column names on either sheet or the data under the ISIC Detail column in the “Equivalence” sheet. The example is tailored to Nigeria’s 2018 Social Accounting Matrix, which you can download here for reference.\nThe first sheet requires you to enter a column of your entire accounting structure in order. This includes all accounts; even those that are not related to emissions data. This will make sure that the download matches your structure. The second sheet requires you to provide equivalences from your economic activities to the sectors and subsectors in the database.\nThe resulting download will have as many columns as your own structure and in the order you specify them in the “User Structure” sheet instead of ISIC sectors. The data will be filled out in the appropriate columns according to your mapping in the “Equivalence” sheet and it will feature a series of columns beginning with “9999” after the Total column. This is as far as we can take you. You can then distribute those columns among your own structure columns using your choice of input, output, endowment shares, as allowed by your data. Make sure to distribute excluding those sectors that are already populated within your data structure.\nExample Equivalence File\nUpload the equivalence file above adapted to your own structure using the tool1 (depending on your connection, it might take a few seconds to load) and download your customized file."
+  },
+  {
+    "objectID": "customize.html#footnotes",
+    "href": "customize.html#footnotes",
+    "title": "Customize",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe R logic behind the tool is simple data manipulation and the interested reader can understand the code here and adapt it to their own needs.↩︎"
   },
   {
     "objectID": "download.html",
     "href": "download.html",
     "title": "Data Downloads",
     "section": "",
-    "text": "Here you can download different versions of the PolOpT Emissions Database."
+    "text": "Here you can download different versions of the PolOpT Emissions Database. As an experimental feature, we also offer data downloads for a single year and country customized to your own accounting structure, which you can access here."
   },
   {
     "objectID": "download.html#complete-database",
@@ -25,7 +32,7 @@
     "href": "download.html#single-country-downloads",
     "title": "Data Downloads",
     "section": "Single Country Downloads",
-    "text": "Single Country Downloads\nYou can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load.)"
+    "text": "Single Country Downloads\nYou can filter and download the emissions data for a single country using the tool below (depending on your connection, it might take a few seconds for the tool to load)."
   },
   {
     "objectID": "documentation/guides/gears-user-guide.html",
